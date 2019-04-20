@@ -27,6 +27,7 @@ Thư mục ```views``` chứa html
 
 Thư mục ```publc``` chứa static file (img, css, ...)
 
+File ```app.js``` là file chạy chính
 
 ## Hướng dẫn deploy trên Heroku
 
