@@ -21,6 +21,13 @@ views
     ...html
 ```
 
+Thư mục ```routes``` chứa api
+
+Thư mục ```views``` chứa html
+
+Thư mục ```publc``` chứa static file (img, css, ...)
+
+
 ## Hướng dẫn deploy trên Heroku
 
 Tạo app
