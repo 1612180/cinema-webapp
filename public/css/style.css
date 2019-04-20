@@ -1,0 +1,9 @@
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+a,
+a:hover,
+a:visited {
+    color: #7FDBFF;
+}
