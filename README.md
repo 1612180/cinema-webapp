@@ -36,6 +36,11 @@ Tạo app
 heroku create
 ```
 
+Test trên local
+```
+heroku local
+```
+
 Deploy lên Heroku
 ```
 git push heroku master
