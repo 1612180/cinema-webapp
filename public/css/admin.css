@@ -1,0 +1,173 @@
+*, body {
+    color: #333;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+html, body {
+    height: 100%;
+}
+
+.text-align-start {
+    text-align: start;
+}
+
+.text-align-end {
+    text-align: end;
+}
+
+.text-align-center {
+    text-align: center;
+}
+/* 
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+#content {
+    flex: 1;
+} */
+
+#side-bar {
+    width: 20%;
+}
+
+#logo {
+    margin-right: 10px;
+}
+
+#logo img {
+    width: 100%;
+}
+
+#admin-account {
+    border-bottom: #ccc solid 1px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+
+#account-name {
+    color: #ccc;
+    font-size: 1.2em;
+}
+
+#sign-out {
+    font-size: 1.5em;
+}
+
+ul#menu {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+ul#menu li {
+    margin-bottom: 30px;
+}
+
+ul#menu i {
+    font-size: 1.5em;
+}
+
+ul#menu li.active-option * {
+    color: #2D7FF9;
+}
+
+ul#menu * {
+    color: #333;
+    text-decoration: none;
+}
+
+#content {
+    width: 80%;
+}
+
+.section-container {
+    position: relative;
+    border: solid #ccc 1px;
+    margin-top: 25px;
+    display: flex;
+    padding: 25px 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    left: -5px;
+    top: -25px;
+    padding-right: 20px;
+    background: white;
+}
+
+.vertical-line {
+    width: 0px;
+    height: 50px;
+    border: 5px solid #2D7FF9;
+    margin-right: 10px;
+}
+
+.section-header h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+table.section-items {
+    flex: 1;
+}
+
+table.section-items thead {
+    font-weight: bold;
+}
+
+table.section-items td {
+    padding: 10px;
+}
+
+table.section-items tbody tr {
+    border-bottom: solid #ccc 1px;
+}
+
+table.section-items tbody>tr:last-child {
+    border-bottom: none;
+}
+
+table.section-items tbody tr td a {
+    color: #333333;
+}
