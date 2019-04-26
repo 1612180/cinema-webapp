@@ -55,12 +55,13 @@
                 </li>
                 <li>
                     <button type="button" class="btn btn-link nav-link font-weight-bold" data-toggle="modal"
-                        data-target="#modalDangNhap">
+                        data-target="#modalDN">
                         Đăng nhập
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-link nav-link text-primary font-weight-bold">
+                    <button type="button" class="btn btn-link nav-link text-primary font-weight-bold"
+                        data-toggle="modal" data-target="#modalDK">
                         Đăng ký
                     </button>
                 </li>
@@ -69,19 +70,31 @@
     </nav>
 
     <!-- Phim, mua vé, ...-->
-    <div class="container-fluid text-light bg-dark py-2">
+    <div class="container-fluid bg-dark">
         <div class="row">
             <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                Phim
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Phim
+                </button>
             </div>
             <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                Mua vé
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Mua vé
+                </button>
             </div>
             <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                Rạp / giá vé
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Rạp / giá vé
+                </button>
             </div>
             <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                Hỗ trợ
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Hỗ trợ
+                </button>
             </div>
         </div>
     </div>
@@ -143,7 +156,7 @@
     </footer>
 
     <!-- Modal dang nhap -->
-    <div class="modal" id="modalDangNhap">
+    <div class="modal fade" id="modalDN">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -159,23 +172,93 @@
                             <p class="font-weight-bold">
                                 Đăng nhập vào hệ thống
                             </p>
-                            <form action="">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email"
-                                        id="formInputEmailDangNhap">
+                            <form>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="email" class="form-control" placeholder="Email"
+                                            name="inputEmailDN">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="password" class="form-control" placeholder="Password"
+                                            name="inputPasswordDN">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        Đăng nhập
+                                    </button>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password"
-                                        id="formInputPasswordDangNhap">
+                                    <button type="submit" class="btn btn-secondary">
+                                        Quên mật khẩu
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">
-                        Đăng nhập
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal dang ky -->
+    <div class="modal fade" id="modalDK">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
+                </div>
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <img src="img/logo.jpeg">
+                            <br>
+                            <p class="font-weight-bold">
+                                Tạo tài khoản mới
+                            </p>
+                            <form>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Họ tên"
+                                            name="inputTenDN">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="email" class="form-control" placeholder="Email"
+                                            name="inputEmailDN">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="password" class="form-control" placeholder="Password"
+                                            name="inputPasswordDN">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="password" class="form-control" placeholder="Password again"
+                                            name="inputPasswordAgainDN">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">
+                                        Đăng ký
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
