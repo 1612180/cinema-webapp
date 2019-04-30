@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="../public/css/normalize.css">
     <link rel="stylesheet" href="../public/css/admin.css">
@@ -19,101 +21,275 @@
 
 <body>
     <div class="container-fluid h-100">
-        <div class="row h-100">
-            <div class="shadow h-100" id="side-bar">
-                <div id="logo">
+        <div class="row h-100 align-items-stretch">
+            <div class="shadow h-100 col-sm-2 px-0">
+                <div class="mr-2">
                     <a href="#">
-                        <img src="../public/img/brand-admin.svg" alt="Nigamon Logo">
+                        <img src="../public/img/brand-admin.svg" alt="Nigamon Logo" class="w-100">
                     </a>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mx-2" id="admin-account">
-                    <p id="account-name">leHauBoi@gmail.com</p>
-                    <p id="sign-out"><a href="#"><i class="fas fa-sign-out-alt    "></i></a></p>
+                <div class="row justify-content-between align-items-center mx-2 border-bottom border-secondary">
+                    <p class="text-secondary h6">leHauBoi@gmail.com</p>
+                    <p class="h2"><a href="#"><i class="fas fa-sign-out-alt    "></i></a></p>
                 </div>
 
                 <nav class="mx-4 my-4">
                     <ul id="menu">
-                        <li class="active-option">
+                        <li class="active-menu-option mb-4">
                             <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <p class="mr-4"><i class="fa fa-home" aria-hidden="true"></i></p>
-                                    <p>Trang chính</p>
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fa fa-home" aria-hidden="true"></i>
+                                    </p>
+                                    <p class="h6 font-weight-bold">Trang chính</p>
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <li class="mb-4">
                             <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <p class="mr-4"><i class="fa fa-film" aria-hidden="true"></i></p>
-                                    <p>Phim</p>
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fa fa-film" aria-hidden="true"></i>
+                                    </p>
+                                    <p class="h6 font-weight-bold">Phim</p>
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <li class="mb-4">
                             <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <p class="mr-4"><i class="fas fa-warehouse    "></i></p>
-                                    <p>Rạp</p>
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-warehouse    "></i></p>
+                                    <p class="h6 font-weight-bold">Rạp</p>
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <li class="mb-4">
                             <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <p class="mr-4"><i class="fas fa-ticket-alt    "></i></p>
-                                    <p>Vé</p>
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-ticket-alt    "></i></p>
+                                    <p class="h6 font-weight-bold">Vé</p>
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <li class="mb-4">
                             <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <p class="mr-4"><i class="fas fa-drumstick-bite    "></i></p>
-                                    <p>Thức ăn</p>
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-drumstick-bite    "></i></p>
+                                    <p class="h6 font-weight-bold">Thức ăn</p>
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <li class="mb-4">
                             <a href="#">
-                                <div class="d-flex align-items-center">
-                                    <p class="mr-4"><i class="fas fa-shopping-cart    "></i></p>
-                                    <p>Đơn hàng</p>
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-shopping-cart    "></i></p>
+                                    <p class="h6 font-weight-bold">Đơn hàng</p>
                                 </div>
                             </a>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <div class="" id="content">
-                <div class="section-container mx-5">
-                    <header class="section-header">
-                        <div class="vertical-line"></div>
-                        <h3>Title</h3>
-                    </header>
-                    <table class="section-items">
-                        <thead>
-                            <td class="text-algin-start">ID</td>
-                            <td>Movie Name</td>
-                            <td>Director</td>
-                            <td class="text-align-center">Length</td>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Movie</td>
-                                <td>Director Name</td>
-                                <td class="text-align-center">02:00</td>
-                                <td class="text-align-end"><a href="#">Config</a> / <a href="#">Remove</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Movie</td>
-                                <td>Director Name</td>
-                                <td class="text-align-center">02:00</td>
-                                <td class="text-align-end"><a href="#">Config</a> / <a href="#">Remove</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="col-sm-10 px-0">
+                <div class="row justify-content-between px-5 align-items-center mx-0" id="content-header-bar">
+                    <div><a href="#" class="text-uppercase">Trang chính</a></div>
+                    <div class="row justify-content-between">
+                        <div class="col-6"><a href="#"><i class="fas fa-bell    "></i></a></div>
+                        <div class="col-6"><a href="#"><i class="fas fa-question-circle    "></i></a></div>
+                    </div>
+                </div>
+                <div class="mx-5" id="content-body">
+                    <div class="row justify-content-between my-5 mx-0">
+                        <button class="btn btn-outline-primary">Cập nhật dữ liệu</button>
+                        <div class="mt-4">
+                            <div class="h6 font-weight-bold mb-2 text-center">Đăng nhập lần cuối: &nbsp;&nbsp;&nbsp;
+                                <span class="h6 font-weight-normal" id="last-login-date">01-04-19</span></div>
+                            <div class="d-flex justify-content-around align-items-center">
+                                <p class="h4 my-0 font-weight-bold">17:05</p>
+                                <div class="flex-items-divider"></div>
+                                <div class="d-flex flex-column align-items-center my-0">
+                                    <p class="h6 mb-2">Thứ 2</p>
+                                    <p class="h6 mb-0">02-04-19</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-5">
+                        <div class="col-sm-4 d-flex flex-column align-items-start">
+                            <div class="h4 font-weight-bold">Số phim đang chiếu</div>
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="horizontal-line my-2"></div>
+                                <div class="h3 font-weight-bold mt-3">3</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 d-flex flex-column align-items-start">
+                            <div class="h4 font-weight-bold">Đơn hàng đã bán hôm nay</div>
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="horizontal-line my-2"></div>
+                                <div class="h3 font-weight-bold mt-3">100</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 d-flex flex-column align-items-start">
+                            <div class="h4 font-weight-bold">Số rạp đang hoạt động</div>
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="horizontal-line my-2"></div>
+                                <div class="h3 font-weight-bold mt-3">3</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-container my-5">
+                        <header class="section-header">
+                            <div class="vertical-line mr-3"></div>
+                            <div class="h5 font-weight-bold">Đơn hàng mới nhất</div>
+                        </header>
+                        <div class="overflow-auto d-flex w-100">
+                            <table class="section-items">
+                                <thead class="h6">
+                                    <td>Người dùng</td>
+                                    <td class="text-center">Ngày</td>
+                                    <td class="text-center">Giờ</td>
+                                    <td class="text-right">Tổng tiền</td>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>leHauBoi</td>
+                                        <td class="text-center">02-04-19</td>
+                                        <td class="text-center">16:00</td>
+                                        <td class="text-right">384,000 VNĐ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>leHauBoi</td>
+                                        <td class="text-center">02-04-19</td>
+                                        <td class="text-center">16:00</td>
+                                        <td class="text-right">384,000 VNĐ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="section-container my-5">
+                        <header class="section-header">
+                            <div class="vertical-line mr-3"></div>
+                            <div class="h5 font-weight-bold">Phim đang chiếu</div>
+                        </header>
+                        <div class="overflow-auto d-flex w-100">
+                            <table class="section-items">
+                                <thead class="h6">
+                                    <td>Tên phim</td>
+                                    <td>Thể loại</td>
+                                    <td>Đạo diễn</td>
+                                    <td>Rạp</td>
+                                    <td class="text-center">Suất chiếu</td>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Chem gio (2D Thuyet minh)</td>
+                                        <td>Tau hai</td>
+                                        <td>Riot</td>
+                                        <td>Nigamon Nguyen Van Cu</td>
+                                        <td class="text-center">16:45</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chem gio (2D Thuyet minh)</td>
+                                        <td>Tau hai</td>
+                                        <td>Riot</td>
+                                        <td>Nigamon Nguyen Van Cu</td>
+                                        <td class="text-center">16:45</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chem gio (2D Thuyet minh)</td>
+                                        <td>Tau hai</td>
+                                        <td>Riot</td>
+                                        <td>Nigamon Nguyen Van Cu</td>
+                                        <td class="text-center">16:45</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="section-container my-5">
+                        <header class="section-header">
+                            <div class="vertical-line mr-3"></div>
+                            <div class="h5 font-weight-bold">Đơn hàng mới nhất</div>
+                        </header>
+                        <div class="overflow-auto d-flex w-100">
+                            <table class="section-items">
+                                <thead class="h6">
+                                    <td>Người dùng</td>
+                                    <td class="text-center">Ngày</td>
+                                    <td class="text-center">Giờ</td>
+                                    <td class="text-right">Tổng tiền</td>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>leHauBoi</td>
+                                        <td class="text-center">02-04-19</td>
+                                        <td class="text-center">16:00</td>
+                                        <td class="text-right">384,000 VNĐ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>leHauBoi</td>
+                                        <td class="text-center">02-04-19</td>
+                                        <td class="text-center">16:00</td>
+                                        <td class="text-right">384,000 VNĐ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="h4 font-weight-bold">Biểu đồ tổng hợp</div>
+                    <div class="horizontal-line my-3"></div>
+
+                    <div class="row mx-0 my-5 align-items-center justify-content-between">
+                        <div class="col-sm-10 h6 font-weight-bold row m-0 p-0 align-items-center justify-content-start">
+                            <div class="col-sm-3 mr-auto px-0 my-3">Tu <input id="start-date" class="mt-2" />
+                            </div>
+                            <div class="col-sm-3 mr-auto px-0 my-3">den <input id="end-date" class="mt-2" />
+                            </div>
+                            <div class="col-sm-6 p-0 my-3">
+                                <button class="btn btn-primary ml-0 my-1">Hom nay</button>
+                                <button class="btn btn-outline-primary ml-0 my-1">Tuan nay</button>
+                                <button class="btn btn-outline-primary ml-0 my-1">Tuan truoc</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 dropdown mx-0 px-0">
+                            <button class="btn btn-outline-primary dropdown-toggle px-5" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Tat ca rap
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Nigamon Nguyen Van Cu</a>
+                                <a class="dropdown-item" href="#">Nigamon Nguyen Van Qua</a>
+                                <a class="dropdown-item" href="#">Nigamon Quang Trung</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item active" href="#">Tat ca rap</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-between mx-0">
+                        <div class="col-sm-5 section-container my-5">
+                            <header class="section-header">
+                                <div class="vertical-line mr-3"></div>
+                                <div class="h5 font-weight-bold">Doanh thu (trieu VND)</div>
+                            </header>
+                            <canvas id="income-chart" width="400" height="300"></canvas>
+                        </div>
+                        <div class="col-sm-5 section-container my-5">
+                            <header class="section-header">
+                                <div class="vertical-line mr-3"></div>
+                                <div class="h5 font-weight-bold">So nguoi dung moi</div>
+                            </header>
+                            <canvas id="new-user-chart" width="400" height="300"></canvas>
+                        </div>
+                        <div class="col-sm-5 section-container my-5">
+                            <header class="section-header">
+                                <div class="vertical-line mr-3"></div>
+                                <div class="h5 font-weight-bold">Ty le phan chia doanh thu</div>
+                            </header>
+                            <canvas id="income-partition-chart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,11 +299,106 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+<script>
+    // setup date picker
+    $(() => {
+        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+        $('#start-date').datepicker({
+            format: 'dd-mm-yy',
+            width: 200,
+            modal: true,
+            footer: true,
+            maxDate: today
+        });
+        $('#end-date').datepicker({
+            format: 'dd-mm-yy',
+            width: 200,
+            modal: true,
+            footer: true,
+            maxDate: today
+        });
+    });
+
+    // setup charts
+    var incomeCanvas = document.getElementById('income-chart').getContext('2d');
+    var incomeChart = new Chart(incomeCanvas, {
+        type: 'line',
+        data: {
+            labels: ['30-03', '31-03', '01-04', '02-04'],
+            datasets: [{
+                data: [500, 600, 540, 630],
+                label: 'Doanh thu',
+                backgroundColor: '#2D7FF9',
+                borderColor: '#2D7FF9',
+                borderWidth: 3,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    var newUserCanvas = document.getElementById('new-user-chart').getContext('2d');
+    var newUserChart = new Chart(newUserCanvas, {
+        type: 'bar',
+        data: {
+            labels: ['30-03', '31-03', '01-04', '02-04'],
+            datasets: [{
+                data: [20, 15, 10, 40],
+                label: 'So nguoi dung moi',
+                backgroundColor: '#2D7FF9',
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    var incomePartitionCanvas = document.getElementById('income-partition-chart').getContext('2d');
+    var incomePartitionChart = new Chart(incomePartitionCanvas, {
+        type: 'pie',
+        data: {
+            labels: ['Ve phim', 'Thuc an'],
+            datasets: [{
+                data: [38.18, 61.82],
+                label: 'Ty le phan chia doanh thu',
+                backgroundColor: ['#2D7FF9', '#d3ebfb'],
+            }]
+        },
+        options: {
+            showLines: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
 
 </html>
