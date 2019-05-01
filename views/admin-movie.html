@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/normalize.css">
+    <link rel="stylesheet" href="../public/css/admin.css">
+</head>
+
+<body>
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-stretch">
+            <div class="shadow h-100 col-sm-2 px-0">
+                <div class="mr-2">
+                    <a href="#">
+                        <img src="../public/img/brand-admin.svg" alt="Nigamon Logo" class="w-100">
+                    </a>
+                </div>
+                <div class="row justify-content-between align-items-center mx-2 border-bottom border-secondary">
+                    <p class="text-secondary h6">leHauBoi@gmail.com</p>
+                    <p class="h2"><a href="#"><i class="fas fa-sign-out-alt    "></i></a></p>
+                </div>
+
+                <nav class="mx-4 my-4">
+                    <ul id="menu">
+                        <li class="mb-4">
+                            <a href="./admin-dashboard.html">
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fa fa-home" aria-hidden="true"></i>
+                                    </p>
+                                    <p class="h6 font-weight-bold">Trang chính</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="active-menu-option mb-4">
+                            <a href="#">
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fa fa-film" aria-hidden="true"></i>
+                                    </p>
+                                    <p class="h6 font-weight-bold">Phim</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="./admin-theater.html">
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-warehouse    "></i></p>
+                                    <p class="h6 font-weight-bold">Rạp</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="./admin-ticket.html">
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-ticket-alt    "></i></p>
+                                    <p class="h6 font-weight-bold">Vé</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="./admin-food.html">
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-drumstick-bite    "></i></p>
+                                    <p class="h6 font-weight-bold">Thức ăn</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="./admin-order.html">
+                                <div class="row align-items-center">
+                                    <p class="mr-4 h3 font-weight-bold"><i class="fas fa-shopping-cart    "></i></p>
+                                    <p class="h6 font-weight-bold">Đơn hàng</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-sm-10 px-0">
+                <div class="row justify-content-between px-5 align-items-center mx-0" id="content-header-bar">
+                    <div><a href="#" class="text-uppercase">Phim</a></div>
+                    <div class="row justify-content-between">
+                        <div class="col-6"><a href="#" data-toggle="modal" data-target="#messageModal"><i
+                                    class="fas fa-bell    "></i></a></div>
+                        <div class="col-6"><a href="#" data-toggle="modal" data-target="#helpModal"><i
+                                    class="fas fa-question-circle    "></i></a></div>
+                    </div>
+                </div>
+                <div class="mx-5" id="content-body">
+                    <div class="row my-5 mx-0">
+                        <div class="col-md-2 dropdown mx-0 px-0">
+                            <button class="btn btn-outline-primary dropdown-toggle px-3" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                The loai
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Tau hai</a>
+                                <a class="dropdown-item" href="#">Hanh dong</a>
+                                <a class="dropdown-item" href="#">Kinh di</a>
+                                <a class="dropdown-item" href="#">Tam ly</a>
+                                <a class="dropdown-item" href="#">Tinh cam</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item active" href="#">The loai</a>
+                            </div>
+                        </div>
+                        <div class="col-md-2 dropdown mx-0 px-0">
+                            <button class="btn btn-outline-primary dropdown-toggle px-3" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Tinh trang
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Dang chieu</a>
+                                <a class="dropdown-item" href="#">Ngung chieu</a>
+                                <a class="dropdown-item" href="#">Sap chieu</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item active" href="#">Tinh trang</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-container my-5">
+                        <header class="section-header">
+                            <div class="vertical-line mr-3"></div>
+                            <div class="h5 font-weight-bold">Phim</div>
+                        </header>
+                        <div class="overflow-auto d-flex w-100">
+                            <table class="section-items">
+                                <thead class="h6">
+                                    <td class="text-center">Ma phim</td>
+                                    <td>Ten phim</td>
+                                    <td>Dao dien</td>
+                                    <td>Dien vien chinh</td>
+                                    <td>The loai</td>
+                                    <td class="text-center">Thoi luong</td>
+                                    <td class="text-center">Tinh trang</td>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Chem gio</td>
+                                        <td>Riot</td>
+                                        <td>Riven</td>
+                                        <td>Tau hai</td>
+                                        <td class="text-center">180 phut</td>
+                                        <td class="text-center text-success">Dang chieu</td>
+                                        <td class="text-right">
+                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
+                                            /
+                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Chem gio</td>
+                                        <td>Riot</td>
+                                        <td>Riven</td>
+                                        <td>Tau hai</td>
+                                        <td class="text-center">180 phut</td>
+                                        <td class="text-center text-success">Dang chieu</td>
+                                        <td class="text-right">
+                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
+                                            /
+                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Chem gio</td>
+                                        <td>Riot</td>
+                                        <td>Riven</td>
+                                        <td>Tau hai</td>
+                                        <td class="text-center">180 phut</td>
+                                        <td class="text-center text-success">Dang chieu</td>
+                                        <td class="text-right">
+                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
+                                            /
+                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <footer class="section-footer">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- floating action button -->
+        <button type="button" class="btn btn-primary shadow floating-action-btn rounded-circle" data-toggle="modal"
+            data-target="#addModal">
+            <p class="h3 m-2">
+                <i class="fas fa-plus text-white"></i>
+            </p>
+        </button>
+    </div>
+
+    <!-- add modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title h3" id="addModalLabel">Add new</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Add new items
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- message modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title h3" id="messageModalLabel">Notifications</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Notifications
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- help modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title h3" id="helpModalLabel">FAQ</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Help
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+<script src="../public/js/admin-common.js"></script>
+
+</html>

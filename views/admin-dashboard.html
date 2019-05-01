@@ -45,7 +45,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#">
+                            <a href="./admin-movie.html">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fa fa-film" aria-hidden="true"></i>
                                     </p>
@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#">
+                            <a href="./admin-theater.html">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-warehouse    "></i></p>
                                     <p class="h6 font-weight-bold">Rạp</p>
@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#">
+                            <a href="./admin-ticket.html">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-ticket-alt    "></i></p>
                                     <p class="h6 font-weight-bold">Vé</p>
@@ -70,7 +70,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#">
+                            <a href="./admin-food.html">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-drumstick-bite    "></i></p>
                                     <p class="h6 font-weight-bold">Thức ăn</p>
@@ -78,7 +78,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#">
+                            <a href="./admin-order.html">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-shopping-cart    "></i></p>
                                     <p class="h6 font-weight-bold">Đơn hàng</p>
@@ -92,8 +92,10 @@
                 <div class="row justify-content-between px-5 align-items-center mx-0" id="content-header-bar">
                     <div><a href="#" class="text-uppercase">Trang chính</a></div>
                     <div class="row justify-content-between">
-                        <div class="col-6"><a href="#"><i class="fas fa-bell    "></i></a></div>
-                        <div class="col-6"><a href="#"><i class="fas fa-question-circle    "></i></a></div>
+                        <div class="col-6"><a href="#" data-toggle="modal" data-target="#messageModal"><i
+                                    class="fas fa-bell    "></i></a></div>
+                        <div class="col-6"><a href="#" data-toggle="modal" data-target="#helpModal"><i
+                                    class="fas fa-question-circle    "></i></a></div>
                     </div>
                 </div>
                 <div class="mx-5" id="content-body">
@@ -239,20 +241,20 @@
                     <div class="h4 font-weight-bold">Biểu đồ tổng hợp</div>
                     <div class="horizontal-line my-3"></div>
 
-                    <div class="row mx-0 my-5 align-items-center justify-content-between">
-                        <div class="col-sm-10 h6 font-weight-bold row m-0 p-0 align-items-center justify-content-start">
-                            <div class="col-sm-3 mr-auto px-0 my-3">Tu <input id="start-date" class="mt-2" />
+                    <div class="row mx-0 my-5 align-items-center">
+                        <div class="col-lg-8 h6 font-weight-bold row m-0 p-0 align-items-center justify-content-start">
+                            <div class="col-md-3 mr-auto px-0 my-3">Tu <input id="start-date" class="mt-2" />
                             </div>
-                            <div class="col-sm-3 mr-auto px-0 my-3">den <input id="end-date" class="mt-2" />
+                            <div class="col-md-3 mr-auto px-0 my-3">den <input id="end-date" class="mt-2" />
                             </div>
-                            <div class="col-sm-6 p-0 my-3">
-                                <button class="btn btn-primary ml-0 my-1">Hom nay</button>
-                                <button class="btn btn-outline-primary ml-0 my-1">Tuan nay</button>
-                                <button class="btn btn-outline-primary ml-0 my-1">Tuan truoc</button>
+                            <div class="col-md-6 p-0 my-3 select-one">
+                                <button class="btn btn-primary ml-0 my-1" id="today">Hom nay</button>
+                                <button class="btn btn-outline-primary ml-0 my-1" id="this-week">Tuan nay</button>
+                                <button class="btn btn-outline-primary ml-0 my-1" id="last-week">Tuan truoc</button>
                             </div>
                         </div>
-                        <div class="col-sm-2 dropdown mx-0 px-0">
-                            <button class="btn btn-outline-primary dropdown-toggle px-5" type="button"
+                        <div class="col-lg-4 dropdown mx-0 px-0">
+                            <button class="btn btn-outline-primary dropdown-toggle px-3" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 Tat ca rap
@@ -294,6 +296,42 @@
             </div>
         </div>
     </div>
+
+    <!-- message modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title h3" id="messageModalLabel">Notifications</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Notifications
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- help modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title h3" id="helpModalLabel">FAQ</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Help
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -306,99 +344,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 
-<script>
-    // setup date picker
-    $(() => {
-        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-        $('#start-date').datepicker({
-            format: 'dd-mm-yy',
-            width: 200,
-            modal: true,
-            footer: true,
-            maxDate: today
-        });
-        $('#end-date').datepicker({
-            format: 'dd-mm-yy',
-            width: 200,
-            modal: true,
-            footer: true,
-            maxDate: today
-        });
-    });
-
-    // setup charts
-    var incomeCanvas = document.getElementById('income-chart').getContext('2d');
-    var incomeChart = new Chart(incomeCanvas, {
-        type: 'line',
-        data: {
-            labels: ['30-03', '31-03', '01-04', '02-04'],
-            datasets: [{
-                data: [500, 600, 540, 630],
-                label: 'Doanh thu',
-                backgroundColor: '#2D7FF9',
-                borderColor: '#2D7FF9',
-                borderWidth: 3,
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-
-    var newUserCanvas = document.getElementById('new-user-chart').getContext('2d');
-    var newUserChart = new Chart(newUserCanvas, {
-        type: 'bar',
-        data: {
-            labels: ['30-03', '31-03', '01-04', '02-04'],
-            datasets: [{
-                data: [20, 15, 10, 40],
-                label: 'So nguoi dung moi',
-                backgroundColor: '#2D7FF9',
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-
-    var incomePartitionCanvas = document.getElementById('income-partition-chart').getContext('2d');
-    var incomePartitionChart = new Chart(incomePartitionCanvas, {
-        type: 'pie',
-        data: {
-            labels: ['Ve phim', 'Thuc an'],
-            datasets: [{
-                data: [38.18, 61.82],
-                label: 'Ty le phan chia doanh thu',
-                backgroundColor: ['#2D7FF9', '#d3ebfb'],
-            }]
-        },
-        options: {
-            showLines: true,
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-</script>
+<script src="../public/js/admin-common.js"></script>
+<script src="../public/js/admin-dashboard.js"></script>
 
 </html>
