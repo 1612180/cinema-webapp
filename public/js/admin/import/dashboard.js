@@ -1,11 +1,28 @@
-//-------------------------------- define letiables -------------------------------------------//
-let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+//-------------------------------- define variables -------------------------------------------//
+let today = new Date();
 let changeBothDateFinished = true;
-let allTheaters = [];
+
+let currentTheaters = [];
 let currentMovies = [];
 let currentOrders = [];
-let currentTheaters = [];
-//-------------------------------- end define letiables ---------------------------------------//
+let currentOrderCount = 0;
+let allTheaters = [];
+let lastLoginDate = new Date();
+
+//-------------------------------- end define variables ---------------------------------------//
+
+//------------------------------- setup html -------------------------------------------------//
+getBasicSystemInfo()
+setupHTML();
+
+setupButtonGroup();
+setupDropdown();
+
+//------------------------------- end setup html ---------------------------------------------//
+
+//------------------------------- setup timer ------------------------------------------------//
+window.setInterval(() => $('#current-time').text(uniformTimeFormat(new Date())), 1000)
+//------------------------------- end setup timer --------------------------------------------//
 
 //------------------------------ setup date picker -------------------------------------------//
 let startDatePicker = $('#start-date').datepicker({
@@ -59,6 +76,12 @@ $('#last-week').click(function () {
     }
 
     changeBothDate(start, end);
+});
+
+$('#refresh-btn').click(e => {
+    getBasicSystemInfo();
+    setupHTML();
+    setupDropdown();
 });
 //------------------------------ end setup date picker -------------------------------------------//
 
@@ -154,4 +177,64 @@ function changeBothDate(start, end) {
     changeBothDateFinished = true;
     endDatePicker.value(end);
 }
+function getWeekDay(date) {
+    let day = date.getDay();
+    if (day < 7) {
+        return `Thu ${day + 1}`;
+    }
+    return 'Chu nhat';
+}
 //------------------------------- end utility functions ------------------------------------//
+
+//------------------------------ api calls -----------------------------------------------//
+function getBasicSystemInfo() {
+    currentTheaters = new Array(4).fill(sampleTheater);
+    currentMovies = new Array(4).fill(sampleMovie);
+    currentOrders = new Array(4).fill(sampleOrder);
+    currentOrderCount = 100;
+    allTheaters = [
+        {
+            id: 1,
+            name: "Nigamon Nguyen Van Cu"
+        },
+        {
+            id: 2,
+            name: "Nigamon Quang Trung"
+        },
+        {
+            id: 3,
+            name: "Nigamon Nguyen Van Qua"
+        }
+    ];
+    lastLoginDate = new Date("2019/04/02");
+}
+
+function setupHTML() {
+    today = new Date();
+    $('#last-login-date').text(uniformDateFormat(lastLoginDate));
+    $('#current-day').text(getWeekDay(today));
+    $('#current-date').text(uniformDateFormat(today));
+    $('#current-time').text(uniformTimeFormat(today));
+    $('#orders .section-items')
+        .children('tbody')
+        .html(currentOrders.map(item => item.buildListItem()).join('\n'));
+    $('#movies .section-items')
+        .children('tbody')
+        .html(currentMovies.map(item => item.buildListItem()).join('\n'));
+    $('#theaters .section-items')
+        .children('tbody')
+        .html(currentTheaters.map(item => item.buildListItem()).join('\n'));
+    $('#movieCount').text(currentMovies.length);
+    $('#orderCount').text(currentOrderCount);
+    $('#theaterCount').text(currentTheaters.length);
+
+    $('#all-theaters').html(`
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item active" href="#">Tat ca rap</a>`
+    );
+    allTheaters
+        .map(theater => `<a class="dropdown-item" href="#" data-id=${theater.id}>${theater.name}</a>`)
+        .forEach(node => $('#all-theaters').prepend(node));
+}
+
+//------------------------------ end api calls -----------------------------------------------//

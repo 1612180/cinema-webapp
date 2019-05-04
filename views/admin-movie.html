@@ -91,6 +91,11 @@
             <div class="col-sm-10 px-0">
                 <div class="row justify-content-between px-5 align-items-center mx-0" id="content-header-bar">
                     <div><a href="#" class="text-uppercase">Phim</a></div>
+                    <form class="form-inline md-form form-sm mt-0" id="search-bar">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <input class="form-control form-control-sm ml-3 w-75 font-weight-normal text-dark rounded-0"
+                            type="text" id="search-text" placeholder="Tim kiem" aria-label="Search">
+                    </form>
                     <div class="row justify-content-between">
                         <div class="col-6"><a href="#" data-toggle="modal" data-target="#messageModal"><i
                                     class="fas fa-bell    "></i></a></div>
@@ -106,12 +111,7 @@
                                 aria-expanded="false">
                                 The loai
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Tau hai</a>
-                                <a class="dropdown-item" href="#">Hanh dong</a>
-                                <a class="dropdown-item" href="#">Kinh di</a>
-                                <a class="dropdown-item" href="#">Tam ly</a>
-                                <a class="dropdown-item" href="#">Tinh cam</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="type-dropdown">
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item active" href="#">The loai</a>
                             </div>
@@ -122,7 +122,7 @@
                                 aria-expanded="false">
                                 Tinh trang
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="status-dropdown">
                                 <a class="dropdown-item" href="#">Dang chieu</a>
                                 <a class="dropdown-item" href="#">Ngung chieu</a>
                                 <a class="dropdown-item" href="#">Sap chieu</a>
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="section-container my-5">
+                    <div class="section-container my-5" id="movies">
                         <header class="section-header">
                             <div class="vertical-line mr-3"></div>
                             <div class="h5 font-weight-bold">Phim</div>
@@ -148,48 +148,6 @@
                                     <td class="text-center">Tinh trang</td>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Chem gio</td>
-                                        <td>Riot</td>
-                                        <td>Riven</td>
-                                        <td>Tau hai</td>
-                                        <td class="text-center">180 phut</td>
-                                        <td class="text-center text-success">Dang chieu</td>
-                                        <td class="text-right">
-                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
-                                            /
-                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Chem gio</td>
-                                        <td>Riot</td>
-                                        <td>Riven</td>
-                                        <td>Tau hai</td>
-                                        <td class="text-center">180 phut</td>
-                                        <td class="text-center text-success">Dang chieu</td>
-                                        <td class="text-right">
-                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
-                                            /
-                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Chem gio</td>
-                                        <td>Riot</td>
-                                        <td>Riven</td>
-                                        <td>Tau hai</td>
-                                        <td class="text-center">180 phut</td>
-                                        <td class="text-center text-success">Dang chieu</td>
-                                        <td class="text-right">
-                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
-                                            /
-                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -233,13 +191,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-title h3" id="addModalLabel">Add new</div>
+                    <div class="modal-title h3 font-weight-bold" id="addModalLabel">Them moi</div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Add new items
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huy</button>
+                    <button type="button" class="btn btn-primary" id="modal-submit">Luu</button>
                 </div>
             </div>
         </div>
@@ -295,6 +257,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 
-<script src="../public/js/admin-common.js"></script>
+<script src="../public/js/admin/import/common.js"></script>
+
+<script src="../public/js/admin/model/movie.js"></script>
+<script src="../public/js/admin/import/movie.js"></script>
 
 </html>
