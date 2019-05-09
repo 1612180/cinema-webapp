@@ -5,3 +5,19 @@ body {
 .form-control::placeholder {
     color: #90A4AE;
 }
+
+.vertical-line {
+    width: 0px;
+    height: 50px;
+    border: 5px solid #2D7FF9;
+}
+
+.barPhimMuave, footer {
+    background-color: #212121;
+    color: #E5E5E5;
+}
+
+footer .btn {
+    background-color: #212121;
+    color: #E5E5E5;
+}
