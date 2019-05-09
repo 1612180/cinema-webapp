@@ -1,5 +1,6 @@
 //-------------------------------- define variables -------------------------------------------//
 let movies = [];
+let movieFilters = new Map();
 
 //-------------------------------- end define variables ---------------------------------------//
 
@@ -13,12 +14,7 @@ Array.from(MovieTypes)
 setupDropdown();
 
 getMovies();
-renderMovieList(movies);
-
-$('.floating-action-btn').click(e => {
-    e.preventDefault();
-    openNewModal(new Movie(), () => initDatePickers('movie-start-date', 'movie-end-date'));
-})
+renderMovieList(movies, movieFilters);
 
 //------------------------------- end setup html ---------------------------------------------//
 
@@ -26,55 +22,96 @@ $('.floating-action-btn').click(e => {
 $('#type-dropdown')
     .children('.dropdown-item:not(:last)')
     .click(function (e) {
-        renderMovieList(movies.filter(movie => {
-            return movie.type === $(this).data("id");
-        }))
+        movieFilters.set("movie-type", item => {
+            return item.type === $(this).data("id");
+        });
+        renderMovieList(movies, movieFilters);
     });
 $('#type-dropdown')
     .children('.dropdown-item:last')
-    .click(e => renderMovieList(movies));
+    .click(e => {
+        movieFilters.delete("movie-type");
+        renderMovieList(movies, movieFilters);
+    });
 
 $('#status-dropdown')
     .children('.dropdown-item:not(:last)')
     .click(function (e) {
-        renderMovieList(movies.filter(movie => {
+        movieFilters.set("movie-status", item => {
             let today = new Date();
             switch ($(this).text()) {
                 case "Ngung chieu":
-                    return movie.end < today;
+                    return item.end < today;
                 case "Dang chieu":
-                    return movie.start <= today && today <= movie.end;
+                    return item.start <= today && today <= item.end;
                 case "Sap chieu":
-                    return today < movie.start;
+                    return today < item.start;
                 default:
                     return true;
             }
-        }))
+        });
+        renderMovieList(movies, movieFilters);
     });
 $('#status-dropdown')
     .children('.dropdown-item:last')
-    .click(e => renderMovieList(movies));
+    .click(e => {
+        movieFilters.delete("movie-status");
+        renderMovieList(movies, movieFilters);
+    });
+
+$('.floating-action-btn').click(e => {
+    e.preventDefault();
+    openNewModal(new Movie(), addCallback);
+})
 
 //------------------------------ end setup dropdowns ---------------------------------------//
 
 //------------------------------ setup search bar --------------------------------------------//
-$('#search-bar').submit(e => {
-    e.preventDefault();
+let searchCallback = () => {
     let searchText = $('#search-text').val().toLowerCase().split(' ');
-    renderMovieList(movies.filter(movie => {
-        let data = movie.getItemData();
+    movieFilters.set("movie-search", item => {
+        let data = item.getItemData();
         return Object
             .keys(data)
             .map(k => data[k].toLowerCase())
             .filter(field => searchText.filter(txt => field.includes(txt)).length > 0)
             .length > 0;
-    }))
+    });
+    renderMovieList(movies, movieFilters);
+}
+let delayCaller = makeDelay(500);
+
+$('#search-bar').submit(e => {
+    e.preventDefault();
+    searchCallback();
+})
+$('#search-bar #search-text').keydown(e => {
+    delayCaller(searchCallback);
 })
 //------------------------------ end setup search bar ---------------------------------------//
 
 //------------------------------ setup helper function ---------------------------------------//
-function initDatePickersCallback() {
-    initDatePickers('movie-start-date', 'movie-end-date', null);
+function addCallback(modalBody) {
+    let id = modalBody.find('#movie-id').val();
+    let name = modalBody.find('#movie-name').val();
+    let director = modalBody.find('#movie-director').val();
+    let actor = modalBody.find('#movie-actor').val();
+    let type = modalBody.find('#movie-type').val();
+    let length = modalBody.find('#movie-length').val();
+    let start = modalBody.find('#movie-start-date').val();
+    let end = modalBody.find('#movie-end-date').val();
+    let newData = new Movie(
+        parseInt(id),
+        name,
+        director,
+        actor,
+        parseInt(type),
+        length,
+        parseDate(start, DAYTIME.START),
+        parseDate(end, DAYTIME.END)
+    );
+    hideModal();
+    addMovie(newData);
 }
 function editCallback(item) {
     return (modalBody) => {
@@ -92,8 +129,8 @@ function editCallback(item) {
             actor,
             parseInt(type),
             length,
-            parseDate(start, true),
-            parseDate(end, false)
+            parseDate(start, DAYTIME.START),
+            parseDate(end, DAYTIME.END)
         );
         hideModal();
         updateMovie(item.id, newData);
@@ -105,28 +142,35 @@ function removeCallback(item) {
         removeMovie(item.id);
     }
 }
-function renderMovieList(list) {
-    let container = $('#movies .section-items').children('tbody');
+function renderMovieList(list, filters) {
+    let container = $('#container .section-items').children('tbody');
     container.html(null);
-    list.forEach(movie => {
-        let node = $($.parseHTML(movie.buildListItem().trim()));
+    let filteredList = applyFilterListToItems(list, filters);
+    filteredList.forEach(item => {
+        let node = item.buildListItem();
         node.children('td:not(:last)').click(e => {
             let submitCallback = () => {
-                openEditModal(movie, initDatePickersCallback, editCallback(movie));
+                openEditModal(item, editCallback(item));
             };
-            openInfoModal(movie, null, submitCallback);
+            openInfoModal(item, submitCallback);
         });
 
         node.find('.config-btn').click(e => {
             e.preventDefault();
-            openEditModal(movie, initDatePickersCallback, editCallback(movie));
+            openEditModal(item, editCallback(item));
         });
         node.find('.remove-btn').click(e => {
             e.preventDefault();
-            openDeleteModal(movie, null, removeCallback(movie));
+            openDeleteModal(item, removeCallback(item));
         });
         container.append(node);
     })
+}
+
+function applyFilterListToItems(items, filterMap) {
+    return Array.from(filterMap)
+        .map(([id, filter]) => filter)
+        .reduce((prevList, currentFilter) => prevList.filter(currentFilter), items);
 }
 //------------------------------ end setup helper function -----------------------------------//
 
@@ -165,12 +209,16 @@ function getMovies() {
 
 function removeMovie(id) {
     movies = movies.filter(item => item.id !== id);
-    renderMovieList(movies);
+    renderMovieList(movies, movieFilters);
 }
 function updateMovie(id, newData) {
     movies = movies.map(item => {
         return item.id === id ? newData : item;
     })
-    renderMovieList(movies);
+    renderMovieList(movies, movieFilters);
+}
+function addMovie(newData) {
+    movies.unshift(newData);
+    renderMovieList(movies, movieFilters);
 }
 //------------------------------ end api calls ------------------------------------------//

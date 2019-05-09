@@ -10,7 +10,7 @@ a {
 }
 
 html, body {
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .btn {
@@ -91,7 +91,6 @@ ul#menu li a:hover * {
 
 #content-header-bar {
     background-color: #2D7FF9;
-    height: 80px;
 }
 
 #content-header-bar a {
@@ -170,4 +169,28 @@ table.section-items tbody>tr:last-child {
 
 table.section-items tbody tr td a {
     color: #333333;
+}
+
+.right-icon {
+    position: absolute;
+    right: 5%;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+.custom-tooltip+.tooltiptext {
+    visibility: hidden;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 100;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+}
+
+.custom-tooltip:hover+.tooltiptext {
+    visibility: visible;
 }

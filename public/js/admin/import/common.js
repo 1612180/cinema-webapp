@@ -1,13 +1,18 @@
 //-------------------------------- define variables -------------------------------------------//
-const REQUIRED = {
-    YES: true,
-    NO: false
-}
-
 const DISABLED = {
     YES: true,
     NO: false
 }
+
+const DAYTIME = {
+    START: true,
+    END: false
+}
+
+const COMMON_FORM_VALIDATION_OPTIONS = {
+    errorElement: "span"
+}
+
 //-------------------------------- end define variables ---------------------------------------//
 
 //-------------------------------- setup button group & dropdown ---------------------------------//
@@ -43,6 +48,7 @@ function setupDropdown() {
 //-------------------------------- end setup button group & dropdown ----------------------------//
 
 //------------------------------- utility functions ----------------------------------------//
+// FORMAT - CONVERSION
 function uniformDateFormat(date) {
     let day = date.getDate() < 10 ? ('0' + date.getDate()) : date.getDate().toString();
     let month = date.getMonth() < 9 ? ('0' + (date.getMonth() + 1)) : (date.getMonth() + 1).toString();
@@ -69,26 +75,67 @@ function uniformTimeFormat(date) {
     return hour + ':' + min + ':' + sec;
 }
 
-function buildInput(label, id, value, placeholder, required, disabled) {
+function formatMoney(number) {
+    return number.toString()
+        .split('')
+        .reverse()
+        .map((v, i) => (i !== 0 & i % 3 === 0) ? [',', v] : v)
+        .flat()
+        .reverse()
+        .join('')
+}
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function slugToCamelCase(str) {
+    return str.split('-')
+        .map((v, i) => (i === 0) ? v : capitalize(v))
+        .join('');
+}
+
+// BUILD HTML
+function buildRightIconWithTooltip(label, tooltip) {
     return `
+        <div class="btn bg-transparent right-icon border-0 custom-tooltip">
+            ${label}
+            
+        </div>
+        <div class="tooltiptext alert alert-danger my-1 w-75">
+                ${tooltip}
+        </div>
+    `;
+}
+
+function buildErrorTooltip(text) {
+    return buildRightIconWithTooltip(
+        `<i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>`,
+        text
+    )
+}
+
+function buildInput(label, id, value, placeholder, disabled) {
+    let htmlStr = `
         <div class="form-group row align-items-center">
             <label class="col-md-4 control-label font-weight-bold" for="${id}">${label}</label>
-            <div class="col-md-8">
+            <div class="col-md-8 position-relative input-group">
                 <input 
                     id="${id}" 
+                    name="${slugToCamelCase(id)}" 
                     type="text" placeholder="${placeholder}"
                     class="form-control input-md rounded-0"
-                    ${required ? "required" : ""}
                     ${disabled ? "disabled" : ""}
                     ${value ? `value="${value}"` : ""}
                 >
             </div>
         </div>
-    `
+    `;
+    return $($.parseHTML(htmlStr.trim()));
 }
 
 function buildSelect(label, id, value, options, disabled) {
-    return `
+    let htmlStr = `
     <div class="form-group row align-items-center">
         <label class="col-md-4 control-label font-weight-bold" for="movie-type">${label}</label>
         <div class="col-md-8">
@@ -96,20 +143,50 @@ function buildSelect(label, id, value, options, disabled) {
                 id="${id}" 
                 class="form-control rounded-0 pl-2"
                 ${disabled ? "disabled" : ""}
-                ${value ? `value="${value}"` : ""}
             >
-                ${options.map(opt => `<option value=${opt.value}>${opt.text}</option>`).join('\n')}
+                ${options.map(opt => `
+                    <option 
+                        value=${opt.value} 
+                        ${opt.value === value ? "selected" : ""}
+                    >
+                        ${opt.text}
+                    </option>
+                `).join('\n')}
             </select>
         </div>
     </div>
-    `
+    `;
+    return $($.parseHTML(htmlStr.trim()));
+}
+function buildPriceInput(label, id, value, placeholder, disabled) {
+    let price = buildInput(label, id, value, placeholder, disabled);
+    let priceText = $(
+        `
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        ${value ? formatMoney(value) + " VND" : `&nbsp;&nbsp;&nbsp;&nbsp;`}
+                    </span>
+                </div>
+            `
+    );
+    price.find('div').append(priceText);
+    price.find('input').keyup(function (e) {
+        let text = $(this).val();
+        if (text && containsOnlyNumber(text)) {
+            priceText.find('span').text(formatMoney(text) + " VND")
+        } else {
+            priceText.find('span').html("&nbsp;&nbsp;&nbsp;&nbsp;");
+        }
+    })
+    return price;
 }
 
+// HTML CONTROLLER
 function hideModal() {
     $('#addModal').modal('hide');
 }
 
-function openEditModal(item, callback, submitCallback) {
+function openEditModal(item, submitCallback) {
     let modal = $('#addModal');
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
@@ -118,20 +195,22 @@ function openEditModal(item, callback, submitCallback) {
 
     modal.modal('show');
 
-    let submitButton = modal.find("#modal-submit");
-    submitButton.text("Luu");
-    submitButton.off('click').click(e => {
-        if (submitCallback) {
+    modal.find("#modal-submit").text("Luu");
+    let form = modal.find('#modal-form');
+    form.validate({
+        ...COMMON_FORM_VALIDATION_OPTIONS,
+        ...item.buildValidationRules(),
+    });
+
+    form.off('submit').submit(e => {
+        e.preventDefault();
+        if (form.valid() && submitCallback) {
             submitCallback(body);
         }
     });
-
-    if (callback) {
-        callback();
-    }
 }
 
-function openNewModal(item, callback, submitCallback) {
+function openNewModal(item, submitCallback) {
     let modal = $('#addModal');
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
@@ -140,21 +219,22 @@ function openNewModal(item, callback, submitCallback) {
 
     modal.modal('show');
 
-    let submitButton = modal.find("#modal-submit");
-    submitButton.text("Luu");
-    submitButton.off('click').click(e => {
-        if (submitCallback) {
-            submitCallback();
-        }
+    modal.find("#modal-submit").text("Luu");
+    let form = modal.find('#modal-form');
+    form.validate({
+        ...COMMON_FORM_VALIDATION_OPTIONS,
+        ...item.buildValidationRules(),
     });
 
-
-    if (callback) {
-        callback();
-    }
+    form.off('submit').submit(e => {
+        e.preventDefault();
+        if (form.valid() && submitCallback) {
+            submitCallback(body);
+        }
+    });
 }
 
-function openInfoModal(item, callback, submitCallback) {
+function openInfoModal(item, submitCallback) {
     let modal = $('#addModal');
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
@@ -163,20 +243,16 @@ function openInfoModal(item, callback, submitCallback) {
 
     modal.modal('show');
 
-    let submitButton = modal.find("#modal-submit");
-    submitButton.text("Chinh sua");
-    submitButton.off('click').click(e => {
+    modal.find("#modal-submit").text("Chinh sua");
+    modal.find('#modal-form').off('submit').submit(e => {
+        e.preventDefault();
         if (submitCallback) {
-            submitCallback();
+            submitCallback(body);
         }
-    });
-
-    if (callback) {
-        callback();
-    }
+    })
 }
 
-function openDeleteModal(item, callback, submitCallback) {
+function openDeleteModal(item, submitCallback) {
     let modal = $('#addModal');
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
@@ -187,40 +263,30 @@ function openDeleteModal(item, callback, submitCallback) {
             Xoa
         </div>
     `);
-    body.html(
-        `
-        <p>
-            Ban co thuc su muon xoa ?
-        </p>
-        `
-    );
+    body.html(item.buildDeleteModal());
 
     modal.modal('show');
 
-    let submitButton = modal.find("#modal-submit");
-    submitButton.text("Xoa");
-    submitButton.off('click').click(e => {
+    modal.find("#modal-submit").text("Xoa");
+    modal.find('#modal-form').off('submit').submit(e => {
+        e.preventDefault();
         if (submitCallback) {
-            submitCallback();
+            submitCallback(body);
         }
-    });
-
-
-    if (callback) {
-        callback();
-    }
+    })
 }
 
+// INIT JS
 function initDatePickers(startID, endID, maxDate = new Date()) {
-    $(`#${startID}:not(:disabled)`).datepicker({
-        format: 'dd-mm-yy',
-        width: 150,
-        minDate: new Date("2000/01/01"),
-        maxDate: function () {
-            return $(`#${endID}`).val() ? $(`#${endID}`).val() : new Date();
-        },
-    });
     if (maxDate) {
+        $(`#${startID}:not(:disabled)`).datepicker({
+            format: 'dd-mm-yy',
+            width: 150,
+            minDate: new Date("2000/01/01"),
+            maxDate: function () {
+                return $(`#${endID}`).val() ? $(`#${endID}`).val() : maxDate;
+            },
+        });
         $(`#${endID}:not(:disabled)`).datepicker({
             format: 'dd-mm-yy',
             width: 150,
@@ -229,6 +295,14 @@ function initDatePickers(startID, endID, maxDate = new Date()) {
             },
         });
     } else {
+        $(`#${startID}:not(:disabled)`).datepicker({
+            format: 'dd-mm-yy',
+            width: 150,
+            minDate: new Date("2000/01/01"),
+            maxDate: function () {
+                return $(`#${endID}`).val();
+            },
+        });
         $(`#${endID}:not(:disabled)`).datepicker({
             format: 'dd-mm-yy',
             width: 150,
@@ -239,4 +313,63 @@ function initDatePickers(startID, endID, maxDate = new Date()) {
         });
     }
 }
-//------------------------------- end utility functions ------------------------------------//
+function initDatePickersInNode(rootNode, startID, endID, maxDate = new Date()) {
+    if (maxDate) {
+        rootNode.find(`#${startID}:not(:disabled)`).datepicker({
+            format: 'dd-mm-yy',
+            width: 150,
+            minDate: new Date("2000/01/01"),
+            maxDate: function () {
+                return $(`#${endID}`).val() ? $(`#${endID}`).val() : maxDate;
+            },
+        });
+        rootNode.find(`#${endID}:not(:disabled)`).datepicker({
+            format: 'dd-mm-yy',
+            width: 150,
+            minDate: function () {
+                return $(`#${startID}`).val();
+            },
+        });
+    } else {
+        rootNode.find(`#${startID}:not(:disabled)`).datepicker({
+            format: 'dd-mm-yy',
+            width: 150,
+            minDate: new Date("2000/01/01"),
+            maxDate: function () {
+                return $(`#${endID}`).val();
+            },
+        });
+        rootNode.find(`#${endID}:not(:disabled)`).datepicker({
+            format: 'dd-mm-yy',
+            width: 150,
+            maxDate: maxDate,
+            minDate: function () {
+                return $(`#${startID}`).val();
+            },
+        });
+    }
+}
+
+// MISC
+function applyFilterListToItems(items, filterMap) {
+    return Array.from(filterMap)
+        .map(([id, filter]) => filter)
+        .reduce((prevList, currentFilter) => prevList.filter(currentFilter), items);
+}
+
+function makeDelay(ms) {
+    let timer = 0;
+    return (callback) => {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    }
+}
+
+function isDigit(n) {
+    return [true, true, true, true, true, true, true, true, true, true][n];
+}
+
+function containsOnlyNumber(str) {
+    return str.split('').every(c => isDigit(c));
+}
+        //------------------------------- end utility functions ------------------------------------//

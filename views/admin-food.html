@@ -22,7 +22,7 @@
 <body>
     <div class="container-fluid h-100">
         <div class="row h-100 align-items-stretch">
-            <div class="shadow h-100 col-sm-2 px-0">
+            <div class="shadow h-100 col-lg-2 px-0 pb-5">
                 <div class="mr-2">
                     <a href="#">
                         <img src="../public/img/brand-admin.svg" alt="Nigamon Logo" class="w-100">
@@ -32,6 +32,7 @@
                     <p class="text-secondary h6">leHauBoi@gmail.com</p>
                     <p class="h2"><a href="#"><i class="fas fa-sign-out-alt    "></i></a></p>
                 </div>
+
                 <nav class="mx-4 my-4">
                     <ul id="menu">
                         <li class="mb-4">
@@ -86,17 +87,17 @@
                         </li>
                     </ul>
                 </nav>
-
             </div>
-            <div class="col-sm-10 px-0">
-                <div class="row justify-content-between px-5 align-items-center mx-0" id="content-header-bar">
-                    <div><a href="#" class="text-uppercase">Thuc an</a></div>
-                    <form class="form-inline md-form form-sm mt-0">
+            <div class="col-lg-10 px-0">
+                <div class="d-flex justify-content-between px-5 align-items-center mx-0 py-3 flex-wrap"
+                    id="content-header-bar">
+                    <div><a href="#" class="text-uppercase my-2">Thuc an</a></div>
+                    <form class="form-inline md-form form-sm my-2" id="search-bar">
                         <i class="fas fa-search" aria-hidden="true"></i>
                         <input class="form-control form-control-sm ml-3 w-75 font-weight-normal text-dark rounded-0"
-                            type="text" placeholder="Tim kiem" aria-label="Search">
+                            type="text" id="search-text" placeholder="Tim kiem" aria-label="Search">
                     </form>
-                    <div class="row justify-content-between">
+                    <div class="row justify-content-between my-2">
                         <div class="col-6"><a href="#" data-toggle="modal" data-target="#messageModal"><i
                                     class="fas fa-bell    "></i></a></div>
                         <div class="col-6"><a href="#" data-toggle="modal" data-target="#helpModal"><i
@@ -105,27 +106,19 @@
                 </div>
                 <div class="mx-5" id="content-body">
                     <div class="row my-5 mx-0">
-                        <div class="col-md-2 dropdown mx-0 px-0">
+                        <div class="col-md-2 dropdown mx-0 px-0 my-1">
                             <button class="btn btn-outline-primary dropdown-toggle px-3" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 Tinh trang
                             </button>
-                            <form class="form-inline md-form form-sm mt-0">
-                                <i class="fas fa-search" aria-hidden="true"></i>
-                                <input
-                                    class="form-control form-control-sm ml-3 w-75 font-weight-normal text-dark rounded-0"
-                                    type="text" placeholder="Tim kiem" aria-label="Search">
-                            </form>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Dang ban</a>
-                                <a class="dropdown-item" href="#">Ngung ban</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="status-dropdown">
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item active" href="#">Tinh trang</a>
                             </div>
                         </div>
                     </div>
-                    <div class="section-container my-5">
+                    <div class="section-container my-5" id="container">
                         <header class="section-header">
                             <div class="vertical-line mr-3"></div>
                             <div class="h5 font-weight-bold">Thuc an</div>
@@ -140,42 +133,6 @@
                                     <td class="text-center">Tinh trang</td>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Bap rang bo</td>
-                                        <td>Bap rang bo</td>
-                                        <td class="text-right">35.000 VND</td>
-                                        <td class="text-center text-success">Dang ban</td>
-                                        <td class="text-right">
-                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
-                                            /
-                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Bap rang bo</td>
-                                        <td>Bap rang bo</td>
-                                        <td class="text-right">35.000 VND</td>
-                                        <td class="text-center text-success">Dang ban</td>
-                                        <td class="text-right">
-                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
-                                            /
-                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Bap rang bo</td>
-                                        <td>Bap rang bo</td>
-                                        <td class="text-right">35.000 VND</td>
-                                        <td class="text-center text-success">Dang ban</td>
-                                        <td class="text-right">
-                                            <a href="#" class="config-btn"><i class="fas fa-cog    "></i></a>
-                                            /
-                                            <a href="#" class="remove-btn"><i class="fas fa-times    "></i></a>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -218,15 +175,21 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title h3" id="addModalLabel">Add new</div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Add new items
-                </div>
+                <form action="" method="post" id="modal-form">
+                    <div class="modal-header">
+                        <div class="modal-title h3 font-weight-bold" id="addModalLabel">Them moi</div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huy</button>
+                        <button type="submit" class="btn btn-primary" id="modal-submit">Luu</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -280,7 +243,11 @@
     crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
 
 <script src="../public/js/admin/import/common.js"></script>
+
+<script src="../public/js/admin/model/food.js"></script>
+<script src="../public/js/admin/import/food.js"></script>
 
 </html>
