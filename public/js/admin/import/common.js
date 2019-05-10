@@ -16,16 +16,25 @@ const COMMON_FORM_VALIDATION_OPTIONS = {
 //-------------------------------- end define variables ---------------------------------------//
 
 //-------------------------------- setup button group & dropdown ---------------------------------//
-function setupButtonGroup() {
+function setupButtonGroup(resetCallback) {
     $('.select-one').each(function (groupIndex) {
         let group = $(this).children('button');
-        group.click(function () {
-            group.each(function (index) {
+        group.click(function (e) {
+            if ($(this).hasClass('btn-primary')) {
                 $(this).removeClass('btn-primary');
                 $(this).addClass('btn-outline-primary');
-            });
-            $(this).removeClass('btn-outline-primary');
-            $(this).addClass('btn-primary');
+                if (resetCallback) {
+                    resetCallback();
+                }
+                e.stopImmediatePropagation();
+            } else {
+                group.each(function (index) {
+                    $(this).removeClass('btn-primary');
+                    $(this).addClass('btn-outline-primary');
+                });
+                $(this).removeClass('btn-outline-primary');
+                $(this).addClass('btn-primary');
+            }
         });
     });
 }
@@ -68,11 +77,24 @@ function parseDate(str, startOfDay) {
     return date;
 }
 
+function parseDateTime(str) {
+    let [time, dateStr] = str.split(' ');
+    let date = dateStr.split('-');
+    let parsed = new Date("20" + date[2], date[1] - 1, date[0]);
+    let [hour, min] = time.split(':');
+    parsed.setHours(parseInt(hour), parseInt(min));
+    return parsed;
+}
+
 function uniformTimeFormat(date) {
     let hour = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours().toString();
     let min = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes().toString();
-    let sec = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds().toString();
-    return hour + ':' + min + ':' + sec;
+    // let sec = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds().toString();
+    return hour + ':' + min;
+}
+
+function uniformDateTimeFormat(date) {
+    return uniformTimeFormat(date) + " " + uniformDateFormat(date);
 }
 
 function formatMoney(number) {
@@ -278,40 +300,7 @@ function openDeleteModal(item, submitCallback) {
 
 // INIT JS
 function initDatePickers(startID, endID, maxDate = new Date()) {
-    if (maxDate) {
-        $(`#${startID}:not(:disabled)`).datepicker({
-            format: 'dd-mm-yy',
-            width: 150,
-            minDate: new Date("2000/01/01"),
-            maxDate: function () {
-                return $(`#${endID}`).val() ? $(`#${endID}`).val() : maxDate;
-            },
-        });
-        $(`#${endID}:not(:disabled)`).datepicker({
-            format: 'dd-mm-yy',
-            width: 150,
-            minDate: function () {
-                return $(`#${startID}`).val();
-            },
-        });
-    } else {
-        $(`#${startID}:not(:disabled)`).datepicker({
-            format: 'dd-mm-yy',
-            width: 150,
-            minDate: new Date("2000/01/01"),
-            maxDate: function () {
-                return $(`#${endID}`).val();
-            },
-        });
-        $(`#${endID}:not(:disabled)`).datepicker({
-            format: 'dd-mm-yy',
-            width: 150,
-            maxDate: maxDate,
-            minDate: function () {
-                return $(`#${startID}`).val();
-            },
-        });
-    }
+    initDatePickersInNode(document, startID, endID, maxDate)
 }
 function initDatePickersInNode(rootNode, startID, endID, maxDate = new Date()) {
     if (maxDate) {
@@ -346,6 +335,27 @@ function initDatePickersInNode(rootNode, startID, endID, maxDate = new Date()) {
             minDate: function () {
                 return $(`#${startID}`).val();
             },
+        });
+    }
+}
+function initDateTimePickerInNode(rootNode, id, maxDate = new Date()) {
+    if (maxDate) {
+        rootNode.find(`#${id}:not(:disabled)`).datetimepicker({
+            format: 'HH:MM dd-mm-yy',
+            width: 200,
+            datepicker: {
+                minDate: new Date("2000/01/01"),
+                maxDate: maxDate
+            },
+            footer: true
+        });
+    } else {
+        rootNode.find(`#${id}:not(:disabled)`).datetimepicker({
+            format: 'HH:MM dd-mm-yy',
+            width: 200,
+            datepicker: {
+                minDate: new Date("2000/01/01"),
+            }
         });
     }
 }

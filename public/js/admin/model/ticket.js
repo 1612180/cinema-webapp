@@ -16,7 +16,7 @@ class Ticket {
             id: this.id.toString(),
             name: this.name,
             condition: TicketCondition.get(this.condition),
-            price: formatMoney(this.price) + " VND",
+            price: this.price.toString(),
             status: TicketStatus.get(this.status)
         };
     }

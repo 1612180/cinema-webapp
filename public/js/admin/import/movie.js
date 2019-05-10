@@ -167,11 +167,6 @@ function renderMovieList(list, filters) {
     })
 }
 
-function applyFilterListToItems(items, filterMap) {
-    return Array.from(filterMap)
-        .map(([id, filter]) => filter)
-        .reduce((prevList, currentFilter) => prevList.filter(currentFilter), items);
-}
 //------------------------------ end setup helper function -----------------------------------//
 
 //------------------------------ api calls ----------------------------------------------//

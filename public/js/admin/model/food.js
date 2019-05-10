@@ -23,7 +23,7 @@ class Food {
             id: this.id.toString(),
             name: this.name,
             ingredient: this.ingredient,
-            price: formatMoney(this.price) + " VND",
+            price: this.price.toString(),
             status: FoodStatus.get(this.status)
         };
     }
