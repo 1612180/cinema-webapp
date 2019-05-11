@@ -99,9 +99,114 @@
         </div>
     </div>
 
-    <!-- Gio hang -->
+    <!-- Lich su don hang cua toi -->
     <div class="container my-5">
-        <h1 class="font-weight-bold text-center">Giỏ hàng</h1>
+        <h1 class="font-weight-bold text-center">Lịch sử đơn hàng của tôi</h1>
+    </div>
+
+    <!-- Tu den rap -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <span class="h5 font-weight-bold mr-5">Từ</span>
+                <span class="h5 pb-1 px-2" style="border-bottom: 2px solid;">01-04-19</span>
+            </div>
+            <div class="col-lg-3">
+                <span class="h5 font-weight-bold mr-5">đến</span>
+                <span class="h5 pb-1 px-2" style="border-bottom: 2px solid;">01-04-19</span>
+            </div>
+            <div class="col-lg-2">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-link btn-block dropdown-toggle rounded-0 font-weight-bold"
+                        data-toggle="dropdown" style="border-color: #2D7FF9;">
+                        Rạp
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Hello</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-primary rounded-0 font-weight-bold"
+                    style="background-color: #2D7FF9; border-color: #2D7FF9">
+                    Hôm nay
+                </button>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-outline-primary rounded-0 font-weight-bold">
+                    Tuần này
+                </button>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-outline-primary rounded-0 font-weight-bold">
+                    Tuần trước
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lich su don hang -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
+                    <div>
+                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="vertical-line mr-2"></span>
+                            <span class="h5 font-weight-bold mr-2">Lịch sử đơn hàng</span>
+                        </span>
+                    </div>
+                    <table class="table table-borderless m-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Ngày</th>
+                                <th scope="col">Giờ</th>
+                                <th scope="col">Tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>12:45</td>
+                                <td>320.000 VND</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="btn-group float-right" style="background-color: #ffffff">
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
+                            1
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            2
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            3
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chi tiet don hang -->
+    <div class="container my-5">
+        <h1 class="font-weight-bold text-center">Chi tiết đơn hàng</h1>
     </div>
 
     <!-- Ve phim -->
@@ -325,27 +430,6 @@
         </div>
     </div>
 
-    <!-- Thanh toan -->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-5"></div>
-            <div class="col-lg-4">
-                <button type="button" class="btn btn-primary rounded-0"
-                    style="background-color: #2D7FF9; border-color: #2D7FF9">
-                    <span class="h5">Tiếp tục mua sắm</span>
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-            </div>
-            <div class="col-lg-3">
-                <button type="button" class="btn btn-primary rounded-0"
-                    style="background-color: #2D7FF9; border-color: #2D7FF9">
-                    <span class="h5">Thanh toán</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <footer>
         <div class="container-fluid py-5">
             <div class="row">
@@ -381,6 +465,7 @@
                         <i class="fab fa-youtube fa-2x"></i>
                     </button>
                 </div>
+                <div class="col-lg-2"></div>
             </div>
         </div>
     </footer>
