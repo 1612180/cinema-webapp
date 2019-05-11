@@ -19,10 +19,10 @@
         rel="stylesheet">
 
     <!-- Custom css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <!-- Logo icon -->
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="/img/favicon.ico">
 
     <title>Nigamon Cinema</title>
 
@@ -99,98 +99,57 @@
         </div>
     </div>
 
-    <!-- Anh va noi dung phim -->
+    <!-- Lich su don hang cua toi -->
+    <div class="container my-5">
+        <h1 class="font-weight-bold text-center">Lịch sử đơn hàng của tôi</h1>
+    </div>
+
+    <!-- Tu den rap -->
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-1"></div>
             <div class="col-lg-3">
-                <img class="img-fluid" src="img/captain_marvel.jpg" alt="">
+                <span class="h5 font-weight-bold mr-5">Từ</span>
+                <span class="h5 pb-1 px-2" style="border-bottom: 2px solid;">01-04-19</span>
             </div>
-            <div class="col-lg-6">
-                <h3 class="font-weight-bold">Captain Marvel</h3>
-                <p><i class="fas fa-star" style="color: yellow"></i>
-                    <span class="font-weight-bold">8.0</span>
-                    <span class="font-weight-bold" style="color: #90A4AE">/</span>
-                    <span class="font-weight-bold" style="color: #90A4AE">10.0</span>
-                    <button type="button" class="btn btn-primary rounded-0 mx-2 py-0"
-                        style="background-color: #2D7FF9; border-color: #2D7FF9">
-                        Đánh giá
+            <div class="col-lg-3">
+                <span class="h5 font-weight-bold mr-5">đến</span>
+                <span class="h5 pb-1 px-2" style="border-bottom: 2px solid;">01-04-19</span>
+            </div>
+            <div class="col-lg-2">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-link btn-block dropdown-toggle rounded-0 font-weight-bold"
+                        data-toggle="dropdown" style="border-color: #2D7FF9;">
+                        Rạp
                     </button>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Quốc gia</span>
-                    <span class="font-weight-bold">Mỹ</span>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Nhà sản xuất</span>
-                    <span class="font-weight-bold">Marvel</span>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Đạo diễn</span>
-                    <span class="font-weight-bold">HauBoi</span>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Diễn viên</span>
-                    <span class="font-weight-bold">HuanBoi, NamBoi</span>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Thể loại</span>
-                    <span class="font-weight-bold">Tấu hài</span>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Ngày</span>
-                    <span class="font-weight-bold">01-04-2019</span>
-                </p>
-            </div>
-        </div>
-        <div class="row my-3">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-3">
-                <h3 class="font-weight-bold">Nội dung phim</h3>
-                <div class="horizontal-line my-3"></div>
-                <p>Tấu hài cực mạnh</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Lich chieu -->
-    <div class="container my-3">
-        <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-3">
-                <h3 class="font-weight-bold">Lịch chiếu</h3>
-                <div class="horizontal-line my-3"></div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-3">
-                <div class="dropdown">
-                    <button type="button"
-                        class="btn btn-primary rounded-0 dropdown-toggle font-weight-bold bg-light text-left text-dark"
-                        data-toggle="dropdown">Cả nước</button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item">Hello</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <input id="chitietphimDate">
-            </div>
-            <div class="col-lg-3">
-                <div class="dropdown">
-                    <button type="button"
-                        class="btn btn-primary rounded-0 dropdown-toggle font-weight-bold bg-light text-left text-dark"
-                        data-toggle="dropdown">Tất cả rạp</button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item">Hello</a>
+                        <a class="dropdown-item" href="#">Hello</a>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row my-2">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-primary rounded-0 font-weight-bold"
+                    style="background-color: #2D7FF9; border-color: #2D7FF9">
+                    Hôm nay
+                </button>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-outline-primary rounded-0 font-weight-bold">
+                    Tuần này
+                </button>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-outline-primary rounded-0 font-weight-bold">
+                    Tuần trước
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- Show cinema + time -->
+    <!-- Lich su don hang -->
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-1"></div>
@@ -199,57 +158,58 @@
                     <div>
                         <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
                             <span class="vertical-line mr-2"></span>
-                            <span class="h5 font-weight-bold mr-2">Nigamon Quang Trung</span>
+                            <span class="h5 font-weight-bold mr-2">Lịch sử đơn hàng</span>
                         </span>
                     </div>
                     <table class="table table-borderless m-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Ngày</th>
+                                <th scope="col">Giờ</th>
+                                <th scope="col">Tổng tiền</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr>
-                                <td>2D phụ đề</td>
-                                <td>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3D</td>
-                                <td>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
-                                </td>
+                                <td>1</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>12:45</td>
+                                <td>320.000 VND</td>
                             </tr>
                         </tbody>
                     </table>
+                    <div class="btn-group float-right" style="background-color: #ffffff">
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
+                            1
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            2
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            3
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Nigamon Nguyen Hue -->
+    <!-- Chi tiet don hang -->
+    <div class="container my-5">
+        <h1 class="font-weight-bold text-center">Chi tiết đơn hàng</h1>
+    </div>
+
+    <!-- Ve phim -->
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-1"></div>
@@ -258,56 +218,217 @@
                     <div>
                         <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
                             <span class="vertical-line mr-2"></span>
-                            <span class="h5 font-weight-bold mr-2">Nigamon Nguyễn Huệ</span>
+                            <span class="h5 font-weight-bold mr-2">Vé phim</span>
+                        </span>
+                        <span class="float-right" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="h5 font-weight-bold ml-2" style="color: #90A4AE">
+                                <a href="" style="color: #90A4AE">
+                                    Xóa hết
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </span>
                         </span>
                     </div>
                     <table class="table table-borderless m-3">
-                        <tbody>
+                        <thead>
                             <tr>
-                                <td>2D phụ đề</td>
+                                <th scope="col">Tên phim</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Ngày</th>
+                                <th scope="col">Suất</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Endgame (2D phụ đề)</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>31-03-19</td>
+                                <td>10:15</td>
+                                <td>B5</td>
+                                <td>50.000 VND</td>
                                 <td>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>3D</td>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Endgame (3D)</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>B5</td>
+                                <td>100.000 VND</td>
                                 <td>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Endgame (3D)</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>B5</td>
+                                <td>100.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div class="btn-group float-right" style="background-color: #ffffff">
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
+                            1
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            2
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            3
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Thuc an -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
+                    <div>
+                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="vertical-line mr-2"></span>
+                            <span class="h5 font-weight-bold mr-2">Thức ăn</span>
+                        </span>
+                        <span class="float-right" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="h5 font-weight-bold ml-2" style="color: #90A4AE">
+                                <a href="" style="color: #90A4AE">
+                                    Xóa hết
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </span>
+                        </span>
+                    </div>
+                    <table class="table table-borderless m-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tên món</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Ngày</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn giá</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Bắp rang bơ</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>2</td>
+                                <td>50.000 VND</td>
+                                <td>100.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Pepsi</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>4</td>
+                                <td>19.000 VND</td>
+                                <td>116.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="btn-group float-right" style="background-color: #ffffff">
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
+                            1
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            2
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            3
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tong tien -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-5"></div>
+            <div class="col-lg-4">
+                <div class="h5 font-weight-bold">
+                    Tổng tiền
+                </div>
+                <div class="horizontal-line" style="width: 75px;"></div>
+            </div>
+            <div class="col-lg-3">
+                <div class="h5">
+                    386.000 VND
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container-fluid py-5">
@@ -344,6 +465,7 @@
                         <i class="fab fa-youtube fa-2x"></i>
                     </button>
                 </div>
+                <div class="col-lg-2"></div>
             </div>
         </div>
     </footer>
@@ -474,7 +596,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="/js/chitietphim_script.js"></script>
 </body>
 
 </html>

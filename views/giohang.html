@@ -20,7 +20,6 @@
 
     <!-- Custom css -->
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/style403.css">
 
     <!-- Logo icon -->
     <link rel="icon" href="/img/favicon.ico">
@@ -56,8 +55,8 @@
                 </button>
             </div>
             <div class="col-lg-1 px-0 text-center" style="margin-top: 25px;">
-                <button type="button" class="btn btn-link font-weight-bold" data-toggle="modal" data-target="#modalDN"
-                    style="text-decoration: none">
+                <button type="button" class="btn btn-link font-weight-bold" data-toggle="modal"
+                    data-target="#modalDN" style="text-decoration: none">
                     <span style="color: #90A4AE">Đăng nhập</span>
                 </button>
             </div>
@@ -100,196 +99,252 @@
         </div>
     </div>
 
-    <!-- banner ảnh -->
-    <div id="carouselBanner" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="img/banner.png" class="d-block w-100" alt="banner1">
-            </div>
-            <div class="carousel-item">
-                <img src="img/banner.png" class="d-block w-100" alt="banner2">
-            </div>
-            <div class="carousel-item">
-                <img src="img/banner.png" class="d-block w-100" alt="banner3">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselBanner" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#carouselBanner" role="button" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
+    <!-- Gio hang -->
+    <div class="container my-5">
+        <h1 class="font-weight-bold text-center">Giỏ hàng</h1>
     </div>
 
-    <!--Movie-->
-    <div style="height: 50px"></div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-2">
-            <h3 class="font-weight-bold text-danger">Phim đang chiếu</h3>
-        </div>
-        <div class="col-md-2">
-            <h3 class="font-weight-bold">Phim sắp chiếu</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
-                    <div class="overlay">
-                        <h2>Yasuo</h2>
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                        <a class="info bg-primary" href="#">Đặt vé</a>
+    <!-- Ve phim -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
+                    <div>
+                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="vertical-line mr-2"></span>
+                            <span class="h5 font-weight-bold mr-2">Vé phim</span>
+                        </span>
+                        <span class="float-right" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="h5 font-weight-bold ml-2" style="color: #90A4AE">
+                                <a href="" style="color: #90A4AE">
+                                    Xóa hết
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </span>
+                        </span>
                     </div>
-                    <div class="text-center">Yasuo P1</div>
-                </div>
-                <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
-                    <div class="overlay">
-                        <h2>Yasuo</h2>
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                        <a class="info bg-primary" href="#">Đặt vé</a>
+                    <table class="table table-borderless m-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tên phim</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Ngày</th>
+                                <th scope="col">Suất</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Endgame (2D phụ đề)</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>31-03-19</td>
+                                <td>10:15</td>
+                                <td>B5</td>
+                                <td>50.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Endgame (3D)</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>B5</td>
+                                <td>100.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Endgame (3D)</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>B5</td>
+                                <td>100.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="btn-group float-right" style="background-color: #ffffff">
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
+                            1
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            2
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            3
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
                     </div>
-                    <div class="text-center">Yasuo P2</div>
-                </div>
-                <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
-                    <div class="overlay">
-                        <h2>Yasuo</h2>
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                        <a class="info bg-primary" href="#">Đặt vé</a>
-                    </div>
-                    <div class="text-center">Yasuo P3</div>
-                </div>
-            </div> <br />
-            <div class=row>
-                <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
-                    <div class="overlay">
-                        <h2>Yasuo</h2>
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                        <a class="info bg-primary" href="#">Đặt vé</a>
-                    </div>
-                    <div class="text-center">Yasuo P4</div>
-                </div>
-                <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
-                    <div class="overlay">
-                        <h2>Yasuo</h2>
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                        <a class="info bg-primary" href="#">Đặt vé</a>
-                    </div>
-                    <div class="text-center">Yasuo P5</div>
-                </div>
-                <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
-                    <div class="overlay">
-                        <h2>Yasuo</h2>
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                        <a class="info bg-primary" href="#">Đặt vé</a>
-                    </div>
-                    <div class="text-center">Yasuo P6</div>
                 </div>
             </div>
         </div>
-    </div> <br /> <br />
-    <div class="row">
-        <div class="col-md-10">
-            <div class="col-md-2 ml-auto justify-content-end">
-                <button type="submit" class="input-group-text btn bg-primary rounded-0"
-                    style="background-color: #2D7FF9">
-                    <span class="font-weight-bold text-white">Xem thêm</span>
+    </div>
+
+    <!-- Thuc an -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
+                    <div>
+                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="vertical-line mr-2"></span>
+                            <span class="h5 font-weight-bold mr-2">Thức ăn</span>
+                        </span>
+                        <span class="float-right" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="h5 font-weight-bold ml-2" style="color: #90A4AE">
+                                <a href="" style="color: #90A4AE">
+                                    Xóa hết
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </span>
+                        </span>
+                    </div>
+                    <table class="table table-borderless m-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tên món</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Rạp</th>
+                                <th scope="col">Ngày</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn giá</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Bắp rang bơ</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>2</td>
+                                <td>50.000 VND</td>
+                                <td>100.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr style="border-top: 1px solid #cccccc">
+                                <td>Pepsi</td>
+                                <td>Nigamon Nguyễn Văn Cừ</td>
+                                <td>01-04-19</td>
+                                <td>10:15</td>
+                                <td>4</td>
+                                <td>19.000 VND</td>
+                                <td>116.000 VND</td>
+                                <td>
+                                    <a href="">
+                                        <i class="fas fa-cog text-dark"></i>
+                                    </a>
+                                    <span class="font-weight-bold">/</span>
+                                    <a href="">
+                                        <i class="fas fa-times text-dark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="btn-group float-right" style="background-color: #ffffff">
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
+                            1
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            2
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            3
+                        </button>
+                        <button type="button" class="btn btn-link font-weight-bold text-dark">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tong tien -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-5"></div>
+            <div class="col-lg-4">
+                <div class="h5 font-weight-bold">
+                    Tổng tiền
+                </div>
+                <div class="horizontal-line" style="width: 75px;"></div>
+            </div>
+            <div class="col-lg-3">
+                <div class="h5">
+                    386.000 VND
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thanh toan -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-5"></div>
+            <div class="col-lg-4">
+                <button type="button" class="btn btn-primary rounded-0"
+                    style="background-color: #2D7FF9; border-color: #2D7FF9">
+                    <span class="h5">Tiếp tục mua sắm</span>
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="col-lg-3">
+                <button type="button" class="btn btn-primary rounded-0"
+                    style="background-color: #2D7FF9; border-color: #2D7FF9">
+                    <span class="h5">Thanh toán</span>
+                    <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
     </div>
-
-    <!--Event-->
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-2">
-            <h3 class="font-weight-bold">Tin khuyến mãi</h3>
-        </div>
-    </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event1</div>
-                </div>
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event2</div>
-                </div>
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event3</div>
-                </div>
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event4</div>
-                </div>
-            </div> <br />
-            <div class="row">
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event5</div>
-                </div>
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event6</div>
-                </div>
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event7</div>
-                </div>
-                <div class="col-md-2 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/tom_and_jerry.jpg" />
-                    <div class="overlay">
-                        <a class="info bg-primary" href="#">Xem chi tiết</a>
-                    </div>
-                    <div class="text-center">Event8</div>
-                </div>
-            </div>
-        </div>
-    </div> <br /> <br />
-    <div class="row">
-        <div class="col-md-10">
-            <div class="col-md-2 ml-auto justify-content-end">
-                <button type="submit" class="input-group-text btn bg-primary rounded-0"
-                    style="background-color: #2D7FF9">
-                    <span class="font-weight-bold text-white">Xem thêm</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div style="height: 100px"></div>
 
     <footer>
         <div class="container-fluid py-5">
@@ -326,7 +381,6 @@
                         <i class="fab fa-youtube fa-2x"></i>
                     </button>
                 </div>
-                <div class="col-lg-2"></div>
             </div>
         </div>
     </footer>
