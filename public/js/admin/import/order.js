@@ -31,6 +31,8 @@ OrderMoneyBar
 
 setupDropdown();
 setupButtonGroup(() => {
+    startDatePicker.value(null)
+    endDatePicker.value(null)
     orderFilters.delete(ORDER_CONSTANT.DATETIME);
     renderOrderList(orders, orderFilters);
 });
@@ -174,7 +176,7 @@ $('#start-price-dropdown')
         enableAll('end-price-dropdown');
         disableEndPrices(startPrice);
         orderFilters.set(ORDER_CONSTANT.TOTAL, item => {
-            return filterMoney(item.total);
+            return filterMoney(item.calculateTotal());
         });
         renderOrderList(orders, orderFilters);
     });
@@ -184,7 +186,7 @@ $('#start-price-dropdown')
         startPrice = -1;
         enableAll('end-price-dropdown');
         orderFilters.set(ORDER_CONSTANT.TOTAL, item => {
-            return filterMoney(item.total);
+            return filterMoney(item.calculateTotal());
         });
         renderOrderList(orders, orderFilters);
     });
@@ -195,7 +197,7 @@ $('#end-price-dropdown')
         enableAll('start-price-dropdown');
         disableStartPrices(endPrice);
         orderFilters.set(ORDER_CONSTANT.TOTAL, item => {
-            return filterMoney(item.total);
+            return filterMoney(item.calculateTotal());
         });
         renderOrderList(orders, orderFilters);
     });
@@ -205,7 +207,7 @@ $('#end-price-dropdown')
         endPrice = -1;
         enableAll('start-price-dropdown');
         orderFilters.set(ORDER_CONSTANT.TOTAL, item => {
-            return filterMoney(item.total);
+            return filterMoney(item.calculateTotal());
         });
         renderOrderList(orders, orderFilters);
     });
@@ -275,14 +277,13 @@ function getFormData(modalBody) {
     let username = modalBody.find(`#${ORDER_CONSTANT.USERNAME}`).val();
     let datetime = modalBody.find(`#${ORDER_CONSTANT.DATETIME}`).val();
     let theater = modalBody.find(`#${ORDER_CONSTANT.THEATER}`).val();
-    let total = modalBody.find(`#${ORDER_CONSTANT.TOTAL}`).val();
     let status = modalBody.find(`#${ORDER_CONSTANT.STATUS}`).val();
     return new Order(
         id,
         username,
         parseDateTime(datetime),
         parseInt(theater),
-        parseInt(total),
+        getOrderItemsFromModal(modalBody),
         parseInt(status)
     );
 }
@@ -295,6 +296,7 @@ function addCallback(modalBody) {
 function editCallback(item) {
     return (modalBody) => {
         let newData = getFormData(modalBody);
+        console.log(newData.items);
         hideModal();
         updateOrder(item.id, newData);
     };
@@ -331,6 +333,17 @@ function renderOrderList(list, filters) {
     })
 }
 
+function getOrderItemsFromModal(modalBody) {
+    let rows = modalBody.find('.section-container#order-items-container .section-items tbody tr');
+    return $.map(rows, row => {
+        let wrapper = $(row);
+        return new OrderItem(
+            wrapper.find(`.${ORDER_ITEM_CONSTANT.NAME}`).data('value'),
+            wrapper.find(`.${ORDER_ITEM_CONSTANT.TYPE}`).data('value'),
+            wrapper.find(`.${ORDER_ITEM_CONSTANT.QUANTITY}`).data('value')
+        )
+    })
+}
 //------------------------------ end setup helper function -----------------------------------//
 
 //------------------------------ api calls ----------------------------------------------//
@@ -363,12 +376,21 @@ function getOrders() {
     orders = [];
     while (orders.length < 10) {
         let datetime = new Date(`2019/0${Math.floor(Math.random() * 9) + 1}/0${Math.floor(Math.random() * 9) + 1}`);
+        let items = [];
+        let itemNum = Math.floor(Math.random() * 3) + 1;
+        for (let i = 0; i < itemNum; i++) {
+            items.push(new OrderItem(
+                Math.floor(Math.random() * 2) + 1,
+                Math.floor(Math.random() * 2) + 1,
+                Math.floor(Math.random() * 3) + 1,
+            ))
+        }
         orders.push(new Order(
             Math.floor(Math.random() * 100) + 1,
             'leHauBoi',
             datetime,
             Math.floor(Math.random() * 3) + 1,
-            (Math.floor(Math.random() * 10) + 0) * 10000 + (Math.floor(Math.random() * 2) + 0) * 100000,
+            items,
             Math.floor(Math.random() * 3) + 1,
         ));
     }

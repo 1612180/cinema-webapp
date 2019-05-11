@@ -15,21 +15,22 @@ let lastLoginDate = new Date();
 getBasicSystemInfo()
 setupHTML();
 
-setupButtonGroup();
+setupButtonGroup(() => {
+    startDatePicker.value(null);
+    endDatePicker.value(null);
+});
 setupDropdown();
 
 //------------------------------- end setup html ---------------------------------------------//
 
 //------------------------------- setup timer ------------------------------------------------//
-window.setInterval(() => $('#current-time').text(uniformTimeFormat(new Date())), 1000)
+window.setInterval(() => $('#current-time').text(uniformTimeFormat(new Date())), 60 * 1000)
 //------------------------------- end setup timer --------------------------------------------//
 
 //------------------------------ setup date picker -------------------------------------------//
 let startDatePicker = $('#start-date').datepicker({
     format: 'dd-mm-yy',
     width: 120,
-    // modal: true,
-    // footer: true,
     maxDate: function () {
         return $('#end-date').val();
     },
@@ -38,8 +39,6 @@ let startDatePicker = $('#start-date').datepicker({
 let endDatePicker = $('#end-date').datepicker({
     format: 'dd-mm-yy',
     width: 120,
-    // modal: true,
-    // footer: true,
     maxDate: today,
     minDate: function () {
         return $('#start-date').val();

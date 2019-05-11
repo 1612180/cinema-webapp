@@ -89,7 +89,6 @@ function parseDateTime(str) {
 function uniformTimeFormat(date) {
     let hour = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours().toString();
     let min = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes().toString();
-    // let sec = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds().toString();
     return hour + ':' + min;
 }
 
@@ -147,7 +146,7 @@ function buildInput(label, id, value, placeholder, disabled) {
                     name="${slugToCamelCase(id)}" 
                     type="text" placeholder="${placeholder}"
                     class="form-control input-md rounded-0"
-                    ${disabled ? "disabled" : ""}
+                    ${disabled ? "readonly" : ""}
                     ${value ? `value="${value}"` : ""}
                 >
             </div>
@@ -182,11 +181,12 @@ function buildSelect(label, id, value, options, disabled) {
 }
 function buildPriceInput(label, id, value, placeholder, disabled) {
     let price = buildInput(label, id, value, placeholder, disabled);
+    let empty = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     let priceText = $(
         `
                 <div class="input-group-append">
                     <span class="input-group-text">
-                        ${value ? formatMoney(value) + " VND" : `&nbsp;&nbsp;&nbsp;&nbsp;`}
+                        ${value ? formatMoney(value) + " VND" : empty}
                     </span>
                 </div>
             `
@@ -197,22 +197,22 @@ function buildPriceInput(label, id, value, placeholder, disabled) {
         if (text && containsOnlyNumber(text)) {
             priceText.find('span').text(formatMoney(text) + " VND")
         } else {
-            priceText.find('span').html("&nbsp;&nbsp;&nbsp;&nbsp;");
+            priceText.find('span').html(empty);
         }
     })
     return price;
 }
 
 // HTML CONTROLLER
-function hideModal() {
-    $('#addModal').modal('hide');
+function hideModalById(id) {
+    $(`#${id}`).modal('hide');
 }
 
-function openEditModal(item, submitCallback) {
-    let modal = $('#addModal');
+function openEditModalById(item, submitCallback, id) {
+    let modal = $(`#${id}`);
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
-    modal.find('#addModalLabel').html('Chinh sua');
+    modal.find(`#${id}Label`).html('Chinh sua');
     body.html(item.buildEditModal());
 
     modal.modal('show');
@@ -232,11 +232,11 @@ function openEditModal(item, submitCallback) {
     });
 }
 
-function openNewModal(item, submitCallback) {
-    let modal = $('#addModal');
+function openNewModalById(item, submitCallback, id) {
+    let modal = $(`#${id}`);
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
-    modal.find('#addModalLabel').html('Them moi');
+    modal.find(`#${id}Label`).html('Them moi');
     body.html(item.buildNewModal());
 
     modal.modal('show');
@@ -256,11 +256,11 @@ function openNewModal(item, submitCallback) {
     });
 }
 
-function openInfoModal(item, submitCallback) {
-    let modal = $('#addModal');
+function openInfoModalById(item, submitCallback, id) {
+    let modal = $(`#${id}`);
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
-    modal.find('#addModalLabel').html('Thong tin');
+    modal.find(`#${id}Label`).html('Thong tin');
     body.html(item.buildInfoModal());
 
     modal.modal('show');
@@ -274,11 +274,11 @@ function openInfoModal(item, submitCallback) {
     })
 }
 
-function openDeleteModal(item, submitCallback) {
-    let modal = $('#addModal');
+function openDeleteModalById(item, submitCallback, id) {
+    let modal = $(`#${id}`);
     let body = modal.find('.modal-dialog .modal-content .modal-body');
 
-    modal.find('#addModalLabel').html(`
+    modal.find(`#${id}Label`).html(`
         <div class="text-danger">
             <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>
             &nbsp;
@@ -296,6 +296,23 @@ function openDeleteModal(item, submitCallback) {
             submitCallback(body);
         }
     })
+}
+
+function hideModal() {
+    hideModalById('addModal')
+}
+
+function openEditModal(item, submitCallback) {
+    return openEditModalById(item, submitCallback, 'addModal');
+}
+function openNewModal(item, submitCallback) {
+    return openNewModalById(item, submitCallback, 'addModal');
+}
+function openInfoModal(item, submitCallback) {
+    return openInfoModalById(item, submitCallback, 'addModal');
+}
+function openDeleteModal(item, submitCallback) {
+    return openDeleteModalById(item, submitCallback, 'addModal');
 }
 
 // INIT JS
@@ -342,7 +359,7 @@ function initDateTimePickerInNode(rootNode, id, maxDate = new Date()) {
     if (maxDate) {
         rootNode.find(`#${id}:not(:disabled)`).datetimepicker({
             format: 'HH:MM dd-mm-yy',
-            width: 200,
+            width: 300,
             datepicker: {
                 minDate: new Date("2000/01/01"),
                 maxDate: maxDate
@@ -352,7 +369,7 @@ function initDateTimePickerInNode(rootNode, id, maxDate = new Date()) {
     } else {
         rootNode.find(`#${id}:not(:disabled)`).datetimepicker({
             format: 'HH:MM dd-mm-yy',
-            width: 200,
+            width: 300,
             datepicker: {
                 minDate: new Date("2000/01/01"),
             }
