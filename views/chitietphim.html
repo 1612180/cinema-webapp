@@ -29,45 +29,45 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-            Nigamon
-        </a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarDropDown">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarDropDown">
-            <form class="form-inline mr-3 border border-primary rounded-0" style="border-color: #2D7FF9">
-                <div class="input-group border-0 rounded-0">
-                    <input type="text" class="form-control border-0 rounded-0" placeholder="Tên phim, rạp"></input>
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-link border-0 rounded-0" style="background-color: #ffffff">
-                            <i class="fas fa-search" style="color: #2D7FF9"></i>
-                        </button>
+    <!-- navbar -->
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-lg-4 my-2">
+                <img class="img-fluid" src="/img/logo_dual.png" alt="Nigamon">
+            </div>
+            <div class="col-lg-3"></div>
+            <div class="col-lg-2 my-4">
+                <form class="form mr-3 border border-primary rounded-0" style="border-color: #2D7FF9">
+                    <div class="input-group border-0 rounded-0">
+                        <input type="text" class="form-control border-0 rounded-0" placeholder="Tên phim, rạp"></input>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-link border-0 rounded-0"
+                                style="background-color: #ffffff">
+                                <i class="fas fa-search" style="color: #2D7FF9"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <button type="button" class="btn btn-link">
-                        <i class="fas fa-shopping-cart" style="color: #2D7FF9"></i>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="btn btn-link nav-link font-weight-bold" data-toggle="modal"
-                        data-target="#modalDN">
-                        Đăng nhập
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="btn btn-link nav-link text-primary font-weight-bold"
-                        data-toggle="modal" data-target="#modalDK">
-                        <span style="color: #2D7FF9">Đăng ký</span>
-                    </button>
-                </li>
-            </ul>
+                </form>
+            </div>
+            <div class="col-lg-1 mx-0 text-center" style="margin-top: 25px;">
+                <button type="button" class="btn btn-link">
+                    <i class="fas fa-shopping-cart" style="color: #2D7FF9"></i>
+                </button>
+            </div>
+            <div class="col-lg-1 px-0 text-center" style="margin-top: 25px;">
+                <button type="button" class="btn btn-link font-weight-bold" data-toggle="modal" data-target="#modalDN"
+                    style="text-decoration: none">
+                    <span style="color: #90A4AE">Đăng nhập</span>
+                </button>
+            </div>
+            <div class="col-lg-1 px-0 text-center" style="margin-top: 25px;">
+                <button type="button" class="btn btn-link text-primary font-weight-bold" data-toggle="modal"
+                    data-target="#modalDK" style="text-decoration: none">
+                    <span style="color: #2D7FF9">Đăng ký</span>
+                </button>
+            </div>
         </div>
-    </nav>
+    </div>
 
     <!-- Phim, mua vé, ...-->
     <div class="container-fluid barPhimMuave">
