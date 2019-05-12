@@ -13,10 +13,9 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="../public/css/normalize.css">
-    <link rel="stylesheet" href="../public/css/admin.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 
 <body>
@@ -25,17 +24,17 @@
             <div class="shadow h-100 col-lg-2 px-0 pb-5">
                 <div class="mr-2">
                     <a href="#">
-                        <img src="../public/img/brand-admin.svg" alt="Nigamon Logo" class="w-100">
+                        <img src="/img/brand-admin.svg" alt="Nigamon Logo" class="w-100">
                     </a>
                 </div>
                 <div class="row justify-content-between align-items-center mx-2 border-bottom border-secondary">
-                    <p class="text-secondary h6">leHauBoi@gmail.com</p>
-                    <p class="h2"><a href="#"><i class="fas fa-sign-out-alt    "></i></a></p>
+                    <p class="text-secondary h6" id="user-info">leHauBoi@gmail.com</p>
+                    <p class="h2"><a href="/admin/login"><i class="fas fa-sign-out-alt    "></i></a></p>
                 </div>
                 <nav class="mx-4 my-4">
                     <ul id="menu">
                         <li class="mb-4">
-                            <a href="./admin-dashboard.html">
+                            <a href="/admin/">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fa fa-home" aria-hidden="true"></i>
                                     </p>
@@ -44,7 +43,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="./admin-movie.html">
+                            <a href="/admin/movie">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fa fa-film" aria-hidden="true"></i>
                                     </p>
@@ -53,7 +52,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="./admin-theater.html">
+                            <a href="/admin/theater">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-warehouse    "></i></p>
                                     <p class="h6 font-weight-bold">Rạp</p>
@@ -61,7 +60,7 @@
                             </a>
                         </li>
                         <li class="active-menu-option mb-4">
-                            <a href="#">
+                            <a href="/admin/ticket">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-ticket-alt    "></i></p>
                                     <p class="h6 font-weight-bold">Vé</p>
@@ -69,7 +68,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="./admin-food.html">
+                            <a href="/admin/food">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-drumstick-bite    "></i></p>
                                     <p class="h6 font-weight-bold">Thức ăn</p>
@@ -77,7 +76,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="./admin-order.html">
+                            <a href="/admin/order">
                                 <div class="row align-items-center">
                                     <p class="mr-4 h3 font-weight-bold"><i class="fas fa-shopping-cart    "></i></p>
                                     <p class="h6 font-weight-bold">Đơn hàng</p>
@@ -195,6 +194,30 @@
         </div>
     </div>
 
+    <!-- account modal -->
+    <div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="" method="post" id="modal-form">
+                    <div class="modal-header">
+                        <div class="modal-title h3 font-weight-bold" id="accountModalLabel">Thong tin</div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huy</button>
+                        <button type="submit" class="btn btn-primary" id="modal-submit">Luu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- message modal -->
     <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"
         aria-hidden="true">
@@ -246,9 +269,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
 
-<script src="../public/js/admin/import/common.js"></script>
+<script src="/js/admin/import/common.js"></script>
 
-<script src="../public/js/admin/model/ticket.js"></script>
-<script src="../public/js/admin/import/ticket.js"></script>
+<script src="/js/admin/model/ticket.js"></script>
+<script src="/js/admin/import/ticket.js"></script>
 
 </html>

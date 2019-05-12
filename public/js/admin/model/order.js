@@ -106,7 +106,7 @@ class Order {
             this.username,
             this.datetime,
             this.theater,
-            this.items,
+            [...this.items],
             this.status
         );
         node.append(buildOrderItemSection(cloneOrder, DISABLED.NO));
