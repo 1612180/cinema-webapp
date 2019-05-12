@@ -9,6 +9,7 @@ const giohangRoute = require('./routes/giohang')
 const lichsudonhangRoute = require('./routes/lichsudonhang')
 const suaprofileRoute = require('./routes/suaprofile')
 const lienheRoute = require('./routes/lienhe')
+const adminRoute = require('./routes/admin')
 
 // serve images, CSS files, and JavaScript files
 app.use(express.static('public'))
@@ -24,6 +25,8 @@ app.use('/lichsudonhang', lichsudonhangRoute)
 app.use('/suaprofile', suaprofileRoute)
 
 app.use('/lienhe', lienheRoute)
+
+app.use('/admin', adminRoute)
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)

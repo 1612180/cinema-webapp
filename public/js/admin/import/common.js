@@ -1,3 +1,9 @@
+// define custome validation
+jQuery.validator.addMethod("equalToValue", function (value, element, param) {
+    console.log(param)
+    return value === param
+}, "Please specify the correct value");
+
 //-------------------------------- define variables -------------------------------------------//
 const DISABLED = {
     YES: true,
@@ -13,7 +19,107 @@ const COMMON_FORM_VALIDATION_OPTIONS = {
     errorElement: "span"
 }
 
+const USER_INFO_CONSTANT = {
+    NAME: "user-info-name",
+    EMAIL: "user-info-email",
+    PASSWORD: "user-info-password",
+    PASSWORD_OLD: "user-info-password-old",
+    PASSWORD_NEW: "user-info-password-new"
+}
+class UserInfo {
+    constructor(name, email, password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    buildValidationRules = () => {
+        return {
+            rules: {
+                userInfoName: "required",
+                userInfoEmail: {
+                    required: true,
+                    email: true
+                },
+                userInfoPasswordOld: {
+                    required: true,
+                    equalToValue: this.password
+                },
+                userInfoPasswordNew: "required"
+            },
+            messages: {
+                userInfoName: buildErrorTooltip("Vui long dien ten"),
+                userInfoEmail: {
+                    required: buildErrorTooltip("Vui long dien email"),
+                    email: buildErrorTooltip("Email khong hop le")
+                },
+                userInfoPasswordOld: {
+                    required: buildErrorTooltip("Vui long dien mat khau cu"),
+                    equalToValue: buildErrorTooltip("Mat khau cu khong dung")
+                },
+                userInfoPasswordNew: buildErrorTooltip("Vui long dien mat khau moi")
+            }
+        }
+    }
+
+    buildEditModal = () => {
+        let node = $('<div/>');
+        node.append(buildInput("Ten Admin", USER_INFO_CONSTANT.NAME, this.name, "leHauBoi", DISABLED.NO));
+        node.append(buildInput("Email dang nhap", USER_INFO_CONSTANT.EMAIL, this.email, "leHauBoi@gmail.com", DISABLED.NO));
+
+        let btn = $($.parseHTML(`
+            <button class="btn btn-primary btn-block" type="button">
+                Doi mat khau
+            </button>
+        `.trim()))
+        btn.click(e => {
+            btn.remove();
+            node.append(buildInput("Mat khau cu", USER_INFO_CONSTANT.PASSWORD_OLD, null, "Mat khau cu", DISABLED.NO));
+            node.append(buildInput("Mat khau moi", USER_INFO_CONSTANT.PASSWORD_NEW, null, "Mat khau moi", DISABLED.NO));
+            node.find(`#${USER_INFO_CONSTANT.PASSWORD_OLD}`).attr('type', 'password')
+            node.find(`#${USER_INFO_CONSTANT.PASSWORD_NEW}`).attr('type', 'password')
+        })
+        node.append(btn)
+
+        return node;
+    }
+
+    buildInfoModal = () => {
+        let node = $('<div/>');
+        node.append(buildInput("Ten Admin", USER_INFO_CONSTANT.NAME, this.name, "leHauBoi", DISABLED.YES));
+        node.append(buildInput("Email dang nhap", USER_INFO_CONSTANT.EMAIL, this.email, "leHauBoi@gmail.com", DISABLED.YES));
+        node.append(buildInput("Mat khau", USER_INFO_CONSTANT.PASSWORD, this.password.split('').map(v => '*').join(''), "Mat khau cu", DISABLED.YES));
+        return node;
+    }
+}
+
 //-------------------------------- end define variables ---------------------------------------//
+
+//------------------------------- setup user info --------------------------------------------//
+let userInfo;
+function getUserInfo() {
+    userInfo = new UserInfo('nigamon dev', 'test@dev.com', 'test');
+}
+getUserInfo();
+$('#user-info').text(userInfo.email);
+$('#user-info').click(e => {
+    let editCallback = () => {
+        let name = $(`#${USER_INFO_CONSTANT.NAME}`).val();
+        let email = $(`#${USER_INFO_CONSTANT.EMAIL}`).val();
+        let password = $(`#${USER_INFO_CONSTANT.PASSWORD_NEW}`).val();
+        userInfo.name = name;
+        userInfo.email = email;
+        userInfo.password = password;
+        hideModalById('accountModal')
+        $('#user-info').text(userInfo.email);
+    };
+    let submitCallback = () => {
+        openEditModalById(userInfo, editCallback, 'accountModal')
+    }
+    openInfoModalById(userInfo, submitCallback, 'accountModal')
+})
+
+//------------------------------- end setup user info ----------------------------------------//
 
 //-------------------------------- setup button group & dropdown ---------------------------------//
 function setupButtonGroup(resetCallback) {
@@ -219,6 +325,7 @@ function openEditModalById(item, submitCallback, id) {
 
     modal.find("#modal-submit").text("Luu");
     let form = modal.find('#modal-form');
+    form.removeData('validator')
     form.validate({
         ...COMMON_FORM_VALIDATION_OPTIONS,
         ...item.buildValidationRules(),
@@ -243,6 +350,7 @@ function openNewModalById(item, submitCallback, id) {
 
     modal.find("#modal-submit").text("Luu");
     let form = modal.find('#modal-form');
+    form.removeData('validator')
     form.validate({
         ...COMMON_FORM_VALIDATION_OPTIONS,
         ...item.buildValidationRules(),

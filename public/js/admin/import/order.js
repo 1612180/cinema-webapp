@@ -40,6 +40,12 @@ setupButtonGroup(() => {
 getOrders();
 renderOrderList(orders, orderFilters);
 
+$('.modal').on('hidden.bs.modal', function (e) {
+    if ($('.modal').hasClass('in')) {
+        $('body').addClass('modal-open');
+    }
+});
+
 //------------------------------- end setup html ---------------------------------------------//
 
 //------------------------------ setup date picker -------------------------------------------//

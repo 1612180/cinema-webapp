@@ -178,7 +178,7 @@ function changeBothDate(start, end) {
 }
 function getWeekDay(date) {
     let day = date.getDay();
-    if (day < 7) {
+    if (day !== 0) {
         return `Thu ${day + 1}`;
     }
     return 'Chu nhat';
