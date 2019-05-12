@@ -126,71 +126,106 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-2">
-            <h3 class="font-weight-bold text-danger">Phim đang chiếu</h3>
+            <h3 class="font-weight-bold" id="DangChieu" style="color:red"
+                onclick="changeColor('DangChieu'),phimDangChieu()">Phim đang chiếu</h3>
         </div>
         <div class="col-md-2">
-            <h3 class="font-weight-bold">Phim sắp chiếu</h3>
+            <h3 class="font-weight-bold" id="SapChieu" onclick="changeColor('SapChieu'),phimSapChieu()">Phim sắp chiếu
+            </h3>
         </div>
     </div>
+
+    <script>
+        function changeColor(id) {
+            if (id == "DangChieu") {
+                document.getElementById("DangChieu").style.color = "#FF0000";
+                document.getElementById("SapChieu").style.color = "#000000";
+            }
+            else {
+                document.getElementById("DangChieu").style.color = "#000000";
+                document.getElementById("SapChieu").style.color = "#FF0000";
+            }
+        }
+        function updateMovie(idMovie, movie, idText, text) {
+            document.getElementById(idMovie).src = movie;
+            document.getElementById(idText).innerText = text;
+        }
+        function phimDangChieu() {
+            updateMovie("movie1", "img/yasuo.jpg", "text1", "Yasuo P1")
+            updateMovie("movie2", "img/yasuo.jpg", "text2", "Yasuo P2")
+            updateMovie("movie3", "img/yasuo.jpg", "text3", "Yasuo P3")
+            updateMovie("movie4", "img/yasuo.jpg", "text4", "Yasuo P4")
+            updateMovie("movie5", "img/yasuo.jpg", "text5", "Yasuo P5")
+            updateMovie("movie6", "img/yasuo.jpg", "text6", "Yasuo P6")
+        }
+        function phimSapChieu() {
+            updateMovie("movie1", "img/doraemon.jpg", "text1", "Doraemon P1")
+            updateMovie("movie2", "img/doraemon.jpg", "text2", "Doraemon P2")
+            updateMovie("movie3", "img/doraemon.jpg", "text3", "Doraemon P3")
+            updateMovie("movie4", "img/doraemon.jpg", "text4", "Doraemon P4")
+            updateMovie("movie5", "img/doraemon.jpg", "text5", "Doraemon P5")
+            updateMovie("movie6", "img/doraemon.jpg", "text6", "Doraemon P6")
+        }
+    </script>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-10">
             <div class="row">
                 <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
+                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" id="movie1" />
                     <div class="overlay">
-                        <h2>Yasuo</h2>
+                        <h2>Movie</h2>
                         <a class="info bg-primary" href="#">Xem chi tiết</a>
                         <a class="info bg-primary" href="#">Đặt vé</a>
                     </div>
-                    <div class="text-center">Yasuo P1</div>
+                    <p class="text-center" id="text1">Yasuo P1</p>
                 </div>
                 <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
+                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" id="movie2" />
                     <div class="overlay">
-                        <h2>Yasuo</h2>
+                        <h2>Movie</h2>
                         <a class="info bg-primary" href="#">Xem chi tiết</a>
                         <a class="info bg-primary" href="#">Đặt vé</a>
                     </div>
-                    <div class="text-center">Yasuo P2</div>
+                    <p class="text-center" id="text2">Yasuo P2</p>
                 </div>
                 <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
+                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" id="movie3" />
                     <div class="overlay">
-                        <h2>Yasuo</h2>
+                        <h2>Movie</h2>
                         <a class="info bg-primary" href="#">Xem chi tiết</a>
                         <a class="info bg-primary" href="#">Đặt vé</a>
                     </div>
-                    <div class="text-center">Yasuo P3</div>
+                    <p class="text-center" id="text3">Yasuo P3</p>
                 </div>
             </div> <br />
             <div class=row>
                 <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
+                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" id="movie4" />
                     <div class="overlay">
-                        <h2>Yasuo</h2>
+                        <h2>Movie</h2>
                         <a class="info bg-primary" href="#">Xem chi tiết</a>
                         <a class="info bg-primary" href="#">Đặt vé</a>
                     </div>
-                    <div class="text-center">Yasuo P4</div>
+                    <p class="text-center" id="text4">Yasuo P4</p>
                 </div>
                 <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
+                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" id="movie5" />
                     <div class="overlay">
-                        <h2>Yasuo</h2>
+                        <h2>Movie</h2>
                         <a class="info bg-primary" href="#">Xem chi tiết</a>
                         <a class="info bg-primary" href="#">Đặt vé</a>
                     </div>
-                    <div class="text-center">Yasuo P5</div>
+                    <p class="text-center" id="text5">Yasuo P5</p>
                 </div>
                 <div class="col-md-3 hovereffect">
-                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" />
+                    <img class="border border-primary img-responsive" src="img/yasuo.jpg" id="movie6" />
                     <div class="overlay">
-                        <h2>Yasuo</h2>
+                        <h2>Movie</h2>
                         <a class="info bg-primary" href="#">Xem chi tiết</a>
                         <a class="info bg-primary" href="#">Đặt vé</a>
                     </div>
-                    <div class="text-center">Yasuo P6</div>
+                    <p class="text-center" id="text6">Yasuo P6</p>
                 </div>
             </div>
         </div>
@@ -198,8 +233,7 @@
     <div class="row">
         <div class="col-md-10">
             <div class="col-md-2 ml-auto justify-content-end">
-                <button type="submit" class="input-group-text btn bg-primary rounded-0"
-                    style="background-color: #2D7FF9">
+                <button type="submit" class="input-group-text btn bg-primary rounded-0 border-0">
                     <span class="font-weight-bold text-white">Xem thêm</span>
                 </button>
             </div>
@@ -282,8 +316,7 @@
     <div class="row">
         <div class="col-md-10">
             <div class="col-md-2 ml-auto justify-content-end">
-                <button type="submit" class="input-group-text btn bg-primary rounded-0"
-                    style="background-color: #2D7FF9">
+                <button type="submit" class="input-group-text btn bg-primary rounded-0 border-0">
                     <span class="font-weight-bold text-white">Xem thêm</span>
                 </button>
             </div>
