@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ttbhanh/PTUDW-CNTN2016-Nhom07#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "pg-promise": "^8.7.2"
   }
 }

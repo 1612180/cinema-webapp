@@ -1,6 +1,8 @@
+require('dotenv').config()
+
 const express = require('express')
 const app = express()
-const port = process.env.PORT || 9090
+const port = process.env.PORT || 8080
 
 // module routes
 const indexRoute = require('./routes/index')
@@ -10,6 +12,7 @@ const lichsudonhangRoute = require('./routes/lichsudonhang')
 const suaprofileRoute = require('./routes/suaprofile')
 const lienheRoute = require('./routes/lienhe')
 const adminRoute = require('./routes/admin')
+const api = require('./routes/api')
 
 // serve images, CSS files, and JavaScript files
 app.use(express.static('public'))
@@ -27,6 +30,8 @@ app.use('/suaprofile', suaprofileRoute)
 app.use('/lienhe', lienheRoute)
 
 app.use('/admin', adminRoute)
+
+app.use('/api', api)
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
