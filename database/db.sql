@@ -65,7 +65,8 @@ create table bookings
 
 insert into movies(name, rating, description)
 values ('Endgame', 10, 'Endgame'),
-       ('IT 2', 9, 'IT 2');
+       ('IT 2', 9, 'IT 2'),
+       ('Pikachu', 10, 'Pikachu');
 
 insert into cinemas(name, address, seat_capacity)
 values ('Nigamon Nguyễn Văn Cừ', '1 Nguyễn Văn Cừ Hồ Chí Minh', 10),
