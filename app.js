@@ -14,6 +14,9 @@ const lienheRoute = require('./routes/lienhe')
 const adminRoute = require('./routes/admin')
 const api = require('./routes/api')
 
+// for parsing application/json
+app.use(express.json())
+
 // serve images, CSS files, and JavaScript files
 app.use(express.static('public'))
 
