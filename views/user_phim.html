@@ -19,10 +19,10 @@
         rel="stylesheet">
 
     <!-- Custom css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <!-- Logo icon -->
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="/img/favicon.ico">
 
     <title>Nigamon Cinema</title>
 
@@ -99,135 +99,215 @@
         </div>
     </div>
 
+    <!-- Anh va noi dung phim -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <img class="img-fluid" src="/img/captain_marvel.jpg" alt="">
+            </div>
+            <div class="col-lg-6">
+                <h3 class="font-weight-bold">Captain Marvel</h3>
+                <p><i class="fas fa-star" style="color: yellow"></i>
+                    <span class="font-weight-bold">8.0</span>
+                    <span class="font-weight-bold" style="color: #90A4AE">/</span>
+                    <span class="font-weight-bold" style="color: #90A4AE">10.0</span>
+                    <button type="button" class="btn btn-primary rounded-0 mx-2 py-0"
+                        style="background-color: #2D7FF9; border-color: #2D7FF9">
+                        Đánh giá
+                    </button>
+                </p>
+                <p>
+                    <span class="font-weight-bold" style="color: #90A4AE">Quốc gia</span>
+                    <span class="font-weight-bold">Mỹ</span>
+                </p>
+                <p>
+                    <span class="font-weight-bold" style="color: #90A4AE">Nhà sản xuất</span>
+                    <span class="font-weight-bold">Marvel</span>
+                </p>
+                <p>
+                    <span class="font-weight-bold" style="color: #90A4AE">Đạo diễn</span>
+                    <span class="font-weight-bold">HauBoi</span>
+                </p>
+                <p>
+                    <span class="font-weight-bold" style="color: #90A4AE">Diễn viên</span>
+                    <span class="font-weight-bold">HuanBoi, NamBoi</span>
+                </p>
+                <p>
+                    <span class="font-weight-bold" style="color: #90A4AE">Thể loại</span>
+                    <span class="font-weight-bold">Tấu hài</span>
+                </p>
+                <p>
+                    <span class="font-weight-bold" style="color: #90A4AE">Ngày</span>
+                    <span class="font-weight-bold">01-04-2019</span>
+                </p>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <h3 class="font-weight-bold">Nội dung phim</h3>
+                <div class="horizontal-line my-3"></div>
+                <p>Tấu hài cực mạnh</p>
+            </div>
+        </div>
+    </div>
 
-    <!-- Sua profile -->
-    <div style="height: 50px"></div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <h4 class="text-center font-weight-bold">Thông tin cá nhân</h4> <br /> <br />
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Họ tên</span><br />
-                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="Nguyễn Trần Hậu">
+    <!-- Lich chieu -->
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <h3 class="font-weight-bold">Lịch chiếu</h3>
+                <div class="horizontal-line my-3"></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <div class="dropdown">
+                    <button type="button"
+                        class="btn btn-primary rounded-0 dropdown-toggle font-weight-bold bg-light text-left text-dark"
+                        data-toggle="dropdown">Cả nước</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item">Hello</a>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Số điện thoại</span>
-                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="0123456789">
-                </div>
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Email</span>
-                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="Hau@nt.com">
+            </div>
+            <div class="col-lg-3">
+                <input id="chitietphimDate">
+            </div>
+            <div class="col-lg-3">
+                <div class="dropdown">
+                    <button type="button"
+                        class="btn btn-primary rounded-0 dropdown-toggle font-weight-bold bg-light text-left text-dark"
+                        data-toggle="dropdown">Tất cả rạp</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item">Hello</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> <br /> <br />
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Ngày sinh</span> <br />
-                    <input type="date" name="birthday" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
-                </div>
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Giới tính</span> <br />
-                    <select name="Giới tính" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                        <option value="Nam">Nam</option>
-                        <option value="Nu">Nữ</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div> <br /> <br />
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Tỉnh / thành</span> <br />
-                    <select name="Giới tính" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                        <option value="TP.Hồ Chí Minh">TP.Hồ Chí Minh</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Quận / huyện</span> <br />
-                    <select name="Giới tính" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                        <option value="Q1">Quận 1</option>
-                        <option value="Q2">Quận 2</option>
-                        <option value="Q3">Quận 3</option>
-                        <option value="Q4">Quận 4</option>
-                        <option value="Q5">Quận 5</option>
-                        <option value="Q6">Quận 6</option>
-                        <option value="Q7">Quận 7</option>
-                        <option value="Q8">Quận 8</option>
-                        <option value="Q9">Quận 9</option>
-                        <option value="Q10">Quận 10</option>
-                        <option value="Q11">Quận 11</option>
-                        <option value="Q12">Quận 12</option>
-                        <option value="QTD">Quận Thủ Đức</option>
-                        <option value="QTB">Quận Tân Bình</option>
-                        <option value="QGV">Quận Gò Vấp</option>
-                        <option value="HBC">Huyện Bình Chánh</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Địa chỉ</span> <br />
-                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="3 Phan Văn Đạt, Bến Nghé">
+    </div>
+
+    <!-- Show cinema + time -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
+                    <div>
+                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="vertical-line mr-2"></span>
+                            <span class="h5 font-weight-bold mr-2">Nigamon Quang Trung</span>
+                        </span>
+                    </div>
+                    <table class="table table-borderless m-3">
+                        <tbody>
+                            <tr>
+                                <td>2D phụ đề</td>
+                                <td>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3D</td>
+                                <td>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div> <br /> <br />
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <input type="checkbox" value="Mật khẩu">
-            <span class="font-weight-bold">Mật khẩu</span> <br /><br />
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Mật khẩu cũ</span><br />
-                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Mật khẩu mới</span>
-                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                <div class="col-md-4">
-                    <span class="font-weight-bold">Xác nhận mật khẩu</span>
-                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
-                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+    </div>
+
+    <!-- Nigamon Nguyen Hue -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
+                    <div>
+                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
+                            <span class="vertical-line mr-2"></span>
+                            <span class="h5 font-weight-bold mr-2">Nigamon Nguyễn Huệ</span>
+                        </span>
+                    </div>
+                    <table class="table table-borderless m-3">
+                        <tbody>
+                            <tr>
+                                <td>2D phụ đề</td>
+                                <td>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3D</td>
+                                <td>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">8:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">10:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">12:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">15:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">18:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">20:00</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary rounded-0 mr-2 mb-2">22:00</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div> <br /> <br />
-    <div class="row">
-        <div class="col-md-7"></div>
-        <div class="col-md-4">
-            <div class="row ml-auto mr-auto justify-content-center">
-                <div class="col-md-2">
-                    <button type="submit" class="input-group-text btn bg-primary rounded-0 border-0" style="background-color: #2D7FF9">
-                        <span class="font-weight-bold text-white">Hủy</span>
-                    </button>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="input-group-text btn bg-primary rounded-0 border-0" style="background-color: #2D7FF9">
-                        <span class="font-weight-bold text-white">Xác nhận</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div> <br />
-    <div style="height: 100px"></div>
+    </div>
+
 
     <footer>
         <div class="container-fluid py-5">
@@ -394,7 +474,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="/js/chitietphim_script.js"></script>
+    <script src="/js/user_views/phim.js"></script>
 </body>
 
 </html>

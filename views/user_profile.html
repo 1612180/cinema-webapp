@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&amp;subset=vietnamese"
+        rel="stylesheet">
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Logo icon -->
+    <link rel="icon" href="/img/favicon.ico">
+
+    <title>Nigamon Cinema</title>
+
+</head>
+
+<body>
+    <!-- navbar -->
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-lg-4 my-2">
+                <img class="img-fluid" src="/img/logo_dual.png" alt="Nigamon">
+            </div>
+            <div class="col-lg-3"></div>
+            <div class="col-lg-2 my-4">
+                <form class="form mr-3 border border-primary rounded-0" style="border-color: #2D7FF9">
+                    <div class="input-group border-0 rounded-0">
+                        <input type="text" class="form-control border-0 rounded-0" placeholder="Tên phim, rạp"></input>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-link border-0 rounded-0"
+                                style="background-color: #ffffff">
+                                <i class="fas fa-search" style="color: #2D7FF9"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-1 mx-0 text-center" style="margin-top: 25px;">
+                <button type="button" class="btn btn-link">
+                    <i class="fas fa-shopping-cart" style="color: #2D7FF9"></i>
+                </button>
+            </div>
+            <div class="col-lg-1 px-0 text-center" style="margin-top: 25px;">
+                <button type="button" class="btn btn-link font-weight-bold" data-toggle="modal" data-target="#modalDN"
+                    style="text-decoration: none">
+                    <span style="color: #90A4AE">Đăng nhập</span>
+                </button>
+            </div>
+            <div class="col-lg-1 px-0 text-center" style="margin-top: 25px;">
+                <button type="button" class="btn btn-link text-primary font-weight-bold" data-toggle="modal"
+                    data-target="#modalDK" style="text-decoration: none">
+                    <span style="color: #2D7FF9">Đăng ký</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phim, mua vé, ...-->
+    <div class="container-fluid barPhimMuave">
+        <div class="row">
+            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Phim
+                </button>
+            </div>
+            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Mua vé
+                </button>
+            </div>
+            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Rạp / giá vé
+                </button>
+            </div>
+            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
+                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
+                    style="text-decoration: none">
+                    Hỗ trợ
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Sua profile -->
+    <div style="height: 50px"></div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h4 class="text-center font-weight-bold">Thông tin cá nhân</h4> <br /> <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Họ tên</span><br />
+                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="Nguyễn Trần Hậu">
+                </div>
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Số điện thoại</span>
+                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="0123456789">
+                </div>
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Email</span>
+                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="Hau@nt.com">
+                </div>
+            </div>
+        </div>
+    </div> <br /> <br />
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Ngày sinh</span> <br />
+                    <input type="date" name="birthday" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+                </div>
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Giới tính</span> <br />
+                    <select name="Giới tính" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        <option value="Nam">Nam</option>
+                        <option value="Nu">Nữ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div> <br /> <br />
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Tỉnh / thành</span> <br />
+                    <select name="Giới tính" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        <option value="TP.Hồ Chí Minh">TP.Hồ Chí Minh</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Quận / huyện</span> <br />
+                    <select name="Giới tính" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        <option value="Q1">Quận 1</option>
+                        <option value="Q2">Quận 2</option>
+                        <option value="Q3">Quận 3</option>
+                        <option value="Q4">Quận 4</option>
+                        <option value="Q5">Quận 5</option>
+                        <option value="Q6">Quận 6</option>
+                        <option value="Q7">Quận 7</option>
+                        <option value="Q8">Quận 8</option>
+                        <option value="Q9">Quận 9</option>
+                        <option value="Q10">Quận 10</option>
+                        <option value="Q11">Quận 11</option>
+                        <option value="Q12">Quận 12</option>
+                        <option value="QTD">Quận Thủ Đức</option>
+                        <option value="QTB">Quận Tân Bình</option>
+                        <option value="QGV">Quận Gò Vấp</option>
+                        <option value="HBC">Huyện Bình Chánh</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Địa chỉ</span> <br />
+                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="3 Phan Văn Đạt, Bến Nghé">
+                </div>
+            </div>
+        </div>
+    </div> <br /> <br />
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <input type="checkbox" value="Mật khẩu">
+            <span class="font-weight-bold">Mật khẩu</span> <br /><br />
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Mật khẩu cũ</span><br />
+                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Mật khẩu mới</span>
+                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="col-md-4">
+                    <span class="font-weight-bold">Xác nhận mật khẩu</span>
+                    <input name="query" type="text" class="border border-primary border rounded-0 form-control"
+                        aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+        </div>
+    </div> <br /> <br />
+    <div class="row">
+        <div class="col-md-7"></div>
+        <div class="col-md-4">
+            <div class="row ml-auto mr-auto justify-content-center">
+                <div class="col-md-2">
+                    <button type="submit" class="input-group-text btn bg-primary rounded-0 border-0" style="background-color: #2D7FF9">
+                        <span class="font-weight-bold text-white">Hủy</span>
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="input-group-text btn bg-primary rounded-0 border-0" style="background-color: #2D7FF9">
+                        <span class="font-weight-bold text-white">Xác nhận</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> <br />
+    <div style="height: 100px"></div>
+
+    <footer>
+        <div class="container-fluid py-5">
+            <div class="row">
+                <div class="col-lg-2 d-flex flex-row-reverse">
+                    <div class="vertical-line"></div>
+                </div>
+                <div class="col-lg-4">
+                    <h3><strong>Nigamon Cinema</strong></h3>
+                    <br>
+                    <p><strong>Trụ sở:</strong> 154 / 12 Nguyễn Kim, Phường 6, Quận 10, TP.HCM</p>
+                    <p><strong>Số điện thoại:</strong> 0123 456 789</p>
+                    <p><strong>Email:</strong>
+                        <a class="text-light" href="mailto:contact@cinema.nigamon.com.vn">
+                            contact@cinema.nigamon.com.vn</a>
+                    </p>
+                </div>
+                <div class="col-lg-1 d-flex flex-row-reverse">
+                    <div class="vertical-line"></div>
+                </div>
+                <div class="col-lg-3 text-center">
+                    <h3><strong>Kết nối với chúng tôi</strong></h3>
+                    <br>
+                    <button type="button" class="mr-2 btn btn-dark border-0">
+                        <i class="fab fa-facebook fa-2x"></i>
+                    </button>
+                    <button type="button" class="mr-2 btn btn-dark border-0">
+                        <i class="fab fa-instagram fa-2x"></i>
+                    </button>
+                    <button type="button" class="mr-2 btn btn-dark border-0">
+                        <i class="fab fa-twitter fa-2x"></i>
+                    </button>
+                    <button type="button" class="mr-2 btn btn-dark border-0">
+                        <i class="fab fa-youtube fa-2x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal dang nhap -->
+    <div class="modal fade" id="modalDN">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <img src="img/logo.jpeg">
+                            <br>
+                            <p class="font-weight-bold">
+                                Đăng nhập vào hệ thống
+                            </p>
+                            <form>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="email" class="form-control rounded-0" placeholder="Email"
+                                            name="inputEmailDN" style="border-color: #2D7FF9">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="password" class="form-control rounded-0" placeholder="Password"
+                                            name="inputPasswordDN" style="border-color: #2D7FF9">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8 text-left">
+                                        <a href="#" style="color: #90A4AE; text-decoration: none">
+                                            <small>Quên mật khẩu</small>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary rounded-0"
+                                        style="background-color: #2D7FF9; border-color: #2D7FF9">
+                                        Đăng nhập
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal dang ky -->
+    <div class="modal fade" id="modalDK">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <img src="img/logo.jpeg">
+                            <br>
+                            <p class="font-weight-bold">
+                                Tạo tài khoản mới
+                            </p>
+                            <form>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control rounded-0" placeholder="Họ tên"
+                                            name="inputTenDN" style="border-color: #2D7FF9">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="email" class="form-control rounded-0" placeholder="Email"
+                                            name="inputEmailDN" style="border-color: #2D7FF9">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="password" class="form-control rounded-0" placeholder="Password"
+                                            name="inputPasswordDN" style="border-color:#2D7FF9">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <input type="password" class="form-control rounded-0"
+                                            placeholder="Password again" name="inputPasswordAgainDN"
+                                            style="border-color: #2D7FF9">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary rounded-0"
+                                        style="background-color: #2D7FF9; border-color: #2D7FF9">
+                                        Đăng ký
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="/js/chitietphim_script.js"></script>
+</body>
+
+</html>
