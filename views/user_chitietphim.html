@@ -104,14 +104,14 @@
         <div class="row">
             <div class="col-lg-1"></div>
             <div class="col-lg-3">
-                <img class="img-fluid" src="/img/captain_marvel.jpg" alt="">
+                <img class="img-fluid" alt="" id="movieImg">
             </div>
             <div class="col-lg-6">
-                <h3 class="font-weight-bold">Captain Marvel</h3>
+                <h3 class="font-weight-bold" id="movieName"></h3>
                 <p><i class="fas fa-star" style="color: yellow"></i>
-                    <span class="font-weight-bold">8.0</span>
+                    <span class="font-weight-bold" id="movieRating"></span>
                     <span class="font-weight-bold" style="color: #90A4AE">/</span>
-                    <span class="font-weight-bold" style="color: #90A4AE">10.0</span>
+                    <span class="font-weight-bold" style="color: #90A4AE">10</span>
                     <button type="button" class="btn btn-primary rounded-0 mx-2 py-0"
                         style="background-color: #2D7FF9; border-color: #2D7FF9">
                         Đánh giá
@@ -138,8 +138,8 @@
                     <span class="font-weight-bold">Tấu hài</span>
                 </p>
                 <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Ngày</span>
-                    <span class="font-weight-bold">01-04-2019</span>
+                    <span class="font-weight-bold" style="color: #90A4AE">Giới thiệu</span>
+                    <span class="font-weight-bold" id="movieDescription"></span>
                 </p>
             </div>
         </div>
@@ -360,7 +360,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="text-center">
-                            <img src="img/logo.jpeg">
+                            <img src="/img/logo.jpeg">
                             <br>
                             <p class="font-weight-bold">
                                 Đăng nhập vào hệ thống
@@ -414,7 +414,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="text-center">
-                            <img src="img/logo.jpeg">
+                            <img src="/img/logo.jpeg">
                             <br>
                             <p class="font-weight-bold">
                                 Tạo tài khoản mới
@@ -474,6 +474,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="/js/user_views/chitietphim.js"></script>
 </body>
 
 </html>
