@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "build-admin": "webpack --mode production --entry ./src/admin/main.jsx --output ./dist/admin/main.js",
+    "watch-admin": "webpack --mode development --watch --entry ./src/admin/main.jsx --output ./dist/admin/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,9 +21,26 @@
   },
   "homepage": "https://github.com/ttbhanh/PTUDW-CNTN2016-Nhom07#readme",
   "dependencies": {
+    "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
+    "gijgo": "^1.9.13",
+    "jquery": "^3.4.1",
+    "jquery-validation": "^1.19.0",
+    "pg-promise": "^8.7.2",
+    "popper.js": "^1.15.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
     "nodemon": "^1.19.1",
-    "pg-promise": "^8.7.2"
-  }
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "keywords": []
 }
