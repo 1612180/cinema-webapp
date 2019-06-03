@@ -1,13 +1,6 @@
 import { actions } from './app-state.type'
 import AdminAPI from '../../network/admin-api'
 
-export const loading = (isLoading) => {
-    return {
-        type: actions.LOADING,
-        isLoading: isLoading
-    }
-}
-
 export const login = (isLogin) => {
     return {
         type: actions.IS_LOGIN,
@@ -22,19 +15,21 @@ export const userInfo = (info) => {
     }
 }
 
+export const logOut = () => {
+    return {
+        type: actions.LOGOUT
+    }
+}
+
 export const tryLogin = () => {
     return (dispatch, getState) => {
-        dispatch(loading(true))
-
         return AdminAPI.checkLogin()
             .then(response => {
-                dispatch(login(response.isLogin))
                 dispatch(userInfo(response.userInfo))
-                dispatch(loading(false))
+                dispatch(login(response.isLogin))
             })
             .catch(err => {
                 dispatch(login(false))
-                dispatch(loading(false))
             })
     }
 }

@@ -5,32 +5,32 @@ const initState = {
         activeIndex: 0,
         navOptions: [
             {
-                href: 'dashboard',
+                href: '/v2/admin',
                 text: 'Trang chinh',
                 iconName: 'home'
             },
             {
-                href: 'movie',
+                href: '/v2/admin/movie',
                 text: 'Phim',
                 iconName: 'film'
             },
             {
-                href: 'theater',
+                href: '/v2/admin/theater',
                 text: 'Rap',
                 iconName: 'warehouse'
             },
             {
-                href: 'ticket',
+                href: '/v2/admin/ticket',
                 text: 'Ve',
                 iconName: 'ticket-alt'
             },
             {
-                href: 'food',
+                href: '/v2/admin/food',
                 text: 'Thuc an',
                 iconName: 'drumstick-bite'
             },
             {
-                href: 'order',
+                href: '/v2/admin/order',
                 text: 'Don hang',
                 iconName: 'shopping-cart'
             },

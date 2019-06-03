@@ -10,7 +10,7 @@ export default class AdminApi {
                         password: 'somerandompassword'
                     }
                 })
-            }, 0)
+            }, 1000)
         })
     }
 }

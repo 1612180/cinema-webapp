@@ -8,9 +8,6 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actions.LOADING: {
-            return { ...state, isLoading: action.isLoading }
-        }
         case actions.IS_LOGIN: {
             return { ...state, isLogin: action.isLogin }
         }
@@ -21,6 +18,12 @@ const reducer = (state = initialState, action) => {
                     ...state.userInfo,
                     ...action.info
                 }
+            }
+        }
+        case actions.LOGOUT: {
+            return {
+                ...initialState,
+                isLoading: false
             }
         }
         default:

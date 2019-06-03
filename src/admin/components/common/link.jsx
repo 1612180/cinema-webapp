@@ -1,16 +1,16 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 export class Link extends React.Component {
     render() {
         return (
-            <a
-                href={this.props.href}
+            <NavLink
+                to={this.props.href}
                 className={`text-decoration-none ${this.props.className}`}
-                onClick={e => e.preventDefault()}
                 {...this.props}
             >
                 {this.props.children}
-            </a>
+            </NavLink>
         )
     }
 }
