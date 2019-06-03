@@ -9,7 +9,7 @@ a {
     text-decoration: none !important;
 }
 
-html, body {
+html, body, #app-container {
     min-height: 100vh;
 }
 
@@ -81,11 +81,11 @@ html, body {
     bottom: 50px;
 }
 
-ul#menu li.active-menu-option * {
+ul.menu li.active-menu-option * {
     color: #2D7FF9;
 }
 
-ul#menu li a:hover * {
+ul.menu li a:hover * {
     color: #2D7FF9;
 }
 
