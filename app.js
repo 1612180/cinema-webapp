@@ -21,6 +21,7 @@ app.use('/', userViews)
 
 app.use('/admin', adminRoute)
 app.use('/v2/admin', adminV2)
+app.use('/v2/admin/*', adminV2)
 
 // app.use('/api', api)
 

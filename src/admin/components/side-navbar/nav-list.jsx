@@ -4,13 +4,14 @@ import { NavOption } from './nav-option'
 
 export class NavList extends React.Component {
     render() {
-        let listOptions = this.props.navOptions.map((opt, index) => {
+        let navOptions = Object.keys(this.props.navOptions).map(k => [k, this.props.navOptions[k]])
+        let listOptions = navOptions.map(([id, opt]) => {
             return (
                 <ClickableView
-                    key={index}
-                    onClick={() => this.props.onItemClick(opt, index)}>
+                    key={id}
+                    onClick={() => this.props.onItemClick(opt, id)}>
                     <NavOption
-                        active={this.props.activeIndex === index}
+                        active={this.props.activeIndex == id}
                         href={opt.href}
                         iconName={opt.iconName}
                         text={opt.text}

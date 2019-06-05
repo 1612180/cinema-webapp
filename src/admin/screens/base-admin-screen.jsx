@@ -5,6 +5,7 @@ import { Spinner } from '../components/common/spinner'
 import SideNavbar from '../components/side-navbar/side-navbar'
 
 import { tryLogin } from '../stores/app-state/app-state.action'
+import { changeActiveNavOption } from '../stores/side-navbar/side-navbar.action'
 
 export class BaseAdminScreen extends React.Component {
     requireLogin() {
@@ -19,6 +20,7 @@ export class BaseAdminScreen extends React.Component {
         if (this.requireLogin() && !this.isLogin()) {
             this.props.tryLogin()
         }
+        this.props.changeActiveNavOption(this.props.pathId)
     }
 
     render() {
@@ -39,12 +41,12 @@ export class BaseAdminScreen extends React.Component {
             )
         } else {
             return (
-                <div className="container-fluid h-100 mx-0 px-0">
-                    <div className="container-fluid h-100 mx-0">
-                        <div className="row h-100 align-items-stretch">
-                            <SideNavbar />
-                            <div className="col-lg-10 px-0">
-                                {this.props.header}
+                <div className="container-fluid h-100 mx-0">
+                    <div className="row h-100 align-items-stretch">
+                        <SideNavbar />
+                        <div className="col-lg-10 px-0">
+                            {this.props.header}
+                            <div className="mx-5" id="content-body">
                                 {this.props.content}
                             </div>
                         </div>
@@ -63,7 +65,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        tryLogin: () => dispatch(tryLogin())
+        tryLogin: () => dispatch(tryLogin()),
+        changeActiveNavOption: (id) => dispatch(changeActiveNavOption(id))
     }
 }
 

@@ -1,40 +1,41 @@
 import { actions } from './side-navbar.type'
+import { routes } from '../../routes'
 
 const initState = {
     navList: {
         activeIndex: 0,
-        navOptions: [
-            {
-                href: '/v2/admin',
+        navOptions: {
+            [routes.DASHBOARD.id]: {
+                href: routes.DASHBOARD.path,
                 text: 'Trang chinh',
                 iconName: 'home'
             },
-            {
-                href: '/v2/admin/movie',
+            [routes.MOVIE.id]: {
+                href: routes.MOVIE.path,
                 text: 'Phim',
                 iconName: 'film'
             },
-            {
-                href: '/v2/admin/theater',
+            [routes.THEATER.id]: {
+                href: routes.THEATER.path,
                 text: 'Rap',
                 iconName: 'warehouse'
             },
-            {
-                href: '/v2/admin/ticket',
+            [routes.TICKET.id]: {
+                href: routes.TICKET.path,
                 text: 'Ve',
                 iconName: 'ticket-alt'
             },
-            {
-                href: '/v2/admin/food',
+            [routes.FOOD.id]: {
+                href: routes.FOOD.path,
                 text: 'Thuc an',
                 iconName: 'drumstick-bite'
             },
-            {
-                href: '/v2/admin/order',
+            [routes.ORDER.id]: {
+                href: routes.ORDER.path,
                 text: 'Don hang',
                 iconName: 'shopping-cart'
             },
-        ]
+        }
     }
 
 }

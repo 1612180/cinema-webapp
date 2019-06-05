@@ -6,7 +6,7 @@ export default class AdminApi {
                     isLogin: true,
                     userInfo: {
                         name: 'Nguyen Tran Hau',
-                        email: 'leHauBoi@gmail.com',
+                        email: 'test@dev.com',
                         password: 'somerandompassword'
                     }
                 })

@@ -103,6 +103,12 @@ ul.menu li a:hover * {
     font-weight: bold;
 }
 
+#content-header-bar .modal * {
+    color: #333;
+    font-size: 1em;
+    font-weight: normal;
+}
+
 .section-container {
     border: solid #ccc 1px;
     position: relative;

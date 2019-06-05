@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from '../common/link'
-import { NigamonIcon } from '../common/nigamon-icon'
 
 export class BaseHeader extends React.Component {
     render() {
@@ -10,12 +9,8 @@ export class BaseHeader extends React.Component {
                 <div>
                     <Link href="#" className="text-uppercase my-2">{this.props.title}</Link>
                 </div>
-                <div>
-                    {this.props.middleChild}
-                </div>
-                <div>
-                    {this.props.rightChild}
-                </div>
+                {this.props.middleChild}
+                {this.props.rightChild}
             </div>
         )
     }
