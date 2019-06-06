@@ -2,28 +2,60 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-.form-control::placeholder {
-    color: #90A4AE;
+#input-search, #btn-search {
+    border: 2px solid transparent;
+    color: #2D7FF9;
 }
 
-.barPhimMuave, footer {
-    background-color: #212121;
-    color: #E5E5E5;
+#btn-card, #btn-dangnhap, #btn-dangky {
+    color: #2D7FF9;
+    text-decoration: none;
 }
 
-footer .btn {
+.black-background {
     background-color: #212121;
-    color: #E5E5E5;
+}
+
+.white-text {
+    color: white;
+}
+
+.form-normal, .input-normal {
+    border: 2px solid #2D7FF9;
+    border-radius: 0px;
+}
+
+.btn-bar {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.btn-normal {
+    background-color: #2D7FF9;
+    border: 2px solid #2D7FF9;
+    border-radius: 0px;
+}
+
+.btn-normal:hover {
+    background-color: transparent;
+    border: 2px solid #2D7FF9;
+    border-radius: 0px;
+    color: #2D7FF9;
+}
+
+.btn-social {
+    background-color: #212121;
+    border: 2px solid transparent;
 }
 
 .vertical-line {
-    width: 0px;
-    height: 50px;
-    border: 5px solid #2D7FF9;
+    width: 0.5vw;
+    height: 8vh;
+    background-color: #2D7FF9;
 }
 
 .horizontal-line {
-    width: 150px;
-    height: 0px;
-    border: 2px solid #2D7FF9;
+    width: 8vw;
+    height: 0.5vh;
+    background-color: #2D7FF9;
 }

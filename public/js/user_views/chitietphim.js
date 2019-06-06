@@ -32,7 +32,7 @@ window.addEventListener('load', function () {
             let movieGenre = document.getElementById('movieGenre')
             movieGenre.innerText = res.data[0].genre
         })
-        .catch((err) => {
+        .catch(err => {
             console.log(err)
         })
 })
