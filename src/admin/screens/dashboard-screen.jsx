@@ -7,6 +7,7 @@ import { Button } from '../components/common/button';
 import { CurrentDateTime } from '../components/common/datetime';
 import { BasicInfo } from '../components/dashboard/basic-info';
 import { DashboardDatePicker } from '../components/dashboard/dashboard-datepicker';
+import { Dropdown } from '../components/common/dropdown';
 
 export class DashboardScreen extends React.Component {
     constructor(props) {
@@ -49,6 +50,16 @@ export class DashboardScreen extends React.Component {
                     <DashboardDatePicker
                         className='col-lg-8'
                         onChange={(s, e) => console.log(s, e)}
+                    />
+                    <Dropdown
+                        defaultLabel='Tat ca rap'
+                        onDefaultClick={() => console.log('all theaters')}
+                        choices={[
+                            { label: 'Nguyen Van Cu', id: 1 },
+                            { label: 'Quang Trung', id: 2 },
+                            { label: 'Nguyen Van Qua', id: 3 }
+                        ]}
+                        onChoiceClick={(c) => console.log(`theater ${c.id}`)}
                     />
                 </div>
             </React.Fragment>
