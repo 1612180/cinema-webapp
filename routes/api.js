@@ -1,7 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { User, Movie, Theater, TheaterStatus } = require("../models");
+const {
+  User,
+  Movie,
+  Theater,
+  TheaterStatus,
+  TicketType,
+  TicketStatus
+} = require("../models");
 
 router.get("/movies", (req, res) => {
   Movie.findAll()
@@ -159,6 +166,116 @@ router.post("/theater_statuses", (req, res) => {
     name: req.body.name
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/ticket_types", (req, res) => {
+  TicketType.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/ticket_types/:id", (req, res) => {
+  TicketType.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/ticket_types", (req, res) => {
+  TicketType.create({
+    name: req.body.name,
+    price: req.body.price
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/ticket_types/:id", (req, res) => {
+  TicketType.update(
+    {
+      where: {
+        id: req.params.id
+      }
+    },
+    {
+      name: req.body.name,
+      price: req.body.price
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/ticket_types", (req, res) => {
+  TicketType.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/ticket_types/:id", (req, res) => {
+  TicketType.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/ticket_statuses", (req, res) => {
+  TicketStatus.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/ticket_statuses/:id", (req, res) => {
+  TicketStatus.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/ticket_statuses", (req, res) => {
+  TicketStatus.create({
+    name: req.body.name
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/ticket_statuses/:id", (req, res) => {
+  TicketStatus.update(
+    {
+      where: {
+        id: req.params.id
+      }
+    },
+    {
+      name: req.body.name
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/ticket_statuses", (req, res) => {
+  TicketStatus.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/ticket_statuses/:id", (req, res) => {
+  TicketStatus.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
 });
 
