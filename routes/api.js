@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const LIMIT = 4
+
 const {
   User,
   Movie,
@@ -10,8 +12,25 @@ const {
   TicketStatus
 } = require("../models");
 
+router.get("/count/movies", (req, res) => {
+  Movie.findAndCountAll()
+  .then(data => res.json({ status: true, message: "OK", data: data.count, limit: LIMIT }))
+  .catch(err => res.json({ status: false, message: err }));
+})
+
 router.get("/movies", (req, res) => {
-  Movie.findAll()
+  if (req.query.page === undefined || Object.keys(req.query.page).length == 0) {
+    Movie.findAll()
+      .then(data => res.json({ status: true, message: "OK", data: data }))
+      .catch(err => res.json({ status: false, message: err }));
+    return;
+  }
+
+  let offset = LIMIT * (req.query.page - 1);
+  Movie.findAll({
+    limit: LIMIT,
+    offset: offset
+  })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));
 });
