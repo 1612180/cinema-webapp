@@ -22,15 +22,15 @@ window.addEventListener("load", () => {
         row.appendChild(col);
 
         let card = document.createElement("div");
-        card.className = "card my-3";
+        card.className = "card my-3 card-normal";
         col.appendChild(card);
 
-        let img = document.createElement("img");
-        img.className = "card-img-top";
-        img.style.height = "48vh";
-        img.style.objectFit = "cover";
-        img.src = res.data[i].img;
-        card.appendChild(img);
+        let photoUrl = document.createElement("img");
+        photoUrl.className = "card-img-top img-normal";
+        photoUrl.style.height = "48vh";
+        photoUrl.style.objectFit = "cover";
+        photoUrl.src = res.data[i].photoUrl;
+        card.appendChild(photoUrl);
 
         let card_body = document.createElement("div");
         card_body.className = "card-body text-center";

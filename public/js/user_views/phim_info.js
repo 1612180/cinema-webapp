@@ -9,28 +9,28 @@ window.addEventListener("load", function() {
         return;
       }
 
-      console.log(res.data[0]);
+      console.log(res.data);
 
       let movieImg = document.getElementById("movieImg");
-      movieImg.src = res.data[0].img;
+      movieImg.src = res.data.photoUrl;
 
       let movieName = document.getElementById("movieName");
-      movieName.innerText = res.data[0].name;
+      movieName.innerText = res.data.name;
 
       let movieRating = document.getElementById("movieRating");
-      movieRating.innerText = res.data[0].rating;
+      movieRating.innerText = res.data.rating;
 
       let movieDescription = document.getElementById("movieDescription");
-      movieDescription.innerText = res.data[0].description;
+      movieDescription.innerText = res.data.introduce;
 
       let movieCountry = document.getElementById("movieCountry");
-      movieCountry.innerText = res.data[0].country;
+      movieCountry.innerText = res.data.country;
 
       let movieNSX = document.getElementById("movieNSX");
-      movieNSX.innerText = res.data[0].nsx;
+      movieNSX.innerText = res.data.nsx;
 
       let movieGenre = document.getElementById("movieGenre");
-      movieGenre.innerText = res.data[0].genre;
+      movieGenre.innerText = res.data.genre;
     })
     .catch(err => {
       console.log(err);

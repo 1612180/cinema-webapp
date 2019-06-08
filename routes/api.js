@@ -1,168 +1,165 @@
 const express = require("express");
 const router = express.Router();
 
-const pgp = require("pg-promise")();
-const db = pgp(process.env.DATABASE_URL);
+const { User, Movie, Theater, TheaterStatus } = require("../models");
 
-const { User } = require("../models");
-
-router.get("/test/orm", (req, res) => {
-  User.findAll().then(users => res.json(users));
-});
-
-// movies
 router.get("/movies", (req, res) => {
-  db.any("select * from movies;")
-    .then(data => {
-      res.json({ status: true, data: data });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+  Movie.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
 router.get("/movies/:id", (req, res) => {
-  db.any("select * from movies where id = $1;", [req.params.id])
-    .then(data => {
-      res.json({ status: true, data: data });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+  Movie.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
 router.post("/movies", (req, res) => {
-  db.none(
-    "insert into movies(name, rating, description) \
-    values (${name}, ${rating}, ${description});",
-    req.body
-  )
-    .then(() => {
-      res.json({ status: true });
-    })
-    .catch(error => {
-      res.json({ status: true });
-      console.log("ERROR:", error);
-    });
+  Movie.create({
+    name: req.body.name,
+    rating: req.body.rating,
+    actor: req.body.actor,
+    director: req.body.director,
+    photoUrl: req.body.photoUrl,
+    introduce: req.body.introduce,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
 router.put("/movies/:id", (req, res) => {
-  db.none(
-    "update movies \
-        set name = $1, \
-            rating = $2, \
-            description = $3 \
-        where id = $4;",
-    [req.body.name, req.body.rating, req.body.description, req.params.id]
+  Movie.update(
+    {
+      name: req.body.name,
+      rating: req.body.rating,
+      actor: req.body.actor,
+      director: req.body.director,
+      photoUrl: req.body.photoUrl,
+      introduce: req.body.introduce,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
   )
-    .then(() => {
-      res.json({ status: true });
-    })
-    .catch(error => {
-      res.json({ status: true });
-      console.log("ERROR:", error);
-    });
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
 router.delete("/movies", (req, res) => {
-  db.none("delete from movies;")
-    .then(() => {
-      res.json({ status: true });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+  Movie.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
 router.delete("/movies/:id", (req, res) => {
-  db.none("delete from movies where id = $1;", [req.params.id])
-    .then(() => {
-      res.json({ status: true });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+  Movie.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
-// cinemas
-router.get("/cinemas", (req, res) => {
-  db.any("select * from cinemas;")
-    .then(data => {
-      res.json({ status: true, data: data });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+router.get("/theaters", (req, res) => {
+  Theater.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
-router.get("/cinemas/:id", (req, res) => {
-  db.any("select * from cinemas where id = $1;", [req.params.id])
-    .then(data => {
-      res.json({ status: true, data: data });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+router.get("/theaters/:id", (req, res) => {
+  Theater.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
-router.post("/cinemas", (req, res) => {
-  db.none(
-    "insert into cinemas(name, address, seat_capacity) \
-    values (${name}, ${address}, ${seat_capacity});",
-    req.body
+router.post("/theaters", (req, res) => {
+  Theater.create({
+    name: req.body.name,
+    address: req.body.address,
+    rowNum: req.body.rowNum,
+    seatPerRow: req.body.seatPerRow
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/theaters/:id", (req, res) => {
+  Theater.update(
+    {
+      name: req.body.name,
+      address: req.body.address,
+      rowNum: req.body.rowNum,
+      seatPerRow: req.body.seatPerRow
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/theaters/:id/status/:id2", (req, res) => {
+  Theater.update(
+    {
+      theaterStatusId: req.params.id2
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
   )
     .then(() => {
-      res.json({ status: true });
+      res.json({ status: true, message: "OK" });
     })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
+    .catch(err => {
+      res.json({ status: false, message: err });
     });
 });
 
-router.put("/cinemas/:id", (req, res) => {
-  db.none(
-    "update cinemas \
-    set name = $1, \
-        address = $2, \
-        seat_capacity = $3 \
-    where id = $4;",
-    [req.body.name, req.body.address, req.body.seat_capacity, req.params.id]
-  )
-    .then(() => {
-      res.json({ status: true });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+router.delete("/theaters", (req, res) => {
+  Theater.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
-router.delete("/cinemas", (req, res) => {
-  db.none("delete from cinemas;", [req.params.id])
-    .then(() => {
-      res.json({ status: true });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+router.delete("/theaters/:id", (req, res) => {
+  Theater.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
 });
-router.delete("/cinemas/:id", (req, res) => {
-  db.none("delete from cinemas where id = $1;", [req.params.id])
-    .then(() => {
-      res.json({ status: true });
-    })
-    .catch(error => {
-      res.json({ status: false });
-      console.log("ERROR:", error);
-    });
+
+router.get("/theater_statuses", (req, res) => {
+  TheaterStatus.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/theater_statuses", (req, res) => {
+  TheaterStatus.create({
+    name: req.body.name
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
 module.exports = router;

@@ -1,61 +1,74 @@
 body {
-    font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
-#input-search, #btn-search {
-    border: 2px solid transparent;
-    color: #2D7FF9;
+#input-search,
+#btn-search {
+  border: 1px solid transparent;
+  color: #2d7ff9;
 }
 
-#btn-card, #btn-dangnhap, #btn-dangky {
-    color: #2D7FF9;
-    text-decoration: none;
+#btn-card,
+#btn-dangnhap,
+#btn-dangky {
+  color: #2d7ff9;
+  text-decoration: none;
 }
 
 .black-background {
-    background-color: #212121;
+  background-color: #212121;
 }
 
 .white-text {
-    color: white;
+  color: white;
 }
 
-.form-normal, .input-normal {
-    border: 2px solid #2D7FF9;
-    border-radius: 0px;
+.form-normal,
+.input-normal {
+  border: 1px solid #2d7ff9;
+  border-radius: 0px;
 }
 
 .btn-bar {
-    color: white !important;
-    text-decoration: none !important;
+  color: white !important;
+  text-decoration: none !important;
 }
 
 .btn-normal {
-    background-color: #2D7FF9;
-    border: 2px solid #2D7FF9;
-    border-radius: 0px;
+  background-color: #2d7ff9;
+  border: 1px solid #2d7ff9;
+  border-radius: 0px;
 }
 
 .btn-normal:hover {
-    background-color: transparent;
-    border: 2px solid #2D7FF9;
-    border-radius: 0px;
-    color: #2D7FF9;
+  background-color: transparent;
+  border: 1px solid #2d7ff9;
+  border-radius: 0px;
+  color: #2d7ff9;
 }
 
 .btn-social {
-    background-color: #212121;
-    border: 2px solid transparent;
+  background-color: #212121;
+  border: 1px solid transparent;
+}
+
+.card-normal {
+  border: 1px solid #2d7ff9;
+  border-radius: 0px;
+}
+
+.img-normal {
+  border-radius: 0px;
 }
 
 .vertical-line {
-    width: 0.5vw;
-    height: 8vh;
-    background-color: #2D7FF9;
+  width: 0.5vw;
+  height: 8vh;
+  background-color: #2d7ff9;
 }
 
 .horizontal-line {
-    width: 8vw;
-    height: 0.5vh;
-    background-color: #2D7FF9;
+  width: 8vw;
+  height: 0.5vh;
+  background-color: #2d7ff9;
 }
