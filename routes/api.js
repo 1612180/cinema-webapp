@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const LIMIT = 4
+const LIMIT = 4;
 
 const {
   User,
@@ -9,17 +9,23 @@ const {
   Theater,
   TheaterStatus,
   TicketType,
-  TicketStatus
+  TicketStatus,
+  ShowTime
 } = require("../models");
 
 router.get("/count/movies", (req, res) => {
   Movie.findAndCountAll()
-  .then(data => res.json({ status: true, message: "OK", data: data.count, limit: LIMIT }))
-  .catch(err => res.json({ status: false, message: err }));
-})
+    .then(data =>
+      res.json({ status: true, message: "OK", data: data.count, limit: LIMIT })
+    )
+    .catch(err => res.json({ status: false, message: err }));
+});
 
 router.get("/movies", (req, res) => {
-  if (req.query.page === undefined || Object.keys(req.query.page).length == 0) {
+  if (
+    req.query.page === undefined ||
+    Object.keys(req.query.page).length === 0
+  ) {
     Movie.findAll()
       .then(data => res.json({ status: true, message: "OK", data: data }))
       .catch(err => res.json({ status: false, message: err }));
@@ -125,7 +131,8 @@ router.put("/theaters/:id", (req, res) => {
       name: req.body.name,
       address: req.body.address,
       rowNum: req.body.rowNum,
-      seatPerRow: req.body.seatPerRow
+      seatPerRow: req.body.seatPerRow,
+      theaterStatusId: req.body.theaterStatusId
     },
     {
       where: {
@@ -135,25 +142,6 @@ router.put("/theaters/:id", (req, res) => {
   )
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
-});
-
-router.put("/theaters/:id/status/:id2", (req, res) => {
-  Theater.update(
-    {
-      theaterStatusId: req.params.id2
-    },
-    {
-      where: {
-        id: req.params.id
-      }
-    }
-  )
-    .then(() => {
-      res.json({ status: true, message: "OK" });
-    })
-    .catch(err => {
-      res.json({ status: false, message: err });
-    });
 });
 
 router.delete("/theaters", (req, res) => {
@@ -212,13 +200,14 @@ router.post("/ticket_types", (req, res) => {
 router.put("/ticket_types/:id", (req, res) => {
   TicketType.update(
     {
+      name: req.body.name,
+      price: req.body.price,
+      ticketStatusId: req.body.ticketStatusId
+    },
+    {
       where: {
         id: req.params.id
       }
-    },
-    {
-      name: req.body.name,
-      price: req.body.price
     }
   )
     .then(() => res.json({ status: true, message: "OK" }))
@@ -289,6 +278,63 @@ router.delete("/ticket_statuses", (req, res) => {
 
 router.delete("/ticket_statuses/:id", (req, res) => {
   TicketStatus.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/show_times", (req, res) => {
+  ShowTime.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/show_times/:id", (req, res) => {
+  ShowTime.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/show_times/", (req, res) => {
+  ShowTime.create({
+    time: req.body.time
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/show_times/:id", (req, res) => {
+  ShowTime.update(
+    {
+      time: req.body.time,
+      movieId: req.body.movieId,
+      theaterId: req.body.theaterId,
+      ticketTypeId: req.body.ticketTypeId
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/show_times", (req, res) => {
+  ShowTime.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/show_times/:id", (req, res) => {
+  ShowTime.destroy({
     where: {
       id: req.params.id
     },
