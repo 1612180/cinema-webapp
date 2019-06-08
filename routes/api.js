@@ -4,6 +4,12 @@ const router = express.Router();
 const pgp = require("pg-promise")();
 const db = pgp(process.env.DATABASE_URL);
 
+const { User } = require("../models");
+
+router.get("/test/orm", (req, res) => {
+  User.findAll().then(users => res.json(users));
+});
+
 // movies
 router.get("/movies", (req, res) => {
   db.any("select * from movies;")
