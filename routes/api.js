@@ -15,7 +15,11 @@ const {
   TicketShoppingCart,
   Order,
   OrderStatus,
-  OrdererTicket
+  OrdererTicket,
+  Food,
+  FoodStatus,
+  FoodOrder,
+  FoodShoppingCart
 } = require("../models");
 
 router.get("/count/movies", (req, res) => {
@@ -630,6 +634,190 @@ router.delete("/ordered_tickets", (req, res) => {
 
 router.delete("/ordered_tickets/:id", (req, res) => {
   OrdererTicket.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/foods", (req, res) => {
+  Food.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/foods/:id", (req, res) => {
+  Food.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/foods", (req, res) => {
+  Food.create({
+    name: req.body.name,
+    price: req.body.price
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/foods/:id", (req, res) => {
+  Food.update({
+    name: req.body.name,
+    price: req.body.price,
+    foodStatusId: req.body.foodStatusId
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/foods", (req, res) => {
+  Food.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/foods/:id", (req, res) => {
+  Food.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/food_statuses", (req, res) => {
+  FoodStatus.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/food_statuses/:id", (req, res) => {
+  FoodStatus.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/food_statuses", (req, res) => {
+  FoodStatus.create({
+    name: req.body.name
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/food_statuses/:id", (req, res) => {
+  FoodStatus.update(
+    {
+      name: req.body.name
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/food_statuses", (req, res) => {
+  FoodStatus.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/food_statuses/:id", (req, res) => {
+  FoodStatus.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/food_shopping_carts", (req, res) => {
+  FoodShoppingCart.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/food_shopping_carts/:id", (req, res) => {
+  FoodShoppingCart.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/food_shopping_carts", (req, res) => {
+  FoodShoppingCart.create({
+    quantity: req.body.quantity,
+    foodId: req.body.foodId,
+    userId: req.body.userId
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/food_shopping_carts", (req, res) => {
+  FoodShoppingCart.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/food_shopping_carts/:id", (req, res) => {
+  FoodShoppingCart.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/food_orders", (req, res) => {
+  FoodOrder.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/food_orders/:id", (req, res) => {
+  FoodOrder.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/food_orders", (req, res) => {
+  FoodOrder.create({
+    quantity: req.body.quantity,
+    foodId: req.body.foodId,
+    orderId: req.body.orderId
+  });
+});
+
+router.delete("/food_orders", (req, res) => {
+  FoodOrder.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/food_orders/:id", (req, res) => {
+  FoodOrder.destroy({
     where: {
       id: req.params.id
     },
