@@ -28,13 +28,13 @@ export class FormInput extends React.Component {
                 <label className="col-md-4 control-label font-weight-bold">{this.props.label}</label>
                 <div className="col-md-8 position-relative input-group">
                     <input
+                        name={this.props.name}
                         type="text" placeholder={this.props.placeholder || ''}
                         className="form-control input-md rounded-0"
                         readOnly={this.props.disabled}
-                        value={this.props.value}
+                        defaultValue={this.props.value}
                         onChange={(e) => {
                             e.preventDefault()
-                            console.log(e.target.value)
                             this.props.onChange(e.target.value)
                         }}
                     />
@@ -53,13 +53,13 @@ export class FormSelect extends React.Component {
                     <select
                         className="form-control rounded-0 pl-2"
                         disabled={this.props.disabled}
+                        defaultValue={this.props.value}
                     >
                         {this.props.options.map(opt => {
                             return (
                                 <option
                                     key={opt.id}
                                     value={opt.id}
-                                    defaultValue={this.props.value}
                                     onSelect={(e) => this.props.onChange(e.target.value)}
                                 >
                                     {opt.label}

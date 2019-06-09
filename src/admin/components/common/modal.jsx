@@ -59,9 +59,16 @@ export class RemoteDataModal extends React.Component {
             modalState: this.props.initialState
         }
 
+        this.setModalState = this.setModalState.bind(this)
+
         this.renderHeader = this.renderHeader.bind(this)
         this.renderFooterButtons = this.renderFooterButtons.bind(this)
         this.renderFooter = this.renderFooter.bind(this)
+    }
+
+    setModalState(state) {
+        this.setState({ modalState: state })
+        this.props.onStateChange(state)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -79,10 +86,10 @@ export class RemoteDataModal extends React.Component {
         switch (this.state.modalState) {
             case ModalState.NEW:
             case ModalState.EDIT: {
-                return this.renderFooterButtons('Luu', () => this.props.saveCallback())
+                return this.renderFooterButtons('Luu', () => console.log('save'))
             }
             case ModalState.INFO: {
-                return this.renderFooterButtons('Chinh sua', () => this.setState({ modalState: ModalState.EDIT }))
+                return this.renderFooterButtons('Chinh sua', () => this.setModalState(ModalState.EDIT))
             }
             case ModalState.REMOVE: {
                 return this.renderFooterButtons('Xoa', () => console.log('remove'))
@@ -135,7 +142,7 @@ export class RemoteDataModal extends React.Component {
                 onHide={this.props.onHide}
                 header={this.renderHeader()}
                 footer={this.renderFooter()}
-                body={this.props.body}
+                body={this.props.body()}
             />
         )
     }

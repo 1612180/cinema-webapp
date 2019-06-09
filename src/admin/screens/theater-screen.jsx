@@ -1,94 +1,84 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { loadContent, loadTheaters } from '../stores/theaters/theaters.action'
 import BaseAdminScreen from './base-admin-screen'
 import { FullHeader } from '../components/header/full-header'
 import { routes } from '../routes';
 import { RemoteDataListContainer } from '../components/common/remote-data-list-container'
-import { RemoteDropdown, Dropdown } from '../components/common/dropdown';
-import { loadContent, loadMovies } from '../stores/movies/movies.action'
+import { RemoteDropdown, } from '../components/common/dropdown';
 import { InlineClickableView, ClickableTableCells } from '../components/common/clickable-view';
 import { NigamonIcon } from '../components/common/nigamon-icon';
 
-import { isComing, isInside, isPassed, formatDate } from '../libs/datetime'
-import { RemoteDataModal, ModalState, Modal } from '../components/common/modal';
+import { RemoteDataModal, ModalState } from '../components/common/modal';
 import { FloatingButton } from '../components/common/floating-button';
 import { FormInput, FormSelect, FormDatePicker } from '../components/common/form';
 import { buildErrorTooltip } from '../components/common/error-tooltip';
 
-function getMovieStatus(start, end) {
-    let today = new Date()
-    if (isComing(today, start, end)) {
-        return {
-            text: 'Sap chieu',
-            color: 'text-warning'
-        }
-    }
-    if (isInside(today, start, end)) {
-        return {
-            text: 'Dang chieu',
-            color: 'text-success'
-        }
-    }
-    if (isPassed(today, start, end)) {
-        return {
-            text: 'Ngung chieu',
-            color: 'text-danger'
-        }
-    }
-    return {
-        text: 'Unknown',
-        color: 'text-secondary'
-    }
-}
 const MIN_INTERVAL = 500
 
 const validationRules = {
     errorElement: 'span',
     rules: {
-        movieId: {
+        theaterId: {
             required: true,
             digits: true
         },
-        movieName: "required",
-        movieLength: {
+        theaterName: "required",
+        theaterAddress: "required",
+        theaterRow: {
+            required: true,
+            digits: true
+        },
+        theaterColumn: {
+            required: true,
+            digits: true
+        },
+        theaterOrdered: {
             required: true,
             digits: true
         }
     },
     messages: {
-        movieId: {
-            required: buildErrorTooltip('Vui long dien ma phim'),
-            digits: buildErrorTooltip('Ma phim phai la so nguyen')
+        theaterId: {
+            required: buildErrorTooltip("Vui long dien ma rap"),
+            digits: buildErrorTooltip("Ma rap phai la so nguyen")
         },
-        movieName: buildErrorTooltip('Vui long dien ten phim'),
-        movieLength: {
-            required: buildErrorTooltip('Vui long dien thoi luong phim'),
-            digits: buildErrorTooltip('Thoi luong phim phai la so nguyen')
+        theaterName: buildErrorTooltip("Vui long dien ten rap"),
+        theaterAddress: buildErrorTooltip("Vui long dien dia chi rap"),
+        theaterRow: {
+            required: buildErrorTooltip("Vui long dien so hang ghe"),
+            digits: buildErrorTooltip("So hang ghe phai la so nguyen")
+        },
+        theaterColumn: {
+            required: buildErrorTooltip("Vui long dien so ghe moi hang"),
+            digits: buildErrorTooltip("So ghe moi hang phai la so nguyen")
+        },
+        theaterOrdered: {
+            required: buildErrorTooltip("Vui long dien so ghe da dat"),
+            digits: buildErrorTooltip("So ghe da dat phai la so nguyen")
         }
     }
 }
 
-class MovieScreen extends React.Component {
+class TheaterScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             page: 1,
-            genre: 0,
-            status: 'all',
+            status: 0,
             searchText: '',
             lastUpdate: new Date(),
             modalOpen: false,
             modalState: null,
             formErrors: null,
             newItem: {
-                id: 1,
-                name: '',
-                type: null,
-                director: '',
-                actor: '',
-                length: null,
-                start: null,
-                end: null,
+                id: null,
+                name: null,
+                address: null,
+                row: null,
+                column: null,
+                ordered: null,
+                status: null,
             }
         }
         this.updateTimeout = null
@@ -105,10 +95,9 @@ class MovieScreen extends React.Component {
         this.renderModalBody = this.renderModalBody.bind(this)
 
         this.renderFilters = this.renderFilters.bind(this)
-        this.renderMoviesSection = this.renderMoviesSection.bind(this)
+        this.renderTheatersSection = this.renderTheatersSection.bind(this)
         this.openModal = this.openModal.bind(this)
 
-        this.handleGenreChoice = this.handleGenreChoice.bind(this)
         this.handleStatusChoice = this.handleStatusChoice.bind(this)
         this.handleSearchChange = this.handleSearchChange.bind(this)
         this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
@@ -131,18 +120,9 @@ class MovieScreen extends React.Component {
         this.setState({ ...nextState, lastUpdate: new Date() })
     }
 
-    handleGenreChoice(genre) {
-        this.customSetState({ genre: genre })
-        this.props.loadMovies(this.state.page, {
-            genre: genre,
-            status: this.state.status,
-            searchText: this.state.searchText
-        })
-    }
     handleStatusChoice(status) {
         this.customSetState({ status: status })
-        this.props.loadMovies(this.state.page, {
-            genre: this.state.genre,
+        this.props.loadTheaters(this.state.page, {
             status: status,
             searchText: this.state.searchText
         })
@@ -154,8 +134,7 @@ class MovieScreen extends React.Component {
             this.updateTimeout = null
         }
         this.updateTimeout = setTimeout(() => {
-            this.props.loadMovies(this.state.page, {
-                genre: this.state.genre,
+            this.props.loadTheaters(this.state.page, {
                 status: this.state.status,
                 searchText: txt
             })
@@ -163,8 +142,7 @@ class MovieScreen extends React.Component {
     }
     handleSearchSubmit(txt) {
         this.customSetState({ searchText: txt })
-        this.props.loadMovies(this.state.page, {
-            genre: this.state.genre,
+        this.props.loadTheaters(this.state.page, {
             status: this.state.status,
             searchText: txt
         })
@@ -172,16 +150,15 @@ class MovieScreen extends React.Component {
     }
     handlePageRequest(page) {
         this.customSetState({ page: page })
-        this.props.loadMovies(page, {
-            genre: this.state.genre,
+        this.props.loadTheaters(page, {
             status: this.state.status,
             searchText: this.state.searchText
         })
     }
 
-    isGenreLoadFailed() {
-        let { genreChoices } = this.props
-        let isReady = genreChoices.data === null || (genreChoices.error !== null && genreChoices.error !== undefined)
+    isStatusLoadFailed() {
+        let { statusChoices } = this.props
+        let isReady = statusChoices.data === null || (statusChoices.error !== null && statusChoices.error !== undefined)
         return isReady
     }
 
@@ -198,7 +175,7 @@ class MovieScreen extends React.Component {
         return (
             <React.Fragment>
                 {this.renderFilters()}
-                {this.renderMoviesSection()}
+                {this.renderTheatersSection()}
                 {this.renderFloatingButton()}
                 {this.renderModals()}
             </React.Fragment>
@@ -211,50 +188,38 @@ class MovieScreen extends React.Component {
                 <RemoteDropdown
                     className='col-md-2'
                     padding='px-3'
-                    defaultLabel='The loai'
-                    onDefaultClick={() => this.handleGenreChoice(0)}
-                    data={this.props.genreChoices}
-                    onChoiceClick={this.handleGenreChoice}
-                />
-                <Dropdown
-                    className='col-md-2'
-                    padding='px-3'
                     defaultLabel='Tinh trang'
-                    onDefaultClick={() => this.handleStatusChoice('all')}
-                    choices={[
-                        { label: 'Sap chieu', id: 'coming' },
-                        { label: 'Dang chieu', id: 'showing' },
-                        { label: 'Ngung chieu', id: 'passed' },
-                    ]}
-                    onChoiceClick={(c) => this.handleStatusChoice(c.id)}
+                    onDefaultClick={() => this.handleStatusChoice(0)}
+                    data={this.props.statusChoices}
+                    onChoiceClick={this.handleStatusChoice}
                 />
             </div>
         )
     }
 
-    renderMoviesSection() {
-        let { movies } = this.props
+    renderTheatersSection() {
+        let { theaters } = this.props
         let header = (
             <tr>
-                <td className="text-center">Ma phim</td>
-                <td>Ten phim</td>
-                <td>Dao dien</td>
-                <td>Dien vien chinh</td>
-                <td>The loai</td>
-                <td className="text-center">Thoi luong</td>
-                <td className="text-center">Tinh trang</td>
+                <td className="text-center">Ma rap</td>
+                <td>Ten rap</td>
+                <td>Dia chi</td>
+                <td className="text-center">Kich thuoc</td>
+                <td className="text-center">Da dat</td>
+                <td className="text-center">Dang hoat dong</td>
             </tr>
         )
         return (
             <RemoteDataListContainer
-                otherFailConditions={() => this.isGenreLoadFailed()}
-                notRenderUntil={() => !this.props.genreChoices.isLoading}
-                remoteData={movies}
-                title='Phim'
+                otherFailConditions={() => this.isStatusLoadFailed()}
+                notRenderUntil={() => !this.props.statusChoices.isLoading}
+                remoteData={theaters}
+                title='Rap'
                 header={header}
                 renderItem={(item) => {
-                    let type = this.props.genreChoices.data.filter(c => c.id === item.type)[0]
-                    let status = getMovieStatus(item.start, item.end)
+                    let status = this.props.statusChoices.data.filter(c => c.id === item.status)[0]
+                    let textColor = status.id === 1 ? 'text-success' : 'text-danger'
+                    let size = `${item.row * item.column} - ${item.row}x${item.column}`;
                     return (
                         <tr>
                             <ClickableTableCells onClick={() => {
@@ -263,11 +228,10 @@ class MovieScreen extends React.Component {
                             }}>
                                 <div className="text-center">{item.id}</div>
                                 <div>{item.name}</div>
-                                <div>{item.director}</div>
-                                <div>{item.actor}</div>
-                                <div>{type.label}</div>
-                                <div className="text-center">{item.length + ' phut'}</div>
-                                <div className={`text-center ${status.color}`}>{status.text}</div>
+                                <div>{item.address}</div>
+                                <div className="text-center">{size}</div>
+                                <div className="text-center">{item.ordered}</div>
+                                <div className={`text-center ${textColor}`}>{status.label}</div>
                             </ClickableTableCells>
                             <td className="text-right">
                                 <InlineClickableView onClick={() => {
@@ -315,64 +279,59 @@ class MovieScreen extends React.Component {
 
     renderEditForm(addNew) {
         console.log('render')
-        let genres = this.props.genreChoices.data
+        let status = this.props.statusChoices.data
         let { newItem } = this.state
         return (
             <form ref={ref => this.newForm = ref}>
-                <FormInput label='Ma phim' disabled={!addNew} value={newItem.id}
-                    name='movieId'
+                <FormInput label='Ma rap' disabled={!addNew} value={newItem.id}
+                    name='theaterId'
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, id: text } })
                     })} />
-                <FormInput label='Ten phim' disabled={false} value={newItem.name}
-                    name='movieName'
+                <FormInput label='Ten rap' disabled={false} value={newItem.name}
+                    name='theaterName'
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, name: text } })
                     })} />
-                <FormInput label='Dao dien' disabled={false} value={newItem.director}
-                    onChange={(text) => {
-                        this.setState({ newItem: { ...newItem, director: text } })
-                    }} />
-                <FormInput label='Dien vien' disabled={false} value={newItem.actor}
-                    onChange={(text) => {
-                        this.setState({ newItem: { ...newItem, actor: text } })
-                    }} />
-                <FormSelect label='The loai' disabled={false} value={addNew ? genres[0].id : newItem.type} options={genres}
-                    onChange={type => this.setState({ newItem: { ...newItem, type: type } })}
-                />
-                <FormInput label='Thoi luong' disabled={false} value={newItem.length}
-                    name='movieLength'
+                <FormInput label='Dia chi' disabled={false} value={newItem.address}
+                    name='theaterAddress'
                     onChange={this.validate((text) => {
-                        this.setState({ newItem: { ...newItem, length: text } })
+                        this.setState({ newItem: { ...newItem, address: text } })
                     })} />
-                <FormDatePicker label='Ngay bat dau' disabled={false} value={newItem.start ? formatDate(newItem.start) : null}
-                    min={new Date('2000/01/01')}
-                    max={() => newItem.end ? newItem.end : new Date()}
-                    onChange={(date) => this.setState({ newItem: { ...newItem, start: date } })} />
-                <FormDatePicker label='Ngay ket thuc' disabled={false} value={newItem.end ? formatDate(newItem.end) : null}
-                    max={new Date()}
-                    min={() => {
-                        return this.state.newItem.start
-                    }}
-                    onChange={(date) => this.setState({ newItem: { ...newItem, end: date } })} />
+                <FormInput label='So hang ghe' disabled={false} value={newItem.row}
+                    name='theaterRow'
+                    onChange={this.validate((text) => {
+                        this.setState({ newItem: { ...newItem, row: text } })
+                    })} />
+                <FormInput label='So ghe moi hang' disabled={false} value={newItem.column}
+                    name='theaterColumn'
+                    onChange={this.validate((text) => {
+                        this.setState({ newItem: { ...newItem, column: text } })
+                    })} />
+                <FormInput label='Da dat' disabled={false} value={newItem.ordered}
+                    name='theaterOrdered'
+                    onChange={this.validate((text) => {
+                        this.setState({ newItem: { ...newItem, ordered: text } })
+                    })} />
+                <FormSelect label='Tinh trang' disabled={false} value={status[0].id} options={status}
+                    onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
+                />
             </form>
         )
     }
 
     renderInfoForm(remove) {
-        let genres = this.props.genreChoices.data
+        let status = this.props.statusChoices.data
         let { newItem } = this.state
-        console.log(newItem.type)
         return (
             <form ref={ref => this.newForm = ref}>
-                <FormInput label='Ma phim' disabled={true} value={newItem.id} name='movieId' />
-                <FormInput label='Ten phim' disabled={true} value={newItem.name} name='movieName' />
-                <FormInput label='Dao dien' disabled={true} value={newItem.director} />
-                <FormInput label='Dien vien' disabled={true} value={newItem.actor} />
-                <FormSelect label='The loai' disabled={true} value={newItem.type} options={genres} />
-                <FormInput label='Thoi luong' disabled={true} value={newItem.length} />
-                <FormDatePicker label='Ngay bat dau' disabled={true} value={newItem.start} />
-                <FormDatePicker label='Ngay ket thuc' disabled={true} value={newItem.end} />
+                <FormInput label='Ma rap' disabled={true} value={newItem.id} />
+                <FormInput label='Ten rap' disabled={true} value={newItem.name} />
+                <FormInput label='Dia chi' disabled={true} value={newItem.address} />
+                <FormInput label='So hang ghe' disabled={true} value={newItem.row} />
+                <FormInput label='So ghe moi hang' disabled={true} value={newItem.column} />
+                <FormInput label='Da dat' disabled={true} value={newItem.ordered} />
+                <FormSelect label='Tinh trang' disabled={true} value={newItem.status} options={status} />
             </form>
         )
     }
@@ -397,7 +356,7 @@ class MovieScreen extends React.Component {
     render() {
         return (
             <BaseAdminScreen
-                pathId={routes.MOVIE.id}
+                pathId={routes.THEATER.id}
                 requireLogin={true}
                 header={this.renderHeader}
                 content={this.renderContent}
@@ -409,15 +368,15 @@ class MovieScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        genreChoices: state.movies.genreChoices,
-        movies: state.movies.movies
+        statusChoices: state.theaters.statusChoices,
+        theaters: state.theaters.theaters
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
         loadContent: () => dispatch(loadContent()),
-        loadMovies: (page, options) => dispatch(loadMovies(page, options)),
+        loadTheaters: (page, options) => dispatch(loadTheaters(page, options)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(TheaterScreen)

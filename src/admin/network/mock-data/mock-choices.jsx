@@ -19,3 +19,21 @@ export const getGenreChoices = () => {
         ]
     }
 }
+
+export const getTheaterStatusChoices = () => {
+    return {
+        choices: [
+            { label: 'Dang hoat dong', id: 1 },
+            { label: 'Ngung hoat dong', id: 2 }
+        ]
+    }
+}
+
+export const getTicketStatusChoices = () => {
+    return {
+        choices: [
+            { label: 'Dang ban', id: 1 },
+            { label: 'Ngung ban', id: 2 }
+        ]
+    }
+}

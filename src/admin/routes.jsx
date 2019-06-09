@@ -9,7 +9,7 @@ export const routes = {
     },
     THEATER: {
         id: 2,
-        path: '/admin/theater'
+        path: '/v2/admin/theater'
     },
     TICKET: {
         id: 3,
