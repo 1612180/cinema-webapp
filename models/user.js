@@ -1,5 +1,8 @@
 module.exports = (sequelize, type) => {
   return sequelize.define("user", {
-    name: type.STRING
+    username: type.STRING,
+    hashedPassword: type.TEXT,
+    email: type.TEXT,
+    phoneNumber: type.TEXT
   });
 };
