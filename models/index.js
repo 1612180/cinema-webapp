@@ -12,6 +12,9 @@ const TicketStatusModel = require("./ticket_status")
 const ShowTimeModel = require("./show_time")
 const TicketModel = require("./ticket")
 const TicketShoppingCartModel = require("./ticket_shopping_cart")
+const OrderModel = require("./order")
+const OrderStatusModel = require("./order_status")
+const OrdererTicketModel = require("./ordered_ticket")
 
 const User = UserModel(sequelize, Sequelize);
 const Movie = MovieModel(sequelize, Sequelize);
@@ -22,6 +25,9 @@ const TicketStatus = TicketStatusModel(sequelize, Sequelize)
 const ShowTime = ShowTimeModel(sequelize, Sequelize)
 const Ticket = TicketModel(sequelize, Sequelize)
 const TicketShoppingCart = TicketShoppingCartModel(sequelize, Sequelize)
+const Order = OrderModel(sequelize, Sequelize)
+const OrderStatus = OrderStatusModel(sequelize, Sequelize)
+const OrdererTicket = OrdererTicketModel(sequelize, Sequelize)
 
 Theater.belongsTo(TheaterStatus)
 TicketType.belongsTo(TicketStatus)
@@ -31,6 +37,10 @@ ShowTime.belongsTo(TicketType)
 Ticket.belongsTo(ShowTime)
 TicketShoppingCart.belongsTo(User)
 TicketShoppingCart.belongsTo(Ticket)
+Order.belongsTo(OrderStatus)
+Order.belongsTo(User)
+OrdererTicket.belongsTo(Order)
+OrdererTicket.belongsTo(Ticket)
 
 sequelize.sync({ force: true });
 
@@ -43,5 +53,8 @@ module.exports = {
   TicketStatus,
   ShowTime,
   Ticket,
-  TicketShoppingCart
+  TicketShoppingCart,
+  Order,
+  OrderStatus,
+  OrdererTicket
 };

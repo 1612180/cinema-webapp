@@ -12,7 +12,10 @@ const {
   TicketStatus,
   ShowTime,
   Ticket,
-  TicketShoppingCart
+  TicketShoppingCart,
+  Order,
+  OrderStatus,
+  OrdererTicket
 } = require("../models");
 
 router.get("/count/movies", (req, res) => {
@@ -493,6 +496,140 @@ router.delete("/ticket_shopping_carts", (req, res) => {
 
 router.delete("/ticket_shopping_carts/:id", (req, res) => {
   TicketShoppingCart.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/order_statuses", (req, res) => {
+  OrderStatus.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/order_statuses/:id", (req, res) => {
+  OrderStatus.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/order_statuses", (req, res) => {
+  OrderStatus.create({
+    name: req.body.name
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/order_statuses/:id", (req, res) => {
+  OrderStatus.update(
+    {
+      name: req.body.name
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/order_statuses", (req, res) => {
+  OrderStatus.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/order_statuses/:id", (req, res) => {
+  OrderStatus.destroy({
+    where: {
+      id: req.params.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/orders", (req, res) => {
+  Order.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/orders/:id", (req, res) => {
+  Order.findByPk()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/orders", (req, res) => {
+  Order.create({
+    orderStatusId: req.body.orderStatusId,
+    userId: req.body.userId
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/orders", (req, res) => {
+  Order.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/orders/:id", (req, res) => {
+  Order.destroy({
+    where: {
+      id: req.param.id
+    },
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/ordered_tickets", (req, res) => {
+  OrdererTicket.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/ordered_tickets/:id", (req, res) => {
+  OrdererTicket.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/ordered_tickets", (req, res) => {
+  OrdererTicket.create({
+    orderId: req.body.orderId,
+    ticketId: req.body.ticketId
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/ordered_tickets", (req, res) => {
+  OrdererTicket.destroy({
+    truncate: yes
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/ordered_tickets/:id", (req, res) => {
+  OrdererTicket.destroy({
     where: {
       id: req.params.id
     },
