@@ -36,7 +36,7 @@ function Pagination(res, page) {
       prev = page - 1;
       location.href = "/phim" + "?page=" + prev;
     });
-    page_right_1.parentNode.insertBefore(page_prev, page_right_1)
+    page_right_1.parentNode.insertBefore(page_prev, page_right_1);
   }
 
   let page_cur = document.createElement("button");
@@ -45,17 +45,17 @@ function Pagination(res, page) {
   page_cur.addEventListener("click", () => {
     location.reload();
   });
-  page_right_1.parentNode.insertBefore(page_cur, page_right_1)
+  page_right_1.parentNode.insertBefore(page_cur, page_right_1);
 
   if (page < PAGE_MAX) {
     let page_next = document.createElement("button");
     page_next.className = "btn btn-link font-weight-bold btn-link-normal";
     page_next.innerText = page + 1;
     page_next.addEventListener("click", () => {
-      next = page + 1
+      next = page + 1;
       location.href = "/phim" + "?page=" + next;
-    })
-    page_right_1.parentNode.insertBefore(page_next, page_right_1)
+    });
+    page_right_1.parentNode.insertBefore(page_next, page_right_1);
   }
 }
 
@@ -119,6 +119,9 @@ window.addEventListener("load", async () => {
 
   res = await fetch(baseurl + "/api/movies" + "?page=" + page);
   res = await res.json();
+  if (res.data === null) {
+    return;
+  }
 
   await ShowPhim(res);
 });

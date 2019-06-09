@@ -16,6 +16,14 @@ router.get("/phim/:id", (req, res) => {
   res.sendFile(path.resolve(__dirname + "/../views/user_phim_info.html"));
 });
 
+router.get("/rap", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/../views/user_rap.html"));
+});
+
+router.get("/rap/:id", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/../views/user_rap_info.html"));
+});
+
 router.get("/giohang", (req, res) => {
   res.sendFile(path.resolve(__dirname + "/../views/user_giohang.html"));
 });

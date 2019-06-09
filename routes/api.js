@@ -56,11 +56,39 @@ router.get("/movies/:id", (req, res) => {
     .catch(err => res.json({ status: false, message: err }));
 });
 
-router.get("/movies/:id/theaters/:id", (req, res) => {
+router.get("/movies/:id/theaters/:id2", (req, res) => {
   ShowTime.findAll({
     where: {
       movieId: req.params.id,
       theaterId: req.params.id2
+    }
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/movies/:id/theaters/:id2/ticket_types/:id3", (req, res) => {
+  if (
+    req.query.date === undefined ||
+    Object.keys(req.query.date).length === 0
+  ) {
+    ShowTime.findAll({
+      where: {
+        movieId: req.params.id,
+        theaterId: req.params.id2,
+        ticketTypeId: req.params.id3
+      }
+    })
+      .then(data => res.json({ status: true, message: "OK", data: data }))
+      .catch(err => res.json({ status: false, message: err }));
+    return;
+  }
+  ShowTime.findAll({
+    where: {
+      movieId: req.params.id,
+      theaterId: req.params.id2,
+      ticketTypeId: req.params.id3,
+      date: req.query.date
     }
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
@@ -121,6 +149,12 @@ router.delete("/movies/:id", (req, res) => {
     }
   })
     .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/count/theaters", (req, res) => {
+  Theater.findAndCountAll()
+    .then(data => res.json({ status: true, message: "OK", data: data.count }))
     .catch(err => res.json({ status: false, message: err }));
 });
 
@@ -196,6 +230,12 @@ router.post("/theater_statuses", (req, res) => {
     name: req.body.name
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/count/ticket_types", (req, res) => {
+  TicketType.findAndCountAll()
+    .then(data => res.json({ status: true, message: "OK", data: data.count }))
     .catch(err => res.json({ status: false, message: err }));
 });
 
@@ -326,6 +366,7 @@ router.get("/show_times/:id", (req, res) => {
 router.post("/show_times/", (req, res) => {
   ShowTime.create({
     time: req.body.time,
+    date: req.body.date,
     movieId: req.body.movieId,
     theaterId: req.body.theaterId,
     ticketTypeId: req.body.ticketTypeId
@@ -338,6 +379,7 @@ router.put("/show_times/:id", (req, res) => {
   ShowTime.update(
     {
       time: req.body.time,
+      date: req.body.date,
       movieId: req.body.movieId,
       theaterId: req.body.theaterId,
       ticketTypeId: req.body.ticketTypeId
