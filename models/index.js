@@ -55,7 +55,11 @@ FoodShoppingCart.belongsTo(Food)
 FoodOrder.belongsTo(Order)
 FoodOrder.belongsTo(Food)
 
-sequelize.sync({ force: true });
+if (process.env.ON_HEROKU === 1) {
+  sequelize.sync()
+} else{
+  sequelize.sync({ force: true });
+}
 
 module.exports = {
   User,

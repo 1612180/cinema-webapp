@@ -59,7 +59,7 @@ function Pagination(res, page) {
   }
 }
 
-function Show(res) {
+function ShowPhim(res) {
   let display = document.getElementById("display");
   display.className = "container my-3";
 
@@ -120,5 +120,5 @@ window.addEventListener("load", async () => {
   res = await fetch(baseurl + "/api/movies" + "?page=" + page);
   res = await res.json();
 
-  await Show(res);
+  await ShowPhim(res);
 });

@@ -86,52 +86,43 @@
         </div>
     </div>
 
-    <!-- Anh va noi dung phim -->
+    <!-- phim -->
     <div class="container my-5">
         <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-3">
-                <img class="img-fluid" alt="" id="movieImg">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <img class="img-fluid" id="mPhotoUrl">
             </div>
-            <div class="col-lg-6">
-                <h3 class="font-weight-bold" id="movieName"></h3>
+            <div class="col-md-6">
+                <h3 class="font-weight-bold" id="mName"></h3>
                 <p><i class="fas fa-star" style="color: yellow"></i>
-                    <span class="font-weight-bold" id="movieRating"></span>
-                    <span class="font-weight-bold" style="color: #90A4AE">/</span>
-                    <span class="font-weight-bold" style="color: #90A4AE">10</span>
-                    <button type="button" class="btn btn-primary rounded-0 mx-2 py-0"
-                        style="background-color: #2D7FF9; border-color: #2D7FF9">
+                    <span id="mRating"></span>
+                    <span class="font-weight-bold">/</span>
+                    <span class="font-weight-bold">10</span>
+                    <button type="button" class="btn btn-primary btn-normal mx-2">
                         Đánh giá
                     </button>
                 </p>
                 <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Quốc gia</span>
-                    <span class="font-weight-bold" id="movieCountry">Mỹ</span>
+                    <span class="font-weight-bold">Đạo diễn: </span>
+                    <span id="mDirector"></span>
                 </p>
                 <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Nhà sản xuất</span>
-                    <span class="font-weight-bold" id="movieNSX">Marvel</span>
+                    <span class="font-weight-bold">Diễn viên: </span>
+                    <span id="mActor"></span>
                 </p>
                 <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Đạo diễn</span>
-                    <span class="font-weight-bold"></span>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Diễn viên</span>
-                    <span class="font-weight-bold"></span>
-                </p>
-                <p>
-                    <span class="font-weight-bold" style="color: #90A4AE">Thể loại</span>
-                    <span class="font-weight-bold" id="movieGenre">Tấu hài</span>
+                    <span class="font-weight-bold">Thể loại: </span>
+                    <span id="mGenre"></span>
                 </p>
             </div>
         </div>
         <div class="row my-3">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <h3 class="font-weight-bold">Nội dung phim</h3>
                 <div class="horizontal-line my-3"></div>
-                <p class="font-weight-bold" id="movieDescription"></p>
+                <p id="mIntroduce"></p>
             </div>
         </div>
     </div>
@@ -294,6 +285,9 @@
             </div>
         </div>
     </div>
+
+    <!-- rap -->
+    <div id="rap"></div>
 
     <!-- footer -->
     <div class="container-fluid py-3 black-background">

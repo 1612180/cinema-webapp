@@ -56,6 +56,17 @@ router.get("/movies/:id", (req, res) => {
     .catch(err => res.json({ status: false, message: err }));
 });
 
+router.get("/movies/:id/theaters/:id", (req, res) => {
+  ShowTime.findAll({
+    where: {
+      movieId: req.params.id,
+      theaterId: req.params.id2
+    }
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
 router.post("/movies", (req, res) => {
   Movie.create({
     name: req.body.name,
@@ -64,6 +75,7 @@ router.post("/movies", (req, res) => {
     director: req.body.director,
     photoUrl: req.body.photoUrl,
     introduce: req.body.introduce,
+    genre: req.body.genre,
     startDate: req.body.startDate,
     endDate: req.body.endDate
   })
@@ -80,6 +92,7 @@ router.put("/movies/:id", (req, res) => {
       director: req.body.director,
       photoUrl: req.body.photoUrl,
       introduce: req.body.introduce,
+      genre: req.body.genre,
       startDate: req.body.startDate,
       endDate: req.body.endDate
     },
@@ -128,7 +141,8 @@ router.post("/theaters", (req, res) => {
     name: req.body.name,
     address: req.body.address,
     rowNum: req.body.rowNum,
-    seatPerRow: req.body.seatPerRow
+    seatPerRow: req.body.seatPerRow,
+    theaterStatusId: req.body.theaterStatusId
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));
@@ -200,7 +214,8 @@ router.get("/ticket_types/:id", (req, res) => {
 router.post("/ticket_types", (req, res) => {
   TicketType.create({
     name: req.body.name,
-    price: req.body.price
+    price: req.body.price,
+    ticketStatusId: req.body.ticketStatusId
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));
@@ -310,7 +325,10 @@ router.get("/show_times/:id", (req, res) => {
 
 router.post("/show_times/", (req, res) => {
   ShowTime.create({
-    time: req.body.time
+    time: req.body.time,
+    movieId: req.body.movieId,
+    theaterId: req.body.theaterId,
+    ticketTypeId: req.body.ticketTypeId
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));
