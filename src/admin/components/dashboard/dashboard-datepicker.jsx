@@ -54,6 +54,7 @@ export class DashboardDatePicker extends React.Component {
                 while (start.getDay() !== 0) {
                     start.setDate(start.getDate() - 1);
                 }
+                end.setDate(start.getDate())
                 start.setDate(start.getDate() - 1);
                 while (start.getDay() !== 0) {
                     start.setDate(start.getDate() - 1);
@@ -76,31 +77,37 @@ export class DashboardDatePicker extends React.Component {
 
     renderStartInput() {
         return (
+            <React.Fragment>
+                Tu
             <DatePicker
-                min={new Date('2000/01/01')}
-                max={() => this.state.end ? this.state.end : new Date()}
-                value={this.state.start}
-                width={120}
-                onChange={(d) => {
-                    this.setState({ start: d })
-                    this.props.onChange(this.state.start, this.state.end)
-                }}
-            />
+                    min={new Date('2000/01/01')}
+                    max={() => this.state.end ? this.state.end : new Date()}
+                    value={this.state.start}
+                    width={120}
+                    onChange={(d) => {
+                        this.setState({ start: d })
+                        this.props.onChange(this.state.start, this.state.end)
+                    }}
+                />
+            </React.Fragment>
         )
     }
 
     renderEndInput() {
         return (
+            <React.Fragment>
+                den
             <DatePicker
-                min={() => this.state.start}
-                max={new Date()}
-                value={this.state.end}
-                width={120}
-                onChange={(d) => {
-                    this.setState({ end: d })
-                    this.props.onChange(this.state.start, this.state.end)
-                }}
-            />
+                    min={() => this.state.start}
+                    max={new Date()}
+                    value={this.state.end}
+                    width={120}
+                    onChange={(d) => {
+                        this.setState({ end: d })
+                        this.props.onChange(this.state.start, this.state.end)
+                    }}
+                />
+            </React.Fragment>
         )
     }
 
@@ -121,7 +128,7 @@ export class DashboardDatePicker extends React.Component {
                     onClick={() => this.handleButtonClick(TimeStamp.THIS_WEEK)}
                 />
                 <Button
-                    label='Hom nay'
+                    label='Tuan truoc'
                     className={className}
                     active={this.state.active === TimeStamp.LAST_WEEK}
                     onClick={() => this.handleButtonClick(TimeStamp.LAST_WEEK)}

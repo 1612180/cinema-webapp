@@ -21,12 +21,20 @@ export const logOut = () => {
     }
 }
 
-export const tryLogin = () => {
+export const reload = (reload) => {
+    return {
+        type: actions.RELOAD,
+        reload: reload
+    }
+}
+
+export const tryLogin = (cb) => {
     return (dispatch, getState) => {
         return AdminAPI.checkLogin()
             .then(response => {
                 dispatch(userInfo(response.userInfo))
                 dispatch(login(response.isLogin))
+                cb()
             })
             .catch(err => {
                 dispatch(login(false))

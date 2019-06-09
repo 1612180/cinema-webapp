@@ -1,12 +1,11 @@
 import React from 'react'
-import { parseDate, formatDate, equalDate } from '../../libs/datetime'
+import { parseDate, equalDate } from '../../libs/datetime'
 
 export class DatePicker extends React.Component {
     constructor(props) {
         super(props)
         this.ref = React.createRef()
         this.picker = null
-        this.lockChangeCb = false
         this.initPicker = this.initPicker.bind(this)
     }
 
@@ -21,10 +20,6 @@ export class DatePicker extends React.Component {
             maxDate: this.props.max,
             value: this.props.value,
             change: () => {
-                if (this.lockChangeCb) {
-                    this.lockChangeCb = false
-                    return
-                }
                 let date = parseDate(this.picker.value(), true)
                 if (!this.props.value || !equalDate(date, this.props.value)) {
                     this.props.onChange(date)
@@ -34,7 +29,6 @@ export class DatePicker extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        this.lockChangeCb = true
         this.picker.value(props.value)
     }
 

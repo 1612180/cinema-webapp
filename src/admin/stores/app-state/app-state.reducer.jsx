@@ -3,7 +3,8 @@ import { actions } from './app-state.type'
 const initialState = {
     isLoading: true,
     isLogin: false,
-    userInfo: null
+    userInfo: null,
+    reload: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +25,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...initialState,
                 isLoading: false
+            }
+        }
+        case actions.RELOAD: {
+            return {
+                ...state,
+                reload: action.reload
             }
         }
         default:

@@ -51,8 +51,9 @@ const reducer = (state = initState, action) => {
                 }
             }
         }
-        default:
+        default: {
             return state
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 export const actions = {
     IS_LOGIN: 'IS_LOGIN',
     SET_USER_INFO: 'SET_USER_INFO',
-    LOGOUT: 'LOGOUT'
+    LOGOUT: 'LOGOUT',
+    RELOAD: 'RELOAD'
 }

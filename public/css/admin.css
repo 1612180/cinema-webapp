@@ -81,6 +81,10 @@ html, body, #app-container {
     bottom: 50px;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 ul.menu li.active-menu-option * {
     color: #2D7FF9;
 }
@@ -115,6 +119,7 @@ ul.menu li a:hover * {
     margin-top: 25px;
     display: flex;
     padding: 25px 20px;
+    min-height: 300px;
 }
 
 .section-header {

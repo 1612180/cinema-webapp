@@ -67,3 +67,21 @@ export const toEndOfDay = d => {
     t.setHours(23, 59, 59, 999)
     return t
 }
+
+export const isComing = (current, start, end) => {
+    return start && current < start
+}
+
+export const isInside = (current, start, end) => {
+    if (!start) {
+        return current <= end
+    }
+    if (!end) {
+        return start <= current
+    }
+    return start <= current && current <= end
+}
+
+export const isPassed = (current, start, end) => {
+    return end && end < current
+}

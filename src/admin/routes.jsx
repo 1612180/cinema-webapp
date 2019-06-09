@@ -1,7 +1,7 @@
 export const routes = {
     DASHBOARD: {
         id: 0,
-        path: '/v2/admin/dashboard'
+        path: '/v2/admin'
     },
     MOVIE: {
         id: 1,
@@ -9,7 +9,7 @@ export const routes = {
     },
     THEATER: {
         id: 2,
-        path: '/v2/admin/theater'
+        path: '/admin/theater'
     },
     TICKET: {
         id: 3,

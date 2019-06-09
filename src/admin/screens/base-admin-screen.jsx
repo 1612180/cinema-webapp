@@ -4,10 +4,16 @@ import { connect } from 'react-redux'
 import { Spinner } from '../components/common/spinner'
 import SideNavbar from '../components/side-navbar/side-navbar'
 
-import { tryLogin } from '../stores/app-state/app-state.action'
+import { tryLogin, reload } from '../stores/app-state/app-state.action'
 import { changeActiveNavOption } from '../stores/side-navbar/side-navbar.action'
 
 export class BaseAdminScreen extends React.Component {
+    constructor(props) {
+        super(props)
+        this.requireLogin = this.requireLogin.bind(this)
+        this.isLogin = this.isLogin.bind(this)
+    }
+
     requireLogin() {
         return this.props.requireLogin
     }
@@ -17,14 +23,17 @@ export class BaseAdminScreen extends React.Component {
     }
 
     componentWillMount() {
+        let cb = () => this.props.callback ? this.props.callback() : null
         if (this.requireLogin() && !this.isLogin()) {
-            this.props.tryLogin()
+            this.props.tryLogin(cb)
+        } else {
+            cb()
         }
         this.props.changeActiveNavOption(this.props.pathId)
     }
 
     render() {
-        if (this.requireLogin() && !this.isLogin()) {
+        if ((this.requireLogin() && !this.isLogin())) {
             return (
                 <div
                     style={{
@@ -40,15 +49,20 @@ export class BaseAdminScreen extends React.Component {
                 </div>
             )
         } else {
+            if (this.props.needReload) {
+                this.props.callback && this.props.callback()
+                this.props.reload(false)
+            }
             return (
                 <div className="container-fluid h-100 mx-0">
                     <div className="row h-100 align-items-stretch">
                         <SideNavbar />
                         <div className="col-lg-10 px-0">
-                            {this.props.header}
+                            {this.props.header()}
                             <div className="mx-5" id="content-body">
-                                {this.props.content}
+                                {this.props.content()}
                             </div>
+                            <div style={{ height: 150 }}></div>
                         </div>
                     </div>
                 </div>
@@ -60,12 +74,14 @@ export class BaseAdminScreen extends React.Component {
 const mapStateToProps = state => {
     return {
         state: state,
-        isLogin: state.appState.isLogin
+        isLogin: state.appState.isLogin,
+        needReload: state.appState.reload
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        tryLogin: () => dispatch(tryLogin()),
+        tryLogin: (cb) => dispatch(tryLogin(cb)),
+        reload: (r) => dispatch(reload(r)),
         changeActiveNavOption: (id) => dispatch(changeActiveNavOption(id))
     }
 }

@@ -8,7 +8,11 @@ export class CurrentDateTime extends React.Component {
             date: new Date()
         }
 
-        setInterval(() => this.setState({ date: new Date() }), 1000)
+        this.interval = setInterval(() => this.setState({ date: new Date() }), 1000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval)
     }
 
     render() {
