@@ -174,6 +174,7 @@ router.post("/theaters", (req, res) => {
   Theater.create({
     name: req.body.name,
     address: req.body.address,
+    photoUrl: req.body.photoUrl,
     rowNum: req.body.rowNum,
     seatPerRow: req.body.seatPerRow,
     theaterStatusId: req.body.theaterStatusId
@@ -187,6 +188,7 @@ router.put("/theaters/:id", (req, res) => {
     {
       name: req.body.name,
       address: req.body.address,
+      photoUrl: req.body.photoUrl,
       rowNum: req.body.rowNum,
       seatPerRow: req.body.seatPerRow,
       theaterStatusId: req.body.theaterStatusId

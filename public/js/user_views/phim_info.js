@@ -1,4 +1,4 @@
-function ShowPhim(res) {
+function ShowRap(res) {
   let mPhotoUrl = document.getElementById("mPhotoUrl");
   mPhotoUrl.src = res.data.photoUrl;
 
@@ -147,7 +147,7 @@ window.addEventListener("load", async function() {
     return;
   }
 
-  await ShowPhim(res);
+  await ShowRap(res);
 
   let cDate = document.getElementById("cDate");
   cDate.valueAsDate = new Date();
