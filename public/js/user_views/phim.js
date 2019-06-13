@@ -105,23 +105,20 @@ function ShowPhim(res) {
 }
 
 window.addEventListener("load", async () => {
-  let baseurl = location.protocol + "//" + location.host;
-
-  let params = await new this.URL(location.href);
-  let page = await params.searchParams.get("page");
-  if (page === null) {
+  let params = new URL(location.href);
+  let page = parseInt(params.searchParams.get("page"));
+  if (!page) {
     page = 1;
   }
 
-  let res = await fetch(baseurl + "/api/count/movies");
-  res = await res.json();
-  await Pagination(res, parseInt(page));
-
-  res = await fetch(baseurl + "/api/movies" + "?page=" + page);
-  res = await res.json();
-  if (res.data === null) {
+  let [res_count, res_page] = await Promise.all([
+    fetch("/api/count/movies").then(res => res.json()),
+    fetch("/api/movies" + "?page=" + page).then(res => res.json())
+  ]);
+  if (!res_count.data || !res_page.data) {
     return;
   }
 
-  await ShowPhim(res);
+  Pagination(res_count, page);
+  ShowPhim(res_page);
 });
