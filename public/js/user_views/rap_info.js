@@ -10,12 +10,11 @@ function ShowRap(res) {
 }
 
 window.addEventListener("load", async function() {
-  let baseurl = location.protocol + "//" + location.host;
   let id = location.href.split("/")[4];
 
-  let res = await fetch(baseurl + "/api/theaters" + "/" + id);
+  let res = await fetch("/api/theaters" + "/" + id);
   res = await res.json();
-  if (res.data === null) {
+  if (!res.data) {
     return;
   }
 

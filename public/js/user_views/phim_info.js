@@ -21,11 +21,10 @@ function ShowRap(res) {
   mIntroduce.innerText = res.data.introduce;
 }
 
-async function ShowTicket(baseurl, id, id2, id3, tbody) {
+async function ShowTicket(id, id2, id3, tbody) {
   let cDate = document.getElementById("cDate");
 
   let res = await fetch(
-    baseurl +
       "/api/movies/" +
       id +
       "/theaters/" +
@@ -45,7 +44,7 @@ async function ShowTicket(baseurl, id, id2, id3, tbody) {
 
   let td1 = document.createElement("td");
   tr.appendChild(td1);
-  res2 = await fetch(baseurl + "/api/ticket_types/" + id3);
+  res2 = await fetch("/api/ticket_types/" + id3);
   res2 = await res2.json();
   td1.innerText = res2.data.name;
 
@@ -61,8 +60,8 @@ async function ShowTicket(baseurl, id, id2, id3, tbody) {
   }
 }
 
-async function ShowTheater(baseurl, id, id2) {
-  let res = await fetch(baseurl + "/api/count/ticket_types");
+async function ShowTheater(id, id2) {
+  let res = await fetch("/api/count/ticket_types");
   res = await res.json();
   if (res.data === null) {
     return;
@@ -98,7 +97,7 @@ async function ShowTheater(baseurl, id, id2) {
   spanName.className = "h5 font-weight-bold mr-2";
   span.appendChild(spanName);
 
-  res = await fetch(baseurl + "/api/theaters" + "/" + id2);
+  res = await fetch("/api/theaters" + "/" + id2);
   res = await res.json();
   if (res.data === null) {
     return;
@@ -113,7 +112,7 @@ async function ShowTheater(baseurl, id, id2) {
   table.appendChild(tbody);
 
   for (let id3 = 1; id3 <= TICKET_TYPE_NUM; id3 += 1) {
-    await ShowTicket(baseurl, id, id2, id3, tbody);
+    await ShowTicket(id, id2, id3, tbody);
   }
 
   // if only inside has data
@@ -122,13 +121,13 @@ async function ShowTheater(baseurl, id, id2) {
   }
 }
 
-async function ShowTheaters(baseurl, id1) {
-  res = await fetch(baseurl + "/api/count/theaters");
+async function ShowTheaters(id1) {
+  res = await fetch("/api/count/theaters");
   res = await res.json();
   THEATER_NUM = res.data;
 
   for (let id2 = 1; id2 <= THEATER_NUM; id2 += 1) {
-    await ShowTheater(baseurl, id1, id2);
+    await ShowTheater(id1, id2);
   }
 }
 
@@ -138,10 +137,9 @@ function HideTheaters() {
 }
 
 window.addEventListener("load", async function() {
-  let baseurl = location.protocol + "//" + location.host;
   let id = location.href.split("/")[4];
 
-  let res = await fetch(baseurl + "/api/movies" + "/" + id);
+  let res = await fetch("/api/movies" + "/" + id);
   res = await res.json();
   if (res.data === null) {
     return;
@@ -151,7 +149,7 @@ window.addEventListener("load", async function() {
 
   let cDate = document.getElementById("cDate");
   cDate.valueAsDate = new Date();
-  await ShowTheaters(baseurl, id);
+  await ShowTheaters(id);
 
   cDate.addEventListener("change", async () => {
     if (!cDate.value) {
@@ -159,6 +157,6 @@ window.addEventListener("load", async function() {
       return;
     }
     await HideTheaters();
-    await ShowTheaters(baseurl, id);
+    await ShowTheaters(id);
   });
 });
