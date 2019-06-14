@@ -69,34 +69,31 @@ function ShowPhim(res) {
 
   for (let i in res.data) {
     let col = document.createElement("div");
-    col.className = "col-lg-3 col-sm-4 col-12";
+    col.className = "col-lg-3 col-md-4 col-sm-6 col-12";
     row.appendChild(col);
 
-    let card = document.createElement("div");
-    card.className = "card my-3 card-normal";
-    col.appendChild(card);
+    let div_wrap = document.createElement("div")
+    div_wrap.className = "shadow"
+    col.appendChild(div_wrap)
 
-    let photoUrl = document.createElement("img");
-    photoUrl.className = "card-img-top img-normal";
-    photoUrl.style.height = "48vh";
-    photoUrl.style.objectFit = "cover";
-    photoUrl.src = res.data[i].photoUrl;
-    card.appendChild(photoUrl);
+    let img = document.createElement("img");
+    img.className = "img-fluid samurai";
+    img.src = res.data[i].photoUrl;
+    div_wrap.appendChild(img);
 
-    let card_body = document.createElement("div");
-    card_body.className = "card-body text-center";
-    card.appendChild(card_body);
+    let div_title = document.createElement("div")
+    div_title.className = "ninja"
+    div_wrap.appendChild(div_title)
 
-    let name = document.createElement("h5");
-    name.className = "card-title font-weight-bold";
-    name.style.height = "8vh";
-    name.innerText = res.data[i].name;
-    card_body.appendChild(name);
+    let title = document.createElement("h3")
+    title.className = "font-weight-bold pb-3 text-normal"
+    title.innerText = res.data[i].name
+    div_title.appendChild(title)
 
     let btn = document.createElement("button");
     btn.className = "btn btn-primary btn-normal";
-    btn.innerText = "Mua vé";
-    card_body.appendChild(btn);
+    btn.innerHTML = "Xem chi tiết";
+    div_title.appendChild(btn);
 
     btn.addEventListener("click", () => {
       location.href = "/phim/" + res.data[i].id;
