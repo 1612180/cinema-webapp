@@ -4,6 +4,7 @@ const router = express.Router();
 const LIMIT = 4;
 
 const {
+  Op,
   User,
   Movie,
   Theater,
@@ -31,17 +32,19 @@ router.get("/count/movies", (req, res) => {
 });
 
 router.get("/movies", (req, res) => {
-  if (
-    req.query.page === undefined ||
-    Object.keys(req.query.page).length === 0
-  ) {
+  if (!req.query.page) {
     Movie.findAll()
       .then(data => res.json({ status: true, message: "OK", data: data }))
       .catch(err => res.json({ status: false, message: err }));
     return;
   }
 
-  let offset = LIMIT * (req.query.page - 1);
+  let page = parseInt(req.query.page);
+  if (!page) {
+    return;
+  }
+
+  let offset = LIMIT * (page - 1);
   Movie.findAll({
     limit: LIMIT,
     offset: offset
@@ -68,10 +71,7 @@ router.get("/movies/:id/theaters/:id2", (req, res) => {
 });
 
 router.get("/movies/:id/theaters/:id2/ticket_types/:id3", (req, res) => {
-  if (
-    req.query.date === undefined ||
-    Object.keys(req.query.date).length === 0
-  ) {
+  if (!req.query.date) {
     ShowTime.findAll({
       where: {
         movieId: req.params.id,
@@ -90,6 +90,78 @@ router.get("/movies/:id/theaters/:id2/ticket_types/:id3", (req, res) => {
       ticketTypeId: req.params.id3,
       date: req.query.date
     }
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/now/:date", (req, res) => {
+  if (!req.params.date) {
+    Movie.findAll({
+      where: {
+        startDate: {
+          [Op.lte]: req.params.date
+        },
+        endDate: {
+          [Op.gte]: req.params.date
+        }
+      }
+    })
+      .then(data => res.json({ status: true, message: "OK", data: data }))
+      .catch(err => res.json({ status: false, message: err }));
+    return;
+  }
+
+  let page = parseInt(req.query.page);
+  if (!page) {
+    return;
+  }
+
+  let offset = LIMIT * (page - 1);
+  Movie.findAll({
+    where: {
+      startDate: {
+        [Op.lte]: req.params.date
+      },
+      endDate: {
+        [Op.gte]: req.params.date
+      }
+    },
+    limit: LIMIT,
+    offset: offset
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/future/:date", (req, res) => {
+  if (!req.params.date) {
+    Movie.findAll({
+      where: {
+        startDate: {
+          [Op.gte]: req.params.date
+        }
+      }
+    })
+      .then(data => res.json({ status: true, message: "OK", data: data }))
+      .catch(err => res.json({ status: false, message: err }));
+    return;
+  }
+
+  let page = parseInt(req.query.page);
+  if (!page) {
+    return;
+  }
+
+  let offset = LIMIT * (page - 1);
+  Movie.findAll({
+    where: {
+      startDate: {
+        [Op.gte]: req.params.date
+      }
+    },
+    limit: LIMIT,
+    offset: offset
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));

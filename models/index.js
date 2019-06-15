@@ -3,6 +3,8 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: true
 });
 
+const Op = Sequelize.Op;
+
 const UserModel = require("./user");
 const MovieModel = require("./movie");
 const TheaterModel = require("./theater");
@@ -59,6 +61,7 @@ FoodOrder.belongsTo(Food)
 sequelize.sync()
 
 module.exports = {
+  Op,
   User,
   Movie,
   Theater,
