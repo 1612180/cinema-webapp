@@ -13,7 +13,7 @@ export const formatTime = date => {
 }
 
 export const formatDateTime = date => {
-    return formatDate(date) + ' ' + formatTime(date)
+    return formatTime(date) + ' ' + formatDate(date)
 }
 
 export const toWeekDay = date => {

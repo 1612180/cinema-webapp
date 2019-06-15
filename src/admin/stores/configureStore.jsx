@@ -6,6 +6,8 @@ import dashboardReducer from './dashboard/dashboard.reducer'
 import moviesReducer from './movies/movies.reducer'
 import theatersReducer from './theaters/theaters.reducer'
 import ticketsReducer from './tickets/tickets.reducer'
+import foodReducer from './foods/foods.reducer'
+import orderReducer from './orders/orders.reducer'
 
 const rootReducer = combineReducers({
     sideNavbar: sideNavbarReducer,
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
     dashboard: dashboardReducer,
     movies: moviesReducer,
     theaters: theatersReducer,
-    tickets: ticketsReducer
+    tickets: ticketsReducer,
+    foods: foodReducer,
+    orders: orderReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))

@@ -18,9 +18,9 @@ export class Dropdown extends React.Component {
         this.props.onDefaultClick()
     }
 
-    handleChoiceClick(i) {
-        this.setState({ active: i })
-        this.props.onChoiceClick(this.props.choices[i])
+    handleChoiceClick(c) {
+        this.setState({ active: c.id })
+        this.props.onChoiceClick(c)
     }
 
     render() {
@@ -28,18 +28,19 @@ export class Dropdown extends React.Component {
         let { active } = this.state
         return (
             <div className={`${this.props.className} dropdown mx-0 px-0`}>
+                {this.props.title ? <span className="font-weight-bold">{this.props.title} &nbsp;&nbsp;</span> : null}
                 <button className={`btn btn-outline-primary dropdown-toggle px-3 ${this.props.padding}`} type="button"
                     data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false"
                 >
-                    {active !== null ? choices[active].label : defaultLabel}
+                    {active !== null ? choices.filter(c => c.id === active)[0].label : defaultLabel}
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {this.props.choices.map((c, i) => {
                         return (
                             <ClickableView
                                 key={c.id}
-                                onClick={() => this.handleChoiceClick(i)}
+                                onClick={() => this.handleChoiceClick(c)}
                                 className="dropdown-item"
                             >
                                 {c.label}

@@ -60,6 +60,15 @@ const validationRules = {
     }
 }
 
+const nullItem = {
+    id: null,
+    name: null,
+    address: null,
+    row: null,
+    column: null,
+    ordered: null,
+    status: null,
+}
 class TheaterScreen extends React.Component {
     constructor(props) {
         super(props)
@@ -72,13 +81,7 @@ class TheaterScreen extends React.Component {
             modalState: null,
             formErrors: null,
             newItem: {
-                id: null,
-                name: null,
-                address: null,
-                row: null,
-                column: null,
-                ordered: null,
-                status: null,
+                ...nullItem
             }
         }
         this.updateTimeout = null
@@ -256,7 +259,10 @@ class TheaterScreen extends React.Component {
     renderFloatingButton() {
         return (
             <FloatingButton
-                onClick={() => this.openModal(ModalState.NEW)}
+                onClick={() => {
+                    this.setState({ newItem: { ...nullItem } })
+                    this.openModal(ModalState.NEW)
+                }}
                 iconName='plus'
             />
         )
@@ -278,7 +284,6 @@ class TheaterScreen extends React.Component {
     }
 
     renderEditForm(addNew) {
-        console.log('render')
         let status = this.props.statusChoices.data
         let { newItem } = this.state
         return (
@@ -313,7 +318,7 @@ class TheaterScreen extends React.Component {
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, ordered: text } })
                     })} />
-                <FormSelect label='Tinh trang' disabled={false} value={status[0].id} options={status}
+                <FormSelect label='Tinh trang' disabled={false} value={addNew ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
             </form>

@@ -25,7 +25,7 @@ export class Modal extends React.Component {
             <div className="modal fade" tabIndex="-1" role="dialog"
                 ref={(ref) => this.ref = ref}
                 aria-hidden="true">
-                <div className="modal-dialog" role="document">
+                <div className={`modal-dialog ${this.props.large ? 'modal-lg' : ''}`} role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <div className="modal-title h3 font-weight-bold">{this.props.header}</div>
@@ -72,8 +72,7 @@ export class RemoteDataModal extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.initialState !== this.state.modalState
-            || nextState.modalState !== this.state.modalState
+        return true
     }
 
     componentWillReceiveProps(nextProps) {
@@ -138,6 +137,7 @@ export class RemoteDataModal extends React.Component {
     render() {
         return (
             <Modal
+                large={this.props.large}
                 show={this.props.show}
                 onHide={this.props.onHide}
                 header={this.renderHeader()}

@@ -43,6 +43,12 @@ const validationRules = {
     }
 }
 
+const nullItem = {
+    id: null,
+    name: null,
+    price: null,
+    status: null,
+}
 class TicketScreen extends React.Component {
     constructor(props) {
         super(props)
@@ -55,10 +61,7 @@ class TicketScreen extends React.Component {
             modalState: null,
             formErrors: null,
             newItem: {
-                id: null,
-                name: null,
-                price: null,
-                status: null,
+                ...nullItem
             }
         }
         this.updateTimeout = null
@@ -231,7 +234,10 @@ class TicketScreen extends React.Component {
     renderFloatingButton() {
         return (
             <FloatingButton
-                onClick={() => this.openModal(ModalState.NEW)}
+                onClick={() => {
+                    this.setState({ newItem: { ...nullItem } })
+                    this.openModal(ModalState.NEW)
+                }}
                 iconName='plus'
             />
         )
@@ -272,7 +278,7 @@ class TicketScreen extends React.Component {
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, price: text } })
                     })} />
-                <FormSelect label='Tinh trang' disabled={false} value={status[0].id} options={status}
+                <FormSelect label='Tinh trang' disabled={false} value={addNew ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
             </form>

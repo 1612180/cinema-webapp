@@ -1,13 +1,16 @@
 import { getDashboardMovies, getMovies } from './mock-data/mock-movies'
-import { getDashboardOrders } from './mock-data/mock-orders'
+import { getDashboardOrders, getOrders } from './mock-data/mock-orders'
 import { getDashboardTheaters, getTheaters } from './mock-data/mock-theaters'
 import { getDashboardCharts } from './mock-data/mock-charts'
 import { getTickets } from './mock-data/mock-tickets'
+import { getFoods } from './mock-data/mock-foods'
 import {
     getTheaterChoices,
     getGenreChoices,
     getTheaterStatusChoices,
-    getTicketStatusChoices
+    getTicketStatusChoices,
+    getFoodStatusChoices,
+    getOrderStatusChoices
 } from './mock-data/mock-choices'
 
 const ITEM_PER_PAGE = {
@@ -91,6 +94,32 @@ export default class AdminApi {
     static getTickets(page, options) {
         return ok({
             tickets: getTickets(ITEM_PER_PAGE.other, options),
+            currentPage: page,
+            lastPage: 2,
+            total: 18
+        })
+    }
+
+    //--------------------- Foods ------------------------//
+    static getFoodStatusChoices() {
+        return ok(getFoodStatusChoices())
+    }
+    static getFoods(page, options) {
+        return ok({
+            foods: getFoods(ITEM_PER_PAGE.other, options),
+            currentPage: page,
+            lastPage: 2,
+            total: 18
+        })
+    }
+
+    //--------------------- Orders ------------------------//
+    static getOrderStatusChoices() {
+        return ok(getOrderStatusChoices())
+    }
+    static getOrders(page, options) {
+        return ok({
+            orders: getOrders(ITEM_PER_PAGE.other, options),
             currentPage: page,
             lastPage: 2,
             total: 18

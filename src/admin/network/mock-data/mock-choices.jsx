@@ -37,3 +37,22 @@ export const getTicketStatusChoices = () => {
         ]
     }
 }
+
+export const getFoodStatusChoices = () => {
+    return {
+        choices: [
+            { label: 'Dang ban', id: 1 },
+            { label: 'Ngung ban', id: 2 }
+        ]
+    }
+}
+
+export const getOrderStatusChoices = () => {
+    return {
+        choices: [
+            { label: 'Chap nhan', id: 1 },
+            { label: 'Cho thanh toan', id: 2 },
+            { label: 'Huy', id: 3 }
+        ]
+    }
+}

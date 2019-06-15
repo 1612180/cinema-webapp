@@ -1,7 +1,7 @@
 import React from 'react'
-import { parseDate, formatDate, equalDate } from '../../libs/datetime'
+import { formatDateTime, equalDateTime, parseDateTime } from '../../libs/datetime'
 
-export class DatePicker extends React.Component {
+export class DateTimePicker extends React.Component {
     constructor(props) {
         super(props)
         this.ref = React.createRef()
@@ -13,15 +13,18 @@ export class DatePicker extends React.Component {
         if (this.picker) {
             this.picker.destroy()
         }
-        this.picker = $(this.ref).datepicker({
-            format: 'dd-mm-yy',
+        this.picker = $(this.ref).datetimepicker({
+            format: 'HH:MM dd-mm-yy',
             width: this.props.width,
-            minDate: this.props.min,
-            maxDate: this.props.max,
-            value: this.props.value ? formatDate(this.props.value) : null,
+            footer: true,
+            datepicker: {
+                minDate: this.props.min,
+                maxDate: this.props.max,
+            },
+            value: this.props.value ? formatDateTime(this.props.value) : null,
             change: () => {
-                let date = parseDate(this.picker.value(), true)
-                if (!this.props.value || !equalDate(date, this.props.value)) {
+                let date = parseDateTime(this.picker.value())
+                if (!this.props.value || !equalDateTime(date, this.props.value)) {
                     this.props.onChange(date)
                 }
             }
@@ -29,7 +32,7 @@ export class DatePicker extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        this.picker.value(props.value ? formatDate(props.value) : null)
+        this.picker.value(props.value ? formatDateTime(props.value) : null)
     }
 
     componentDidMount() {

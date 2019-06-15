@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "build-admin": "webpack --mode production --entry ./src/admin --output ./dist/admin",
+    "build-admin": "webpack --mode production --entry ./src/admin/main.jsx --output ./dist/admin/main.js",
     "watch-admin": "webpack --mode development --watch --entry ./src/admin/main.jsx --output ./dist/admin/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

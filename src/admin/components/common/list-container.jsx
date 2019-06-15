@@ -94,7 +94,6 @@ export class ListContainer extends React.Component {
                 </React.Fragment>
             )
         } else {
-            console.log(currentPage + ' - ' + lastPage)
             return (
                 <React.Fragment>
                     <li className="page-item">
@@ -154,14 +153,49 @@ export class ListContainer extends React.Component {
 
     render() {
         return (
-            <Container title={this.props.title}>
-                <RemoteLoader
-                    isLoading={this.props.isLoading}
-                    isFailed={this.props.isFailed}
-                    renderOnSuccess={this.renderList}
-                    renderOnFailed={() => this.props.error}
-                />
+            <Container title={this.props.title} minHeight={this.props.minHeight} className={this.props.className}>
+                {this.props.static ?
+                    this.renderList() :
+                    <RemoteLoader
+                        isLoading={this.props.isLoading}
+                        isFailed={this.props.isFailed}
+                        renderOnSuccess={this.renderList}
+                        renderOnFailed={() => this.props.error}
+                    />}
             </Container>
+        )
+    }
+}
+
+export class StaticListContainer extends React.Component {
+    constructor(props) {
+        super(props)
+        this.pageNums = Math.ceil(props.items.length / props.pageSize)
+        this.pages = new Array(this.pageNums).fill(null).map(() => new Array())
+        for (let i = 0; i < props.items.length; i++) {
+            let pageIndex = Math.floor(i / props.pageSize)
+            this.pages[pageIndex].push(props.items[i])
+        }
+        this.state = {
+            currentPage: (props.currentPage && props.currentPage <= this.pageNums) ? props.currentPage : 1
+        }
+    }
+
+    render() {
+        let { currentPage } = this.state
+        return (
+            <ListContainer
+                static={true}
+                className={this.props.className}
+                minHeight={this.props.minHeight}
+                title={this.props.title}
+                header={this.props.header}
+                items={this.pages[currentPage - 1]}
+                currentPage={currentPage}
+                lastPage={this.pageNums}
+                onPaginationClick={(page) => this.setState({ currentPage: page })}
+                renderItem={this.props.renderItem}
+            />
         )
     }
 }
