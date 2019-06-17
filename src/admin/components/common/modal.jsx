@@ -17,7 +17,18 @@ export class Modal extends React.Component {
     }
 
     componentDidMount() {
-        $(this.ref).on('hidden.bs.modal', this.props.onHide)
+        $(this.ref).on('hide.bs.modal', e => {
+            e.stopImmediatePropagation()
+            if ($(this.ref).is(e.target)) {
+                this.props.onHide()
+            }
+        })
+        $(this.ref).on('hidden.bs.modal', e => {
+            e.stopImmediatePropagation()
+            if ($(this.ref).is(e.target) && this.props.nestedModal) {
+                $('body').addClass('modal-open')
+            }
+        })
     }
 
     render() {
@@ -29,7 +40,7 @@ export class Modal extends React.Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <div className="modal-title h3 font-weight-bold">{this.props.header}</div>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" className="close" onClick={() => $(this.ref).modal('hide')}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -50,7 +61,8 @@ export const ModalState = {
     EDIT: 'EDIT',
     NEW: 'NEW',
     INFO: 'INFO',
-    REMOVE: 'REMOVE'
+    REMOVE: 'REMOVE',
+    INFO_NO_EDIT: 'INFO_NO_EDIT'
 }
 export class RemoteDataModal extends React.Component {
     constructor(props) {
@@ -116,6 +128,7 @@ export class RemoteDataModal extends React.Component {
             case ModalState.EDIT: {
                 return 'Chinh sua'
             }
+            case ModalState.INFO_NO_EDIT:
             case ModalState.INFO: {
                 return 'Thong tin'
             }
@@ -137,6 +150,7 @@ export class RemoteDataModal extends React.Component {
     render() {
         return (
             <Modal
+                nestedModal={this.props.nestedModal}
                 large={this.props.large}
                 show={this.props.show}
                 onHide={this.props.onHide}

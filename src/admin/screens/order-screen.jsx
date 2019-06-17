@@ -22,6 +22,7 @@ import { OrderPriceRangePicker } from '../components/order/order-price-range-pic
 import { ListContainer } from '../components/common/list-container';
 import { Button } from '../components/common/button';
 import OrderFoodList from '../components/order/order-food-list';
+import OrderTicketList from '../components/order/order-ticket-list';
 
 const MIN_INTERVAL = 500
 
@@ -46,22 +47,6 @@ const validationRules = {
         orderTotal: buildErrorTooltip("Gio hang khong duoc rong")
     }
 }
-const orderItemValidationRules = {
-    errorElement: 'span',
-    rules: {
-        orderItemQuantity: {
-            required: true,
-            digits: true
-        }
-    },
-    messages: {
-        orderItemQuantity: {
-            required: buildErrorTooltip("Vui long dien so luong"),
-            digits: buildErrorTooltip("So luong phai la so nguyen")
-        }
-    }
-}
-
 const nullItem = {
     id: null,
     username: null,
@@ -88,7 +73,6 @@ class OrderScreen extends React.Component {
         }
         this.updateTimeout = null
         this.newForm = React.createRef()
-        this.itemListForm = React.createRef()
 
         this.customSetState = this.customSetState.bind(this)
 
@@ -341,8 +325,8 @@ class OrderScreen extends React.Component {
         let status = this.props.statusChoices.data
         let theaters = this.props.theaterChoices.data
         let { newItem } = this.state
-        let totalFoods = newItem.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
-            .reduce((prev, cur) => prev + cur)
+        let totalFoods = addNew ? 0 : newItem.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
+            .reduce((prev, cur) => prev + cur, 0)
         return (
             <form ref={ref => this.newForm = ref}>
                 <FormInput label='Ma don hang' disabled={!addNew} value={newItem.id}
@@ -363,25 +347,10 @@ class OrderScreen extends React.Component {
                 <FormSelect label='Rap' disabled={false} value={addNew ? theaters[0].id : newItem.theater} options={theaters}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
-                <ListContainer
-                    className='mt-5 mb-3'
-                    minHeight={200}
-                    static={true}
-                    title="Ve phim"
-                    header={null}
-                    items={addNew ? [] : newItem.tickets}
-                    currentPage={1}
-                    lastPage={1}
-                    onPaginationClick={(page) => null}
-                    renderItem={() => null}
-                />
-                <div className='d-flex justify-content-center'>
-                    <Button active={true}
-                        label="Them ve phim"
-                        onClick={() => null}
-                    />
-                </div>
+
+                <OrderTicketList items={addNew ? [] : newItem.foods} disabled={false} />
                 <OrderFoodList items={addNew ? [] : newItem.foods} disabled={false} />
+
                 <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods) + ' VND'} />
                 <FormSelect label='Tinh trang' disabled={false} value={addNew ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
@@ -402,18 +371,10 @@ class OrderScreen extends React.Component {
                 <FormInput label='Nguoi dung' disabled={true} value={newItem.username} />
                 <FormDateTimePicker label='Thoi gian' disabled={true} value={this.state.newItem.datetime} />
                 <FormSelect label='Rap' disabled={true} value={newItem.theater} options={theaters} />
-                <ListContainer
-                    minHeight={200}
-                    static={true}
-                    title="Ve phim"
-                    header={null}
-                    items={newItem.tickets}
-                    currentPage={1}
-                    lastPage={1}
-                    onPaginationClick={(page) => null}
-                    renderItem={() => null}
-                />
+
+                <OrderTicketList items={newItem.foods} disabled={true} />
                 <OrderFoodList items={newItem.foods} disabled={true} />
+
                 <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods) + ' VND'} />
                 <FormSelect label='Tinh trang' disabled={true} value={newItem.status} options={status} />
             </form>

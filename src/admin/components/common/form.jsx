@@ -67,14 +67,16 @@ export class FormSelect extends React.Component {
                     <select
                         className="form-control rounded-0 pl-2"
                         disabled={this.props.disabled}
-                        defaultValue={this.props.value}
+                        value={this.props.value}
+                        onChange={(e) => {
+                            this.props.onChange(e.target.value)
+                        }}
                     >
                         {this.props.options.map(opt => {
                             return (
                                 <option
                                     key={opt.id}
                                     value={opt.id}
-                                    onSelect={(e) => this.props.onChange(e.target.value)}
                                 >
                                     {opt.label}
                                 </option>

@@ -14,6 +14,7 @@ export class DateTimePicker extends React.Component {
             this.picker.destroy()
         }
         this.picker = $(this.ref).datetimepicker({
+            modal: true,
             format: 'HH:MM dd-mm-yy',
             width: this.props.width,
             footer: true,

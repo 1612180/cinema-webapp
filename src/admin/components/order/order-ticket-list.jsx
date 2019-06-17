@@ -30,7 +30,7 @@ const nullItem = {
     id: null,
     quantity: null
 }
-class OrderFoodList extends React.Component {
+class OrderTicketList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -76,7 +76,7 @@ class OrderFoodList extends React.Component {
                 <StaticListContainer
                     className={this.props.disabled ? 'my-5' : 'mt-4 mb-3'}
                     minHeight={200}
-                    title="Thuc an"
+                    title="Ve phim"
                     header={header}
                     items={this.props.items}
                     pageSize={5}
@@ -126,7 +126,7 @@ class OrderFoodList extends React.Component {
                 {this.props.disabled ? null :
                     <div className='d-flex justify-content-center mb-5'>
                         <Button active={true}
-                            label="Them thuc an"
+                            label="Them ve phim"
                             onClick={() => {
                                 this.setState({
                                     newItem: { ...nullItem },
@@ -232,4 +232,4 @@ const mapDispatchToProps = dispatch => {
         loadAvailableFoods: () => dispatch(loadFoods(0))
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(OrderFoodList)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderTicketList)

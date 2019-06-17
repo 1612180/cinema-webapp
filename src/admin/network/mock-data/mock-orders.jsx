@@ -18,7 +18,7 @@ export const getOrders = (n, options) => {
         let foodNum = Math.floor(Math.random() * 20) + 1;
         for (let i = 0; i < foodNum; i++) {
             foods.push(new OrderFood(
-                Math.floor(Math.random() * 2) + 1,
+                Math.floor(Math.random() * 5) + 1,
                 Math.floor(Math.random() * 3) + 1,
             ))
         }

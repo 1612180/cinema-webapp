@@ -170,7 +170,7 @@ export class ListContainer extends React.Component {
 export class StaticListContainer extends React.Component {
     constructor(props) {
         super(props)
-        this.pageNums = Math.ceil(props.items.length / props.pageSize)
+        this.pageNums = Math.max(Math.ceil(props.items.length / props.pageSize), 1)
         this.pages = new Array(this.pageNums).fill(null).map(() => new Array())
         for (let i = 0; i < props.items.length; i++) {
             let pageIndex = Math.floor(i / props.pageSize)
