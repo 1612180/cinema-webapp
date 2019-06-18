@@ -15,10 +15,10 @@ const loadingTheaters = (loading) => {
         loading: loading
     }
 }
-const setTheaters = (movies, err) => {
+const setTheaters = (theaters, err) => {
     return {
         type: actions.SET_THEATERS,
-        data: movies,
+        data: theaters,
         error: err
     }
 }
@@ -38,6 +38,40 @@ export const loadTheaters = (page, options) => {
             .catch(err => {
                 dispatch(setTheaters(null, 'request timeout ' + err))
                 dispatch(loadingTheaters(false))
+            })
+    }
+}
+
+// show times
+const loadingShowTimes = (loading) => {
+    return {
+        type: actions.LOADING_SHOW_TIMES,
+        loading: loading
+    }
+}
+const setShowTimes = (showTimes, err) => {
+    return {
+        type: actions.SET_SHOW_TIMES,
+        data: showTimes,
+        error: err
+    }
+}
+export const loadShowTimes = (theater, date, options) => {
+    return (dispatch, getState) => {
+        dispatch(loadingShowTimes(true))
+        AdminAPI.getShowTimes(theater, date, options)
+            .then(data => {
+                if (data.showTimes) {
+                    dispatch(setShowTimes(data, null))
+                    dispatch(loadingShowTimes(false))
+                } else {
+                    dispatch(setShowTimes(null, 'no show times found'))
+                    dispatch(loadingShowTimes(false))
+                }
+            })
+            .catch(err => {
+                dispatch(setShowTimes(null, 'request timeout ' + err))
+                dispatch(loadingShowTimes(false))
             })
     }
 }

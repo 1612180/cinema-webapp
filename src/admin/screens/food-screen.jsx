@@ -277,7 +277,7 @@ class FoodScreen extends React.Component {
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, price: text } })
                     })} />
-                <FormSelect label='Tinh trang' disabled={false} value={addNew ? status[0].id : newItem.status} options={status}
+                <FormSelect label='Tinh trang' disabled={false} value={!newItem.status ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
             </form>

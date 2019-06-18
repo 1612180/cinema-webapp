@@ -21,8 +21,8 @@ export const getMovies = (n, options) => {
         if (start > end)
             continue;
         movies.push(new Movie(
-            Math.floor(Math.random() * 100) + 1,
-            'Chem gio (2D Thuyet minh)',
+            movies.length + 1,
+            `Chem gio ${movies.length + 1}`,
             'Riot',
             'Riven',
             Math.floor(Math.random() * 5) + 1,

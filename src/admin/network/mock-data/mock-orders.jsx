@@ -15,15 +15,15 @@ export const getOrders = (n, options) => {
     while (orders.length < n) {
         let datetime = new Date(`2019/0${Math.floor(Math.random() * 9) + 1}/0${Math.floor(Math.random() * 9) + 1}`);
         let foods = [];
-        let foodNum = Math.floor(Math.random() * 20) + 1;
+        let foodNum = Math.floor(Math.random() * 5) + 1;
         for (let i = 0; i < foodNum; i++) {
             foods.push(new OrderFood(
-                Math.floor(Math.random() * 5) + 1,
+                foods.length + 1,
                 Math.floor(Math.random() * 3) + 1,
             ))
         }
         orders.push(new Order(
-            Math.floor(Math.random() * 100) + 1,
+            orders.length + 1,
             'leHauBoi',
             datetime,
             Math.floor(Math.random() * 3) + 1,

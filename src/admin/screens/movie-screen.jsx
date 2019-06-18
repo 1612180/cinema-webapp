@@ -351,7 +351,7 @@ class MovieScreen extends React.Component {
                     onChange={(text) => {
                         this.setState({ newItem: { ...newItem, actor: text } })
                     }} />
-                <FormSelect label='The loai' disabled={false} value={addNew ? genres[0].id : newItem.type} options={genres}
+                <FormSelect label='The loai' disabled={false} value={!newItem.type ? genres[0].id : newItem.type} options={genres}
                     onChange={type => this.setState({ newItem: { ...newItem, type: type } })}
                 />
                 <FormInput label='Thoi luong' disabled={false} value={newItem.length}

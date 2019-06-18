@@ -344,15 +344,15 @@ class OrderScreen extends React.Component {
                     min={() => new Date('2000/01/01')}
                     max={() => new Date()}
                     onChange={(date) => this.setState({ newItem: { ...newItem, datetime: date } })} />
-                <FormSelect label='Rap' disabled={false} value={addNew ? theaters[0].id : newItem.theater} options={theaters}
-                    onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
+                <FormSelect label='Rap' disabled={false} value={!newItem.theater ? theaters[0].id : newItem.theater} options={theaters}
+                    onChange={theater => this.setState({ newItem: { ...newItem, theater: theater } })}
                 />
 
                 <OrderTicketList items={addNew ? [] : newItem.foods} disabled={false} />
                 <OrderFoodList items={addNew ? [] : newItem.foods} disabled={false} />
 
                 <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods) + ' VND'} />
-                <FormSelect label='Tinh trang' disabled={false} value={addNew ? status[0].id : newItem.status} options={status}
+                <FormSelect label='Tinh trang' disabled={false} value={!newItem.status ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
             </form>

@@ -35,6 +35,13 @@ export const parseDate = (str, startOfDay) => {
     return date;
 }
 
+export const parseTime = str => {
+    let parsed = new Date()
+    let [hour, min] = str.split(':')
+    parsed.setHours(parseInt(hour), parseInt(min))
+    return parsed
+}
+
 export const parseDateTime = str => {
     let [time, dateStr] = str.split(' ');
     let date = dateStr.split('-');
@@ -50,10 +57,14 @@ export const equalDate = (d1, d2) => {
         && d1.getFullYear() === d2.getFullYear()
 }
 
+export const equalTime = (d1, d2) => {
+    return d1.getHours() === d2.getHours()
+        && d1.getMinutes() === d2.getMinutes()
+}
+
 export const equalDateTime = (d1, d2) => {
     return equalDate(d1, d2)
-        && d1.getHours() === d2.getHours()
-        && d1.getMinutes() === d2.getMinutes()
+        && equalTime(d1, d2)
 }
 
 export const toStartOfDay = d => {

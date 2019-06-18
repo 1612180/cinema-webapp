@@ -1,6 +1,6 @@
 import { getDashboardMovies, getMovies } from './mock-data/mock-movies'
 import { getDashboardOrders, getOrders } from './mock-data/mock-orders'
-import { getDashboardTheaters, getTheaters } from './mock-data/mock-theaters'
+import { getDashboardTheaters, getTheaters, getTheaterShowTimes } from './mock-data/mock-theaters'
 import { getDashboardCharts } from './mock-data/mock-charts'
 import { getTickets } from './mock-data/mock-tickets'
 import { getFoods } from './mock-data/mock-foods'
@@ -85,6 +85,9 @@ export default class AdminApi {
             lastPage: 2,
             total: 18
         })
+    }
+    static getShowTimes(theater, date, options) {
+        return ok({ showTimes: getTheaterShowTimes(9, theater.row, theater.column, options) })
     }
 
     //--------------------- Tickets ------------------------//

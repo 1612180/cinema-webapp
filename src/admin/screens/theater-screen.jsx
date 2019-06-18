@@ -13,6 +13,7 @@ import { RemoteDataModal, ModalState } from '../components/common/modal';
 import { FloatingButton } from '../components/common/floating-button';
 import { FormInput, FormSelect, FormDatePicker } from '../components/common/form';
 import { buildErrorTooltip } from '../components/common/error-tooltip';
+import TheaterMovieList from '../components/theater/theater-movie-list';
 
 const MIN_INTERVAL = 500
 
@@ -33,10 +34,6 @@ const validationRules = {
             required: true,
             digits: true
         },
-        theaterOrdered: {
-            required: true,
-            digits: true
-        }
     },
     messages: {
         theaterId: {
@@ -53,10 +50,6 @@ const validationRules = {
             required: buildErrorTooltip("Vui long dien so ghe moi hang"),
             digits: buildErrorTooltip("So ghe moi hang phai la so nguyen")
         },
-        theaterOrdered: {
-            required: buildErrorTooltip("Vui long dien so ghe da dat"),
-            digits: buildErrorTooltip("So ghe da dat phai la so nguyen")
-        }
     }
 }
 
@@ -66,7 +59,6 @@ const nullItem = {
     address: null,
     row: null,
     column: null,
-    ordered: null,
     status: null,
 }
 class TheaterScreen extends React.Component {
@@ -208,7 +200,6 @@ class TheaterScreen extends React.Component {
                 <td>Ten rap</td>
                 <td>Dia chi</td>
                 <td className="text-center">Kich thuoc</td>
-                <td className="text-center">Da dat</td>
                 <td className="text-center">Dang hoat dong</td>
             </tr>
         )
@@ -233,7 +224,6 @@ class TheaterScreen extends React.Component {
                                 <div>{item.name}</div>
                                 <div>{item.address}</div>
                                 <div className="text-center">{size}</div>
-                                <div className="text-center">{item.ordered}</div>
                                 <div className={`text-center ${textColor}`}>{status.label}</div>
                             </ClickableTableCells>
                             <td className="text-right">
@@ -313,12 +303,8 @@ class TheaterScreen extends React.Component {
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, column: text } })
                     })} />
-                <FormInput label='Da dat' disabled={false} value={newItem.ordered}
-                    name='theaterOrdered'
-                    onChange={this.validate((text) => {
-                        this.setState({ newItem: { ...newItem, ordered: text } })
-                    })} />
-                <FormSelect label='Tinh trang' disabled={false} value={addNew ? status[0].id : newItem.status} options={status}
+                {!addNew ? <TheaterMovieList theater={newItem} disabled={false} /> : null}
+                <FormSelect label='Tinh trang' disabled={false} value={!newItem.status ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
             </form>
@@ -335,7 +321,7 @@ class TheaterScreen extends React.Component {
                 <FormInput label='Dia chi' disabled={true} value={newItem.address} />
                 <FormInput label='So hang ghe' disabled={true} value={newItem.row} />
                 <FormInput label='So ghe moi hang' disabled={true} value={newItem.column} />
-                <FormInput label='Da dat' disabled={true} value={newItem.ordered} />
+                <TheaterMovieList theater={newItem} disabled={true} />
                 <FormSelect label='Tinh trang' disabled={true} value={newItem.status} options={status} />
             </form>
         )
@@ -344,6 +330,7 @@ class TheaterScreen extends React.Component {
     renderModals() {
         return (
             <RemoteDataModal
+                large={true}
                 initialState={this.state.modalState}
                 show={this.state.modalOpen}
                 onHide={() => {

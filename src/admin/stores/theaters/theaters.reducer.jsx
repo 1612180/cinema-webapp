@@ -13,6 +13,11 @@ const initialState = {
         data: null,
         isLoading: true,
         error: null
+    },
+    showTimes: {
+        data: null,
+        isLoading: true,
+        error: null
     }
 }
 
@@ -23,6 +28,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 theaters: {
                     ...state.theaters,
+                    isLoading: action.loading
+                }
+            }
+        }
+        case actions.LOADING_SHOW_TIMES: {
+            return {
+                ...state,
+                showTimes: {
+                    ...state.showTimes,
                     isLoading: action.loading
                 }
             }
@@ -47,6 +61,16 @@ const reducer = (state = initialState, action) => {
                     currentPage: action.data ? action.data.currentPage : 1,
                     lastPage: action.data ? action.data.lastPage : 1,
                     total: action.data ? action.data.total : 1,
+                }
+            }
+        }
+        case actions.SET_SHOW_TIMES: {
+            return {
+                ...state,
+                showTimes: {
+                    ...state.showTimes,
+                    data: action.data ? action.data.showTimes : null,
+                    error: action.error,
                 }
             }
         }

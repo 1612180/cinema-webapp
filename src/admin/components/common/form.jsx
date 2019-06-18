@@ -1,8 +1,8 @@
 import React from 'react'
 import { DatePicker } from './datepicker'
 import { DateTimePicker } from './datetimepicker'
-import { formatDate, formatDateTime } from '../../libs/datetime'
-import { SearchBox } from '../header/search-box';
+import { formatDate, formatDateTime, formatTime } from '../../libs/datetime'
+import { TimePicker } from './timepicker';
 
 export class DataForm extends React.Component {
     constructor(props) {
@@ -106,6 +106,32 @@ export class FormDatePicker extends React.Component {
                         <DatePicker
                             min={() => this.props.min()}
                             max={() => this.props.max()}
+                            value={this.props.value}
+                            width={this.props.width}
+                            onChange={this.props.onChange}
+                        />
+                    }
+                </div>
+            </div>
+        )
+    }
+}
+
+export class FormTimePicker extends React.Component {
+    render() {
+        return (
+            <div className="form-group row align-items-center">
+                <label className="col-md-4 control-label font-weight-bold">{this.props.label}</label>
+                <div className="col-md-8 position-relative input-group">
+                    {this.props.disabled ?
+                        <input
+                            type="text"
+                            className="form-control input-md rounded-0"
+                            readOnly={true}
+                            value={formatTime(this.props.value)}
+                        />
+                        :
+                        <TimePicker
                             value={this.props.value}
                             width={this.props.width}
                             onChange={this.props.onChange}

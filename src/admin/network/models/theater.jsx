@@ -8,13 +8,21 @@ export class DashboardTheater {
 }
 
 export class Theater {
-    constructor(id, name, address, row, column, ordered, status) {
+    constructor(id, name, address, row, column, status) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.row = row;
         this.column = column;
-        this.ordered = ordered;
         this.status = status;
+    }
+}
+
+export class TheaterShowTime {
+    constructor(time, movie, ticket, ordered) {
+        this.time = time
+        this.movie = movie
+        this.ticket = ticket
+        this.ordered = ordered
     }
 }
