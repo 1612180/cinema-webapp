@@ -12,16 +12,20 @@ Nguyễn Trần Hậu - 1612180
 
 ```
 app.js
-public
-    css
-    img
 routes
+    ...js
+models
     ...js
 views
     ...html
+public
+    css
+    img
 ```
 
-Thư mục ```routes``` chứa api
+Thư mục ```routes``` chứa endpoint định tuyến
+
+Thư mục ```models``` chứa models ORM
 
 Thư mục ```views``` chứa html
 
@@ -29,19 +33,15 @@ Thư mục ```publc``` chứa static file (img, css, ...)
 
 File ```app.js``` là file chạy chính
 
-## Hướng dẫn deploy trên Heroku
+## Hướng dẫn
 
-Tạo app
+Chạy local
 ```
-heroku create
-```
-
-Test trên local
-```
-heroku local
+npm install
+npm start
 ```
 
-Deploy lên Heroku
+Reset heroku database
 ```
-git push heroku master
+heroku pg:reset DATABASE_URL
 ```
