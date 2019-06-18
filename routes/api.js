@@ -20,7 +20,8 @@ const {
   Food,
   FoodStatus,
   FoodOrder,
-  FoodShoppingCart
+  FoodShoppingCart,
+  Banner
 } = require("../models");
 
 router.get("/count/movies", (req, res) => {
@@ -95,8 +96,25 @@ router.get("/movies/:id/theaters/:id2/ticket_types/:id3", (req, res) => {
     .catch(err => res.json({ status: false, message: err }));
 });
 
+router.get("/count/now/:date", (req, res) => {
+  Movie.findAndCountAll({
+    where: {
+      startDate: {
+        [Op.lte]: req.params.date
+      },
+      endDate: {
+        [Op.gte]: req.params.date
+      }
+    }
+  })
+    .then(data =>
+      res.json({ status: true, message: "OK", data: data.count, limit: LIMIT })
+    )
+    .catch(err => res.json({ status: false, message: err }));
+});
+
 router.get("/now/:date", (req, res) => {
-  if (!req.params.date) {
+  if (!req.query.page) {
     Movie.findAll({
       where: {
         startDate: {
@@ -134,8 +152,22 @@ router.get("/now/:date", (req, res) => {
     .catch(err => res.json({ status: false, message: err }));
 });
 
+router.get("/count/future/:date", (req, res) => {
+  Movie.findAndCountAll({
+    where: {
+      startDate: {
+        [Op.gte]: req.params.date
+      }
+    }
+  })
+    .then(data =>
+      res.json({ status: true, message: "OK", data: data.count, limit: LIMIT })
+    )
+    .catch(err => res.json({ status: false, message: err }));
+});
+
 router.get("/future/:date", (req, res) => {
-  if (!req.params.date) {
+  if (!req.query.page) {
     Movie.findAll({
       where: {
         startDate: {
@@ -939,7 +971,9 @@ router.post("/food_orders", (req, res) => {
     quantity: req.body.quantity,
     foodId: req.body.foodId,
     orderId: req.body.orderId
-  });
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
 });
 
 router.delete("/food_orders", (req, res) => {
@@ -956,6 +990,59 @@ router.delete("/food_orders/:id", (req, res) => {
       id: req.params.id
     },
     truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/banner", (req, res) => {
+  Banner.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/banner/:id", (req, res) => {
+  Banner.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/banner/", (req, res) => {
+  Banner.create({
+    photoUrl: req.body.photoUrl
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/banner/:id", (req, res) => {
+  Banner.update(
+    {
+      photoUrl: req.body.photoUrl
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/banner", (req, res) => {
+  Banner.destroy({
+    truncate: true
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/banner/:id", (req, res) => {
+  Banner.destroy({
+    where: {
+      id: req.params.id
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));

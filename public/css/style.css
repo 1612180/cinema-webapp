@@ -12,7 +12,6 @@ body {
 #btn-dangnhap,
 #btn-dangky {
   color: #2d7ff9;
-  text-decoration: none;
 }
 
 .black-background {
@@ -31,12 +30,10 @@ body {
 
 .btn-bar {
   color: white;
-  text-decoration: none;
 }
 
 .btn-bar:hover {
   color: #2d7ff9;
-  text-decoration: none;
 }
 
 .btn-normal {
@@ -54,11 +51,10 @@ body {
 
 .btn-link-normal {
   color: #2d7ff9;
-  text-decoration: none;
 }
 
-.btn-link-normal:hover {
-  text-decoration: none;
+.btn-link-normal-inactive {
+  color: grey;
 }
 
 .btn-social {

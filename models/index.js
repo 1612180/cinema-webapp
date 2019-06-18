@@ -21,6 +21,7 @@ const FoodModel = require("./food");
 const FoodStatusModel = require("./food_status");
 const FoodOrderModel = require("./food_order");
 const FoodShoppingCartModel = require("./food_shopping_cart");
+const BannerModel = require("./banner")
 
 const User = UserModel(sequelize, Sequelize);
 const Movie = MovieModel(sequelize, Sequelize);
@@ -38,6 +39,7 @@ const Food = FoodModel(sequelize, Sequelize);
 const FoodStatus = FoodStatusModel(sequelize, Sequelize);
 const FoodOrder = FoodOrderModel(sequelize, Sequelize);
 const FoodShoppingCart = FoodShoppingCartModel(sequelize, Sequelize);
+const Banner = BannerModel(sequelize, Sequelize)
 
 Theater.belongsTo(TheaterStatus);
 TicketType.belongsTo(TicketStatus);
@@ -57,7 +59,7 @@ FoodShoppingCart.belongsTo(Food)
 FoodOrder.belongsTo(Order)
 FoodOrder.belongsTo(Food)
 
-// sequelize.sync({force: true})
+//sequelize.sync({force: true})
 sequelize.sync()
 
 module.exports = {
@@ -77,5 +79,6 @@ module.exports = {
   Food,
   FoodStatus,
   FoodOrder,
-  FoodShoppingCart
+  FoodShoppingCart,
+  Banner
 };
