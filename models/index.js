@@ -59,7 +59,7 @@ FoodShoppingCart.belongsTo(Food)
 FoodOrder.belongsTo(Order)
 FoodOrder.belongsTo(Food)
 
-//sequelize.sync({force: true})
+// sequelize.sync({force: true})
 sequelize.sync()
 
 module.exports = {
