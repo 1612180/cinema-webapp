@@ -93,7 +93,7 @@ class TheaterMovieList extends React.Component {
         return (
             <React.Fragment>
                 <StaticListContainer
-                    className={this.props.disabled ? 'my-5' : 'mt-4 mb-3'}
+                    className={this.props.disabled ? 'my-5' : 'mt-5 mb-3'}
                     minHeight={200}
                     title={`Lich chieu - Ngay ${formatDate(this.state.date)}`}
                     header={header}

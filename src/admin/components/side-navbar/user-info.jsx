@@ -1,8 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { Link } from '../common/link'
 import { NigamonIcon } from '../common/nigamon-icon'
 import { userInfo, logOut } from '../../stores/app-state/app-state.action'
+import { routes } from '../../routes'
+import { ClickableView } from '../common/clickable-view';
 
 class UserInfo extends React.Component {
     constructor(props) {
@@ -15,9 +18,14 @@ class UserInfo extends React.Component {
             <div className="row justify-content-between align-items-center mx-2 border-bottom border-secondary">
                 <p className="text-secondary h6" onClick={this.props.onClick}>{email}</p>
                 <p className="h2">
-                    <Link href="/admin/logout">
+                    <ClickableView
+                        onClick={() => {
+                            this.props.logOut()
+                            this.props.history.push(routes.LOGIN.path)
+                        }}
+                    >
                         <NigamonIcon name="sign-out-alt" />
-                    </Link>
+                    </ClickableView>
                 </p>
             </div>
         )
@@ -37,4 +45,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserInfo))

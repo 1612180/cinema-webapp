@@ -49,7 +49,9 @@ class OrderFoodList extends React.Component {
     }
 
     componentWillMount() {
-        this.props.loadAvailableFoods()
+        if (!this.props.foods.isLoading && this.props.foods.isFailed) {
+            this.props.loadAvailableFoods()
+        }
     }
 
     validate(cb) {
@@ -162,7 +164,7 @@ class OrderFoodList extends React.Component {
         let total = this.props.foods.data.find(f => f.id === id).price * quantity
         return (
             <form ref={ref => this.newForm = ref}>
-                <FormSelect label='Ten thuc an' disabled={false} value={addNew ? foods[0].id : newItem.id} options={foods}
+                <FormSelect label='Ten thuc an' disabled={false} value={!newItem.id ? foods[0].id : newItem.id} options={foods}
                     onChange={id => {
                         this.setState({ newItem: { ...newItem, id: parseInt(id) } })
                     }}

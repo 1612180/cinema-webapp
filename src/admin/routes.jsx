@@ -22,5 +22,13 @@ export const routes = {
     ORDER: {
         id: 5,
         path: '/v2/admin/order'
+    },
+    LOGIN: {
+        id: 6,
+        path: '/v2/admin/login'
+    },
+    RESET_PASSWORD: {
+        id: 7,
+        path: '/v2/admin/reset'
     }
 }

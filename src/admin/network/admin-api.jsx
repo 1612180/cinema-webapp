@@ -18,8 +18,23 @@ const ITEM_PER_PAGE = {
     other: 10
 }
 export default class AdminApi {
+    static login(email, password) {
+        if (email === 'test@dev.com' && password === 'test') {
+            return ok({
+                isLogin: true,
+                userInfo: {
+                    name: 'Nguyen Tran Hau',
+                    email: 'test@dev.com',
+                    password: 'somerandompassword',
+                    lastLogin: new Date('2019/05/06')
+                }
+            })
+        } else {
+            return ok({ isLogin: false })
+        }
+    }
     static checkLogin() {
-        return ok({
+        return fail({
             isLogin: true,
             userInfo: {
                 name: 'Nguyen Tran Hau',

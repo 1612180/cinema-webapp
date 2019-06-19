@@ -1,7 +1,14 @@
 import { actions } from './app-state.type'
 import AdminAPI from '../../network/admin-api'
 
-export const login = (isLogin) => {
+export const loginError = (error) => {
+    return {
+        type: actions.LOGIN_ERROR,
+        error: error
+    }
+}
+
+export const isLogin = (isLogin) => {
     return {
         type: actions.IS_LOGIN,
         isLogin: isLogin
@@ -28,16 +35,40 @@ export const reload = (reload) => {
     }
 }
 
-export const tryLogin = (cb) => {
-    return (dispatch, getState) => {
+export const tryLogin = (cb, failCb) => {
+    return (dispatch) => {
         return AdminAPI.checkLogin()
             .then(response => {
+                if (!response.isLogin) {
+                    dispatch(loginError('Chua dang nhap'))
+                }
                 dispatch(userInfo(response.userInfo))
-                dispatch(login(response.isLogin))
+                dispatch(isLogin(response.isLogin))
                 cb()
             })
             .catch(err => {
-                dispatch(login(false))
+                dispatch(loginError('Loi ket noi'))
+                dispatch(isLogin(false))
+                if (failCb) {
+                    failCb()
+                }
+            })
+    }
+}
+
+export const login = (email, password) => {
+    return (dispatch) => {
+        return AdminAPI.login(email, password)
+            .then(response => {
+                if (!response.isLogin) {
+                    dispatch(loginError('Sai mat khau hoac email'))
+                }
+                dispatch(userInfo(response.userInfo))
+                dispatch(isLogin(response.isLogin))
+            })
+            .catch(err => {
+                dispatch(loginError('Loi ket noi'))
+                dispatch(isLogin(false))
             })
     }
 }

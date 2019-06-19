@@ -8,6 +8,8 @@ import { RemoteDropdown, Dropdown } from '../components/common/dropdown';
 import { loadTheaterChoices } from '../stores/dashboard/dashboard.action'
 import { loadContent, loadOrders } from '../stores/orders/orders.action'
 import { loadFoods } from '../stores/foods/foods.action'
+import { loadTickets } from '../stores/tickets/tickets.action'
+import { loadTheaters } from '../stores/theaters/theaters.action'
 import { InlineClickableView, ClickableTableCells } from '../components/common/clickable-view';
 import { NigamonIcon } from '../components/common/nigamon-icon';
 
@@ -19,8 +21,6 @@ import { formatMoney } from '../libs/money'
 import { buildErrorTooltip } from '../components/common/error-tooltip';
 import { OrderDatePicker } from '../components/order/order-datepicker';
 import { OrderPriceRangePicker } from '../components/order/order-price-range-picker';
-import { ListContainer } from '../components/common/list-container';
-import { Button } from '../components/common/button';
 import OrderFoodList from '../components/order/order-food-list';
 import OrderTicketList from '../components/order/order-ticket-list';
 
@@ -155,16 +155,24 @@ class OrderScreen extends React.Component {
     }
 
     isDependenciesLoadFailed() {
-        let { statusChoices, theaterChoices, foods } = this.props
+        let { statusChoices, theaterChoices, foods, theaters, tickets } = this.props
         let failedStatus = statusChoices.data === null || (statusChoices.error !== null && statusChoices.error !== undefined)
-        let failedTheater = theaterChoices.data === null || (theaterChoices.error !== null && theaterChoices.error !== undefined)
+        let failedTheaterChoices = theaterChoices.data === null || (theaterChoices.error !== null && theaterChoices.error !== undefined)
+        let failedTheater = theaters.data === null || (theaters.error !== null && theaters.error !== undefined)
         let failedFood = foods.data === null || (foods.error !== null && foods.error !== undefined)
-        return failedStatus || failedTheater || failedFood
+        let failedTicket = tickets.data === null || (tickets.error !== null && tickets.error !== undefined)
+        return failedStatus
+            || failedTheaterChoices
+            || failedTheater
+            || failedFood
+            || failedTicket
     }
     isDependenciesLoading() {
         return this.props.statusChoices.isLoading
             || this.props.theaterChoices.isLoading
+            || this.props.theaters.isLoading
             || this.props.foods.isLoading
+            || this.props.tickets.isLoading
     }
 
     renderHeader() {
@@ -200,19 +208,11 @@ class OrderScreen extends React.Component {
                     <div className="row mx-0">
                         <RemoteDropdown
                             className='col-lg-5 my-3'
-                            padding='px-3'
+                            padding='px-5'
                             defaultLabel='Tinh trang'
                             onDefaultClick={() => this.handleStatusChoice(0)}
                             data={this.props.statusChoices}
                             onChoiceClick={(c) => this.handleStatusChoice(c.id)}
-                        />
-                        <RemoteDropdown
-                            className='col-lg-7 my-3'
-                            padding='px-3'
-                            defaultLabel='Tat ca rap'
-                            onDefaultClick={() => null}
-                            data={this.props.theaterChoices}
-                            onChoiceClick={(c) => null}
                         />
                     </div>
                     <div className="row h6 m-0">
@@ -237,7 +237,6 @@ class OrderScreen extends React.Component {
                 <td>Nguoi dung</td>
                 <td className="text-center">Ngay</td>
                 <td className="text-center">Gio</td>
-                <td>Rap</td>
                 <td className="text-right">Tong tien</td>
                 <td className="text-center">Tinh trang</td>
             </tr>
@@ -251,7 +250,6 @@ class OrderScreen extends React.Component {
                 header={header}
                 renderItem={(item) => {
                     let status = this.props.statusChoices.data.filter(c => c.id === item.status)[0]
-                    let theater = this.props.theaterChoices.data.filter(c => c.id === item.theater)[0]
                     let textColor = 'text-success'
                     if (status.id === 2) {
                         textColor = 'text-warning'
@@ -260,6 +258,8 @@ class OrderScreen extends React.Component {
                     }
                     let totalFoods = item.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
                         .reduce((prev, cur) => prev + cur)
+                    let totalTickets = item.tickets.map(c => this.props.tickets.data.find(v => v.id === c.ticket).price)
+                        .reduce((prev, cur) => prev + cur, 0)
                     return (
                         <tr>
                             <ClickableTableCells onClick={() => {
@@ -270,8 +270,7 @@ class OrderScreen extends React.Component {
                                 <div>{item.username}</div>
                                 <div className="text-center">{formatDate(item.datetime)}</div>
                                 <div className="text-center">{formatTime(item.datetime)}</div>
-                                <div>{theater.label}</div>
-                                <div className="text-right">{formatMoney(totalFoods) + ' VND'}</div>
+                                <div className="text-right">{formatMoney(totalFoods + totalTickets) + ' VND'}</div>
                                 <div className={`text-center ${textColor}`}>{status.label}</div>
                             </ClickableTableCells>
                             <td className="text-right">
@@ -323,9 +322,10 @@ class OrderScreen extends React.Component {
 
     renderEditForm(addNew) {
         let status = this.props.statusChoices.data
-        let theaters = this.props.theaterChoices.data
         let { newItem } = this.state
         let totalFoods = addNew ? 0 : newItem.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
+            .reduce((prev, cur) => prev + cur, 0)
+        let totalTickets = addNew ? 0 : newItem.tickets.map(c => this.props.tickets.data.find(v => v.id === c.ticket).price)
             .reduce((prev, cur) => prev + cur, 0)
         return (
             <form ref={ref => this.newForm = ref}>
@@ -344,14 +344,11 @@ class OrderScreen extends React.Component {
                     min={() => new Date('2000/01/01')}
                     max={() => new Date()}
                     onChange={(date) => this.setState({ newItem: { ...newItem, datetime: date } })} />
-                <FormSelect label='Rap' disabled={false} value={!newItem.theater ? theaters[0].id : newItem.theater} options={theaters}
-                    onChange={theater => this.setState({ newItem: { ...newItem, theater: theater } })}
-                />
 
-                <OrderTicketList items={addNew ? [] : newItem.foods} disabled={false} />
-                <OrderFoodList items={addNew ? [] : newItem.foods} disabled={false} />
+                <OrderTicketList items={newItem.tickets} disabled={false} />
+                <OrderFoodList items={newItem.foods} disabled={false} />
 
-                <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods) + ' VND'} />
+                <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods + totalTickets) + ' VND'} />
                 <FormSelect label='Tinh trang' disabled={false} value={!newItem.status ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
@@ -361,21 +358,21 @@ class OrderScreen extends React.Component {
 
     renderInfoForm(remove) {
         let status = this.props.statusChoices.data
-        let theaters = this.props.theaterChoices.data
         let { newItem } = this.state
         let totalFoods = newItem.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
             .reduce((prev, cur) => prev + cur)
+        let totalTickets = newItem.tickets.map(c => this.props.tickets.data.find(v => v.id === c.ticket).price)
+            .reduce((prev, cur) => prev + cur, 0)
         return (
             <form ref={ref => this.newForm = ref}>
                 <FormInput label='Ma don hang' disabled={true} value={newItem.id} />
                 <FormInput label='Nguoi dung' disabled={true} value={newItem.username} />
                 <FormDateTimePicker label='Thoi gian' disabled={true} value={this.state.newItem.datetime} />
-                <FormSelect label='Rap' disabled={true} value={newItem.theater} options={theaters} />
 
-                <OrderTicketList items={newItem.foods} disabled={true} />
+                <OrderTicketList items={newItem.tickets} disabled={true} />
                 <OrderFoodList items={newItem.foods} disabled={true} />
 
-                <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods) + ' VND'} />
+                <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods + totalTickets) + ' VND'} />
                 <FormSelect label='Tinh trang' disabled={true} value={newItem.status} options={status} />
             </form>
         )
@@ -410,6 +407,8 @@ class OrderScreen extends React.Component {
                     this.props.loadContent()
                     this.props.loadTheaterChoices()
                     this.props.loadAvailableFoods()
+                    this.props.loadAvailableTickets()
+                    this.props.loadAvailableTheaters()
                 }}
             />
         )
@@ -422,6 +421,8 @@ const mapStateToProps = state => {
         theaterChoices: state.dashboard.theaterChoices,
         statusChoices: state.orders.statusChoices,
         foods: state.foods.foods,
+        tickets: state.tickets.tickets,
+        theaters: state.theaters.theaters
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -429,7 +430,9 @@ const mapDispatchToProps = dispatch => {
         loadContent: () => dispatch(loadContent()),
         loadOrders: (page, options) => dispatch(loadOrders(page, options)),
         loadTheaterChoices: () => dispatch(loadTheaterChoices()),
-        loadAvailableFoods: () => dispatch(loadFoods(0))
+        loadAvailableFoods: () => dispatch(loadFoods(0)),
+        loadAvailableTickets: () => dispatch(loadTickets(0)),
+        loadAvailableTheaters: () => dispatch(loadTheaters(0))
     }
 }
 

@@ -4,11 +4,15 @@ const initialState = {
     isLoading: true,
     isLogin: false,
     userInfo: null,
-    reload: false
+    reload: false,
+    loginError: null
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actions.LOGIN_ERROR: {
+            return { ...state, loginError: action.error }
+        }
         case actions.IS_LOGIN: {
             return { ...state, isLogin: action.isLogin }
         }

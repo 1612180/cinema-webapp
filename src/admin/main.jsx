@@ -11,12 +11,16 @@ import TheaterScreen from './screens/theater-screen'
 import TicketScreen from './screens/ticket-screen'
 import FoodScreen from './screens/food-screen'
 import OrderScreen from './screens/order-screen'
+import LoginScreen from './screens/login-screen';
+import ResetPasswordScreen from './screens/reset-password-screen';
 
 class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
                 <Switch>
+                    <Route path={routes.RESET_PASSWORD.path} component={ResetPasswordScreen} />
+                    <Route path={routes.LOGIN.path} component={LoginScreen} />
                     <Route path={routes.ORDER.path} component={OrderScreen} />
                     <Route path={routes.FOOD.path} component={FoodScreen} />
                     <Route path={routes.TICKET.path} component={TicketScreen} />

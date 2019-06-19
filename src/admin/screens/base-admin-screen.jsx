@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import { Spinner } from '../components/common/spinner'
 import SideNavbar from '../components/side-navbar/side-navbar'
 
 import { tryLogin, reload } from '../stores/app-state/app-state.action'
 import { changeActiveNavOption } from '../stores/side-navbar/side-navbar.action'
+import { routes } from '../routes'
 
 export class BaseAdminScreen extends React.Component {
     constructor(props) {
@@ -23,9 +25,14 @@ export class BaseAdminScreen extends React.Component {
     }
 
     componentWillMount() {
-        let cb = () => this.props.callback ? this.props.callback() : null
+        let cb = () => {
+            if (this.isLogin()) {
+                return this.props.callback ? this.props.callback() : null
+            }
+            this.props.history.push(routes.LOGIN.path)
+        }
         if (this.requireLogin() && !this.isLogin()) {
-            this.props.tryLogin(cb)
+            this.props.tryLogin(cb, () => this.props.history.push(routes.LOGIN.path))
         } else {
             cb()
         }
@@ -80,10 +87,10 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        tryLogin: (cb) => dispatch(tryLogin(cb)),
+        tryLogin: (cb, failCb) => dispatch(tryLogin(cb, failCb)),
         reload: (r) => dispatch(reload(r)),
         changeActiveNavOption: (id) => dispatch(changeActiveNavOption(id))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BaseAdminScreen)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseAdminScreen))
