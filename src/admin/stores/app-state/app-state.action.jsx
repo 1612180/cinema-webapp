@@ -41,10 +41,15 @@ export const tryLogin = (cb, failCb) => {
             .then(response => {
                 if (!response.isLogin) {
                     dispatch(loginError('Chua dang nhap'))
+                    dispatch(isLogin(false))
+                    if (failCb) {
+                        failCb()
+                    }
+                } else {
+                    dispatch(userInfo(response.userInfo))
+                    dispatch(isLogin(response.isLogin))
+                    cb()
                 }
-                dispatch(userInfo(response.userInfo))
-                dispatch(isLogin(response.isLogin))
-                cb()
             })
             .catch(err => {
                 dispatch(loginError('Loi ket noi'))

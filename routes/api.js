@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
+const jwt = require('jsonwebtoken')
+const secretKey = process.env.SECRET_KEY || 'wtf'
+
 const LIMIT = 4;
 
 const {
   Op,
+  Admin,
   User,
   Movie,
   Theater,
@@ -1047,5 +1051,70 @@ router.delete("/banner/:id", (req, res) => {
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
 });
+
+// admin
+router.post('/admin/login', (req, res) => {
+  Admin.findByPk(req.body.email)
+    .then(data => {
+      if (data.hashedPassword === req.body.password) {
+        Admin.update({
+          lastLogin: new Date()
+        }, {
+            where: {
+              email: data.email
+            }
+          })
+        jwt.sign({
+          name: data.adminName,
+          lastLogin: data.lastLogin,
+          email: data.email
+        }, secretKey, {
+            expiresIn: "10h"
+          }, (err, token) => {
+            res.json({
+              isLogin: true,
+              token: token,
+              userInfo: {
+                name: data.adminName,
+                lastLogin: data.lastLogin,
+                email: data.email
+              }
+            })
+          })
+      } else {
+        res.json({ isLogin: false })
+      }
+    })
+    .catch(() => res.json({ isLogin: false }))
+})
+
+router.get('/admin/login', (req, res) => {
+  if (req.headers.authorization) {
+    jwt.verify(req.headers.authorization.slice(7), secretKey, (err, decoded) => {
+      if (err) {
+      } else {
+        jwt.sign({
+          name: decoded.name,
+          lastLogin: decoded.lastLogin,
+          email: decoded.email
+        }, secretKey, {
+            expiresIn: "10h"
+          }, (err, token) => {
+            res.json({
+              isLogin: true,
+              token: token,
+              userInfo: {
+                name: decoded.name,
+                lastLogin: decoded.lastLogin,
+                email: decoded.email
+              }
+            })
+          })
+      }
+    })
+  } else {
+    res.json({ isLogin: false })
+  }
+})
 
 module.exports = router;

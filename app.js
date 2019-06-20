@@ -8,8 +8,7 @@ const port = process.env.PORT || 8080;
 
 // module routes
 const userViews = require("./routes/user_views");
-const adminRoute = require("./routes/admin");
-const adminV2 = require("./routes/admin.v2");
+const admin = require("./routes/admin");
 const api = require("./routes/api");
 
 // for parsing application/json
@@ -21,12 +20,11 @@ app.use("/dist", express.static("dist"));
 
 app.use("/", userViews);
 
-app.use("/admin", adminRoute);
-app.use("/v2/admin", adminV2);
-app.use("/v2/admin/*", adminV2);
+app.use("/admin", admin);
+app.use("/admin/*", admin);
 
 app.use("/api", api);
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+    console.log(`Listening on port ${port}`);
 });

@@ -12,35 +12,55 @@ import {
     getFoodStatusChoices,
     getOrderStatusChoices
 } from './mock-data/mock-choices'
+import moment from 'moment'
+import { ApiClient } from './api-client'
 
 const ITEM_PER_PAGE = {
     dashboard: 5,
     other: 10
 }
+const BASE_URL = 'http://localhost:8080/api/admin'
 export default class AdminApi {
     static login(email, password) {
-        if (email === 'test@dev.com' && password === 'test') {
-            return ok({
-                isLogin: true,
-                userInfo: {
-                    name: 'Nguyen Tran Hau',
-                    email: 'test@dev.com',
-                    password: 'somerandompassword',
-                    lastLogin: new Date('2019/05/06')
+        const apiClient = new ApiClient(BASE_URL)
+        return apiClient.postJson('/login', { email, password })
+            .then(data => {
+                if (!data.isLogin) {
+                    return data
+                }
+                localStorage.setItem('NIGAMON_TOKEN', data.token)
+                return {
+                    ...data,
+                    userInfo: {
+                        ...data.userInfo,
+                        lastLogin: moment.utc(data.userInfo.lastLogin).toDate()
+                    }
                 }
             })
-        } else {
-            return ok({ isLogin: false })
-        }
     }
     static checkLogin() {
-        return fail({
-            isLogin: true,
-            userInfo: {
-                name: 'Nguyen Tran Hau',
-                email: 'test@dev.com',
-                password: 'somerandompassword',
-                lastLogin: new Date('2019/05/06')
+        let token = localStorage.getItem('NIGAMON_TOKEN')
+        if (token === undefined) {
+            console.log('wtf')
+            return new Promise((resolve, reject) => resolve({ isLogin: false }))
+        }
+
+        const apiClient = new ApiClient(BASE_URL)
+        return apiClient.getJson('/login', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(data => {
+            if (!data.isLogin) {
+                return data
+            }
+            localStorage.setItem('NIGAMON_TOKEN', data.token)
+            return {
+                ...data,
+                userInfo: {
+                    ...data.userInfo,
+                    lastLogin: moment.utc(data.userInfo.lastLogin).toDate()
+                }
             }
         })
     }

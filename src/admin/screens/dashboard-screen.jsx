@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { formatDate } from '../libs/datetime'
+import { formatDate, formatDateTime } from '../libs/datetime'
 import BaseAdminScreen from './base-admin-screen'
 import { BaseHeader } from '../components/header/base-header';
 import { NotificationHelp } from '../components/header/notification-help'
@@ -81,7 +81,7 @@ class DashboardScreen extends React.Component {
                     <Button label='Cap nhat du lieu' onClick={this.props.loadContent} />
                     <div className='mt-3'>
                         <div className="h6 font-weight-bold mb-2 text-center">Đăng nhập lần cuối: &nbsp;&nbsp;&nbsp;
-                                <span className="h6 font-weight-normal">{formatDate(this.props.userInfo.lastLogin)}</span></div>
+                                <span className="h6 font-weight-normal">{formatDateTime(this.props.userInfo.lastLogin)}</span></div>
                         <CurrentDateTime />
                     </div>
                 </div>

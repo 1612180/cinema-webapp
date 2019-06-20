@@ -5,6 +5,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 
 const Op = Sequelize.Op;
 
+const AdminModel = require('./admin')
 const UserModel = require("./user");
 const MovieModel = require("./movie");
 const TheaterModel = require("./theater");
@@ -23,6 +24,7 @@ const FoodOrderModel = require("./food_order");
 const FoodShoppingCartModel = require("./food_shopping_cart");
 const BannerModel = require("./banner")
 
+const Admin = AdminModel(sequelize, Sequelize)
 const User = UserModel(sequelize, Sequelize);
 const Movie = MovieModel(sequelize, Sequelize);
 const Theater = TheaterModel(sequelize, Sequelize);
@@ -61,9 +63,16 @@ FoodOrder.belongsTo(Food)
 
 // sequelize.sync({force: true})
 sequelize.sync()
+  .then(() => Admin.create({
+    adminName: 'leHauBoi',
+    hashedPassword: 'test',
+    email: 'test@dev.com',
+    lastLogin: new Date()
+  }))
 
 module.exports = {
   Op,
+  Admin,
   User,
   Movie,
   Theater,

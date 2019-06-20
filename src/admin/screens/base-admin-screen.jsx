@@ -31,12 +31,18 @@ export class BaseAdminScreen extends React.Component {
             }
             this.props.history.push(routes.LOGIN.path)
         }
-        if (this.requireLogin() && !this.isLogin()) {
+        if (this.requireLogin()) {
             this.props.tryLogin(cb, () => this.props.history.push(routes.LOGIN.path))
         } else {
             cb()
         }
         this.props.changeActiveNavOption(this.props.pathId)
+    }
+
+    componentWillReceiveProps(props) {
+        if (!props.isLogin) {
+            props.history.push(routes.LOGIN.path)
+        }
     }
 
     render() {

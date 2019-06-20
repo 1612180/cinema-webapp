@@ -100,6 +100,9 @@ class OrderTicketList extends React.Component {
                         return (
                             <tr>
                                 <ClickableTableCells onClick={() => {
+                                    let theater = this.props.theaters.data.find(t => t.id === item.theater)
+                                    let date = item.date
+                                    this.props.loadShowTimes(theater, date)
                                     this.setState({
                                         newItem: item,
                                         modalState: this.props.disabled ? ModalState.INFO_NO_EDIT : ModalState.INFO,
@@ -128,6 +131,9 @@ class OrderTicketList extends React.Component {
                                         </InlineClickableView>
                                         /
                                     <InlineClickableView onClick={() => {
+                                            let theater = this.props.theaters.data.find(t => t.id === item.theater)
+                                            let date = item.date
+                                            this.props.loadShowTimes(theater, date)
                                             this.setState({
                                                 newItem: item,
                                                 modalState: ModalState.REMOVE,
@@ -231,15 +237,39 @@ class OrderTicketList extends React.Component {
     }
 
     renderInfoForm(remove) {
-        return null
-        let foods = this.props.foods.data.map(f => ({ id: f.id, label: f.name }))
+        let theaters = this.props.theaters.data.map(f => ({ id: f.id, label: f.name }))
         let { newItem } = this.state
-        let total = this.props.foods.data.find(f => f.id === newItem.id).price * newItem.quantity
+        let showTimes = this.props.showTimes
         return (
             <form ref={ref => this.newForm = ref}>
-                <FormSelect label='Ten thuc an' disabled={true} value={newItem.id} options={foods} />
-                <FormInput label='So luong' disabled={true} value={newItem.quantity} />
-                <FormInput label='Tong cong' disabled={true} value={formatMoney(total) + ' VND'} />
+                <FormSelect label='Rap' disabled={true} value={newItem.id} options={theaters} />
+                <FormDatePicker label='Ngay' disabled={true} value={newItem.date} />
+                <RemoteLoader
+                    isLoading={showTimes.isLoading}
+                    isFailed={showTimes.isFailed}
+                    renderOnSuccess={() => {
+                        let choices = showTimes.data.map(c => ({ id: formatTime(c.time), label: formatTime(c.time) }))
+                        let itemShowTime = showTimes.data.find(c => equalTime(c.time, newItem.time))
+                        let itemSeat = [newItem.row, newItem.column]
+                        let theater = this.props.theaters.data.find(t => t.id === newItem.theater)
+                        return (
+                            <React.Fragment>
+                                <FormSelect
+                                    label='Suat chieu' disabled={true}
+                                    value={!formatTime(newItem.time)} options={choices}
+                                />
+                                <OrderSeatPicker
+                                    disabled={true}
+                                    width='100%' height={400}
+                                    row={theater.row} column={theater.column}
+                                    current={itemSeat}
+                                    chosen={itemShowTime.ordered}
+                                />
+                            </React.Fragment>
+                        )
+                    }}
+                    renderOnFailed={() => showTimes.error}
+                />
             </form>
         )
     }
