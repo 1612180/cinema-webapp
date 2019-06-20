@@ -1,3 +1,4 @@
 export const errors = {
-    NO_DATA: 'NO_DATA'
+    NO_JWT_TOKEN: 'NO_JWT_TOKEN',
+    UNAUTHORIZED_ACCESS: 'UNAUTHORIZED_ACCESS'
 }

@@ -1,5 +1,17 @@
 import { actions } from './app-state.type'
 import AdminAPI from '../../network/admin-api'
+import { errors } from '../../network/errors'
+
+const GetMeaningfulError = errorCode => {
+    switch (errorCode) {
+        case errors.UNAUTHORIZED_ACCESS: {
+            return 'Chua dang nhap hoac phien lam viec da het han'
+        }
+        case errors.NO_JWT_TOKEN: {
+            return 'Yeu cau dang nhap'
+        }
+    }
+}
 
 export const loginError = (error) => {
     return {
@@ -23,8 +35,9 @@ export const userInfo = (info) => {
 }
 
 export const logOut = () => {
-    return {
-        type: actions.LOGOUT
+    return dispatch => {
+        AdminAPI.logout()
+        dispatch({ type: actions.LOGOUT })
     }
 }
 
@@ -52,7 +65,7 @@ export const tryLogin = (cb, failCb) => {
                 }
             })
             .catch(err => {
-                dispatch(loginError('Loi ket noi'))
+                dispatch(loginError(GetMeaningfulError(err)))
                 dispatch(isLogin(false))
                 if (failCb) {
                     failCb()
@@ -72,7 +85,7 @@ export const login = (email, password) => {
                 dispatch(isLogin(response.isLogin))
             })
             .catch(err => {
-                dispatch(loginError('Loi ket noi'))
+                dispatch(loginError(GetMeaningfulError(err)))
                 dispatch(isLogin(false))
             })
     }

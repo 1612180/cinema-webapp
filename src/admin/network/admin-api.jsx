@@ -13,22 +13,33 @@ import {
     getOrderStatusChoices
 } from './mock-data/mock-choices'
 import moment from 'moment'
-import { ApiClient } from './api-client'
+import { ApiClient, SecureApiClient } from './api-client'
+import { logOut } from '../stores/app-state/app-state.action'
+import { store } from '../stores/configureStore'
 
 const ITEM_PER_PAGE = {
     dashboard: 5,
     other: 10
 }
 const BASE_URL = 'http://localhost:8080/api/admin'
+const JWT_TOKEN = 'NIGAMON_JWT_TOKEN'
+const apiClient = new ApiClient(BASE_URL)
+const secureApiClient = new SecureApiClient(BASE_URL, JWT_TOKEN, () => {
+    store.dispatch(logOut())
+}).client
+
+
 export default class AdminApi {
+    static logout() {
+        localStorage.removeItem(JWT_TOKEN)
+    }
     static login(email, password) {
-        const apiClient = new ApiClient(BASE_URL)
         return apiClient.postJson('/login', { email, password })
             .then(data => {
                 if (!data.isLogin) {
                     return data
                 }
-                localStorage.setItem('NIGAMON_TOKEN', data.token)
+                localStorage.setItem(JWT_TOKEN, data.token)
                 return {
                     ...data,
                     userInfo: {
@@ -39,30 +50,16 @@ export default class AdminApi {
             })
     }
     static checkLogin() {
-        let token = localStorage.getItem('NIGAMON_TOKEN')
-        if (token === undefined) {
-            console.log('wtf')
-            return new Promise((resolve, reject) => resolve({ isLogin: false }))
-        }
-
-        const apiClient = new ApiClient(BASE_URL)
-        return apiClient.getJson('/login', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then(data => {
-            if (!data.isLogin) {
-                return data
-            }
-            localStorage.setItem('NIGAMON_TOKEN', data.token)
-            return {
-                ...data,
-                userInfo: {
-                    ...data.userInfo,
-                    lastLogin: moment.utc(data.userInfo.lastLogin).toDate()
+        return secureApiClient.getJson('/login')
+            .then(data => {
+                return {
+                    ...data,
+                    userInfo: {
+                        ...data.userInfo,
+                        lastLogin: moment.utc(data.userInfo.lastLogin).toDate()
+                    }
                 }
-            }
-        })
+            })
     }
 
     //--------------------- Dashboard ------------------------//
