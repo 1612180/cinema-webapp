@@ -3,6 +3,7 @@ import { DatePicker } from './datepicker'
 import { DateTimePicker } from './datetimepicker'
 import { formatDate, formatDateTime, formatTime } from '../../libs/datetime'
 import { TimePicker } from './timepicker';
+import { Image } from './image';
 
 export class DataForm extends React.Component {
     constructor(props) {
@@ -47,6 +48,80 @@ export class FormInput extends React.Component {
                         className="form-control input-md rounded-0"
                         readOnly={this.props.disabled}
                         defaultValue={this.props.value}
+                        onChange={(e) => {
+                            e.preventDefault()
+                            this.props.onChange(e.target.value)
+                        }}
+                    />
+                </div>
+            </div>
+        )
+    }
+}
+
+export class FormImageInput extends React.Component {
+    constructor(props) {
+        super(props)
+        this.ref = React.createRef()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.ref.value = nextProps.value
+    }
+
+    render() {
+        return (
+            <div className="form-group row align-items-start">
+                <label className="col-md-4 mt-3 control-label font-weight-bold">{this.props.label}</label>
+                <div className="col-md-8 position-relative input-group">
+                    <input
+                        ref={ref => this.ref = ref}
+                        name={this.props.name}
+                        type="text" placeholder={this.props.placeholder || ''}
+                        className="form-control input-md rounded-0"
+                        readOnly={this.props.disabled}
+                        defaultValue={this.props.value}
+                        onChange={(e) => {
+                            e.preventDefault()
+                            this.props.onChange(e.target.value)
+                        }}
+                    />
+                    <div className='d-flex justify-content-center'>
+                        <img
+                            className='mt-2 w-50'
+                            style={{ display: 'block' }}
+                            src={this.props.value}
+                        />
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+export class FormTextArea extends React.Component {
+    constructor(props) {
+        super(props)
+        this.ref = React.createRef()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.ref.value = nextProps.value
+    }
+
+    render() {
+        return (
+            <div className="form-group row align-items-center">
+                <label className="col-md-4 control-label font-weight-bold">{this.props.label}</label>
+                <div className="col-md-8 position-relative input-group">
+                    <textarea
+                        className="form-control rounded-0"
+                        defaultValue={this.props.value}
+                        readOnly={this.props.disabled}
+                        ref={ref => this.ref = ref}
+                        name={this.props.name}
+                        rows={6}
+                        placeholder={this.props.placeholder || ''}
                         onChange={(e) => {
                             e.preventDefault()
                             this.props.onChange(e.target.value)

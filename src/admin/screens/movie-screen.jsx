@@ -5,14 +5,14 @@ import { FullHeader } from '../components/header/full-header'
 import { routes } from '../routes';
 import { RemoteDataListContainer } from '../components/common/remote-data-list-container'
 import { RemoteDropdown, Dropdown } from '../components/common/dropdown';
-import { loadContent, loadMovies } from '../stores/movies/movies.action'
+import { loadContent, loadMovies, uploadMovie } from '../stores/movies/movies.action'
 import { InlineClickableView, ClickableTableCells } from '../components/common/clickable-view';
 import { NigamonIcon } from '../components/common/nigamon-icon';
 
 import { isComing, isInside, isPassed, formatDate } from '../libs/datetime'
 import { RemoteDataModal, ModalState, Modal } from '../components/common/modal';
 import { FloatingButton } from '../components/common/floating-button';
-import { FormInput, FormSelect, FormDatePicker, DataForm } from '../components/common/form';
+import { FormInput, FormSelect, FormDatePicker, FormTextArea, FormImageInput } from '../components/common/form';
 import { buildErrorTooltip } from '../components/common/error-tooltip';
 
 function getMovieStatus(start, end) {
@@ -77,6 +77,8 @@ const nullItem = {
     length: null,
     start: null,
     end: null,
+    intro: null,
+    imageUrl: null
 }
 class MovieScreen extends React.Component {
     constructor(props) {
@@ -359,6 +361,15 @@ class MovieScreen extends React.Component {
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, length: text } })
                     })} />
+                <FormTextArea label='Gioi thieu' disabled={false} value={newItem.intro}
+                    onChange={(text) => {
+                        this.setState({ newItem: { ...newItem, intro: text } })
+                    }}
+                />
+                <FormImageInput label='Anh dai dien' disabled={false} value={newItem.imageUrl}
+                    onChange={((text) => {
+                        this.setState({ newItem: { ...newItem, imageUrl: text } })
+                    })} />
                 <FormDatePicker label='Ngay bat dau' disabled={false} value={this.state.newItem.start}
                     min={() => new Date('2000/01/01')}
                     max={() => this.state.newItem.end}
@@ -382,6 +393,8 @@ class MovieScreen extends React.Component {
                 <FormInput label='Dien vien' disabled={true} value={newItem.actor} />
                 <FormSelect label='The loai' disabled={true} value={newItem.type} options={genres} />
                 <FormInput label='Thoi luong' disabled={true} value={newItem.length} />
+                <FormTextArea label='Gioi thieu' disabled={true} value={newItem.intro} />
+                <FormImageInput label='Anh dai dien' disabled={true} value={newItem.imageUrl} />
                 <FormDatePicker label='Ngay bat dau' disabled={true} value={newItem.start} />
                 <FormDatePicker label='Ngay ket thuc' disabled={true} value={newItem.end} />
             </form>
@@ -391,6 +404,7 @@ class MovieScreen extends React.Component {
     renderModals() {
         return (
             <RemoteDataModal
+                large={true}
                 initialState={this.state.modalState}
                 show={this.state.modalOpen}
                 onHide={() => {
@@ -401,6 +415,12 @@ class MovieScreen extends React.Component {
                 }}
                 body={this.renderModalBody}
                 onStateChange={s => this.setState({ modalState: s })}
+                editCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadMovie(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
             />
         )
     }
@@ -428,6 +448,7 @@ const mapDispatchToProps = dispatch => {
     return {
         loadContent: () => dispatch(loadContent()),
         loadMovies: (page, options) => dispatch(loadMovies(page, options)),
+        uploadMovie: (movie) => dispatch(uploadMovie(movie))
     }
 }
 

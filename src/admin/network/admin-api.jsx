@@ -16,6 +16,7 @@ import moment from 'moment'
 import { ApiClient, SecureApiClient } from './api-client'
 import { logOut } from '../stores/app-state/app-state.action'
 import { store } from '../stores/configureStore'
+import { codes } from './message-codes';
 
 const ITEM_PER_PAGE = {
     dashboard: 5,
@@ -94,17 +95,34 @@ export default class AdminApi {
     static getDashboardCharts(start, end, theater) {
         return ok(getDashboardCharts(start, end, theater))
     }
+
     //--------------------- Movies ------------------------//
     static getGenreChoices() {
         return ok(getGenreChoices())
     }
     static getMovies(page, options) {
-        return ok({
-            movies: getMovies(ITEM_PER_PAGE.other, options),
-            currentPage: page,
-            lastPage: 2,
-            total: 18
+        return secureApiClient.getJson('/movies', {
+            params: {
+                page: page,
+                ...options
+            }
+        }).then(data => {
+            console.log(data)
+            return {
+                ...data,
+                movies: data.movies.map(m => {
+                    return {
+                        ...m,
+                        start: moment.utc(m.start).toDate(),
+                        end: moment.utc(m.start).toDate()
+                    }
+                })
+            }
         })
+    }
+    static uploadMovie(movie) {
+        return secureApiClient.postJson(`/movies/${movie}`, movie)
+            .then(data => data)
     }
     //--------------------- Theaters ------------------------//
     static getTheaterStatusChoices() {

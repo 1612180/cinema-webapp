@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const secretKey = process.env.SECRET_KEY || 'wtf'
 const tokenName = 'NIGAMON_JWT_TOKEN'
 
-const LIMIT = 4;
+const LIMIT = 5;
 
 const {
     Op,
@@ -99,7 +99,7 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/login', adminJwtMiddleware, (req, res) => {
-    let decoded = jwt.decode(req.headers.authorization.slice(7))
+    const decoded = jwt.decode(req.headers.authorization.slice(7))
     res.json({
         isLogin: true,
         userInfo: {
@@ -108,6 +108,66 @@ router.get('/login', adminJwtMiddleware, (req, res) => {
             email: decoded.email
         }
     })
+})
+
+router.get('/movies', adminJwtMiddleware, (req, res) => {
+    const query = req.query
+    console.log(query)
+    const page = parseInt(query.page || 1)
+    const genre = query.genre
+    const status = query.status
+    const searchText = query.searchText
+
+    Movie.findAndCountAll({
+        limit: LIMIT,
+        offset: LIMIT * (page - 1),
+        order: [['updatedAt', 'DESC']]
+    }).then(result => {
+        const movies = (result.rows.map(r => r.dataValues).map(r => ({
+            id: r.id,
+            name: r.name,
+            actor: r.actor,
+            director: r.director,
+            type: 1,
+            length: 180,
+            start: r.startDate,
+            end: r.endDate,
+            intro: r.introduce,
+            imageUrl: r.photoUrl
+        })))
+        res.json({
+            movies: movies,
+            currentPage: page,
+            lastPage: Math.ceil(result.count / LIMIT),
+            total: result.count
+        })
+    }).catch(err => {
+        res.status(500).send('GET Movies Error')
+    })
+})
+
+router.post('/movies/:id', adminJwtMiddleware, (req, res) => {
+    const movie = req.body
+    Movie.update({
+        name: movie.name,
+        actor: movie.actor,
+        director: movie.director,
+        startDate: new Date(movie.start),
+        endDate: new Date(movie.end),
+        introduce: movie.intro,
+        imageUrl: movie.imageUrl
+    }, {
+            where: {
+                id: movie.id
+            }
+        }).then(() => {
+            res.json({
+                code: 'OK'
+            })
+        }).catch(err => {
+            console.log(err)
+            res.send(err)
+        })
 })
 
 module.exports = router;

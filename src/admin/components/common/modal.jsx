@@ -97,13 +97,25 @@ export class RemoteDataModal extends React.Component {
         switch (this.state.modalState) {
             case ModalState.NEW:
             case ModalState.EDIT: {
-                return this.renderFooterButtons('Luu', () => console.log('save'))
+                return this.renderFooterButtons('Luu', () => {
+                    if (this.props.editCallback) {
+                        this.props.editCallback()
+                    } else {
+                        console.log('save')
+                    }
+                })
             }
             case ModalState.INFO: {
                 return this.renderFooterButtons('Chinh sua', () => this.setModalState(ModalState.EDIT))
             }
             case ModalState.REMOVE: {
-                return this.renderFooterButtons('Xoa', () => console.log('remove'))
+                return this.renderFooterButtons('Xoa', () => {
+                    if (this.props.removeCallback) {
+                        this.props.removeCallback()
+                    } else {
+                        console.log('remove')
+                    }
+                })
             }
             default: {
                 return null

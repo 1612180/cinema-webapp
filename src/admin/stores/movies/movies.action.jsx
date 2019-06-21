@@ -41,6 +41,17 @@ export const loadMovies = (page, options) => {
             })
     }
 }
+export const uploadMovie = (movie) => {
+    return (dispatch, getState) => {
+        AdminAPI.uploadMovie(movie)
+            .then(data => {
+                dispatch(loadMovies(1))
+            })
+            .catch(err => {
+                dispatch(loadMovies(1))
+            })
+    }
+}
 
 // genre choices 
 const loadingGenreChoices = (loading) => {

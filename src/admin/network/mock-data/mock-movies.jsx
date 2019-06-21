@@ -28,7 +28,9 @@ export const getMovies = (n, options) => {
             Math.floor(Math.random() * 5) + 1,
             180,
             start,
-            end
+            end,
+            'Gioi thieu phim',
+            'https://www.fosi.org/media/images/22601782810_cbe3ede5f5_o.focus-none.original.jpg'
         ));
     }
     return movies

@@ -4,21 +4,31 @@ export class ApiClient {
     constructor(url) {
         this.baseUrl = url
 
+        this.buildUrl = this.buildUrl.bind(this)
+
         this.get = this.get.bind(this)
         this.post = this.post.bind(this)
         this.getJson = this.getJson.bind(this)
         this.postJson = this.postJson.bind(this)
     }
 
+    buildUrl(path, params) {
+        const url = `${this.baseUrl + path}?`
+        if (params) {
+            return url + $.param(params)
+        }
+        return url
+    }
+
     get(path, options) {
-        return fetch(this.baseUrl + path, {
+        return fetch(this.buildUrl(path, options.params), {
             ...options,
             method: 'get',
         })
     }
 
     post(path, body, options) {
-        return fetch(this.baseUrl + path, {
+        return fetch(this.buildUrl(path, options.params), {
             ...options,
             method: 'post',
             body: body,
@@ -60,6 +70,7 @@ export class SecureApiClient {
             let token = this.getToken()
             if (token) {
                 oldGet(path, {
+                    ...options,
                     headers: {
                         ...(options ? options.headers : {}),
                         'Authorization': `Bearer ${token}`
@@ -87,6 +98,7 @@ export class SecureApiClient {
             let token = this.getToken()
             if (token) {
                 oldPost(path, body, {
+                    ...options,
                     headers: {
                         ...(options ? options.headers : {}),
                         'Authorization': `Bearer ${token}`
