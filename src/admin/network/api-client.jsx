@@ -65,8 +65,8 @@ export class SecureApiClient {
                         'Authorization': `Bearer ${token}`
                     }
                 }).then(response => {
-                    if (response.status !== 401 && response.headers.get(this.tokenName)) {
-                        // fine
+                    if (response.status !== 401) {
+                        // authorized
                         this.setToken(response.headers.get(this.tokenName))
                         resolve(response)
                     } else if (response.status === 401) {
@@ -92,8 +92,8 @@ export class SecureApiClient {
                         'Authorization': `Bearer ${token}`
                     }
                 }).then(response => {
-                    if (response.status !== 401 && response.headers.has(this.tokenName)) {
-                        // fine
+                    if (response.status !== 401) {
+                        // authorized
                         this.setToken(response.headers.get(this.tokenName))
                         resolve(response)
                     } else {

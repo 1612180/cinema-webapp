@@ -9,6 +9,7 @@ const port = process.env.PORT || 8080;
 // module routes
 const userViews = require("./routes/user_views");
 const admin = require("./routes/admin");
+const adminApi = require("./routes/admin-api");
 const api = require("./routes/api");
 
 // for parsing application/json
@@ -20,6 +21,7 @@ app.use("/dist", express.static("dist"));
 
 app.use("/", userViews);
 
+app.use("/admin/api", adminApi);
 app.use("/admin", admin);
 app.use("/admin/*", admin);
 

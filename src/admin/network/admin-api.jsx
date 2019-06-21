@@ -21,7 +21,7 @@ const ITEM_PER_PAGE = {
     dashboard: 5,
     other: 10
 }
-const BASE_URL = 'http://localhost:8080/api/admin'
+const BASE_URL = 'http://localhost:8080/admin/api'
 const JWT_TOKEN = 'NIGAMON_JWT_TOKEN'
 const apiClient = new ApiClient(BASE_URL)
 const secureApiClient = new SecureApiClient(BASE_URL, JWT_TOKEN, () => {
