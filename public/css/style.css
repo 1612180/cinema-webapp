@@ -49,6 +49,19 @@ body {
   color: #2d7ff9;
 }
 
+.btn-normal-inactive {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 0px;
+}
+
+.btn-normal-inactive:hover {
+  background-color: transparent;
+  border: 1px solid grey;
+  border-radius: 0px;
+  color: grey;
+}
+
 .btn-link-normal {
   color: #2d7ff9;
 }

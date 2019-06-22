@@ -20,7 +20,7 @@
 
     <!-- Roboto -->
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&amp;subset=vietnamese"
+      href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&display=swap&subset=vietnamese"
       rel="stylesheet"
     />
 
@@ -130,73 +130,35 @@
       </div>
     </div>
 
-    <!-- phim -->
-    <div class="container my-3">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-3">
-          <img class="img-fluid" id="mPhotoUrl" />
+    <div class="container py-3">
+      <form id="formTicket">
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                <label class="form-check-label" for="inlineCheckbox1">1</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
         </div>
-        <div class="col-md-6">
-          <h3 class="font-weight-bold" id="mName"></h3>
-          <p>
-            <i class="fas fa-star" style="color: yellow"></i>
-            <span id="mRating"></span>
-            <span class="font-weight-bold">/</span>
-            <span class="font-weight-bold">10</span>
-            <button type="button" class="btn btn-primary btn-normal mx-2">
-              Đánh giá
-            </button>
-          </p>
-          <p>
-            <span class="font-weight-bold">Đạo diễn: </span>
-            <span id="mDirector"></span>
-          </p>
-          <p>
-            <span class="font-weight-bold">Diễn viên: </span>
-            <span id="mActor"></span>
-          </p>
-          <p>
-            <span class="font-weight-bold">Thể loại: </span>
-            <span id="mGenre"></span>
-          </p>
-        </div>
-      </div>
-      <div class="row my-3">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-          <h3 class="font-weight-bold">Nội dung phim</h3>
-          <div class="horizontal-line my-3"></div>
-          <p id="mIntroduce"></p>
-        </div>
-      </div>
-    </div>
+        <div>
 
-    <!-- choose date, theater -->
-    <div class="container my-3">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-3">
-          <h3 class="font-weight-bold">Lịch chiếu</h3>
-          <div class="horizontal-line my-3"></div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                <label class="form-check-label" for="inlineCheckbox1">1</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-2"></div>
-        <div class="col-md-3 my-2">
-          <input type="date" class="form-control form-normal" id="cDate" />
+        <div>
+          <button type="button" class="btn btn-secondary btn-normal-inactive">Quay lại</button>
+          <button type="submit" class="btn btn-primary btn-normal">Chấp nhận</button>
         </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-3 my-2">
-          <select class="form-control form-normal" id="cTheater">
-            <option>Tất cả rạp</option>
-          </select>
-        </div>
-        <div class="col-md-2"></div>
-      </div>
+      </form>
     </div>
-
-    <div id="theater"></div>
 
     <!-- footer -->
     <div class="container-fluid py-3 black-background" id="footer">
@@ -408,6 +370,6 @@
     ></script>
 
     <script src="/js/user_views/auth.js"></script>
-    <script src="/js/user_views/phim_info.js"></script>
+    <script src="/js/user_views/ve.js"></script>
   </body>
 </html>

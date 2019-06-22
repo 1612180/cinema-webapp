@@ -529,7 +529,20 @@ router.post("/show_times/", (req, res) => {
     theaterId: req.body.theaterId,
     ticketTypeId: req.body.ticketTypeId
   })
-    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .then(data => {
+      Theater.findByPk(data.theaterId).then(data2 => {
+        for (let i = 1; i <= data2.rowNum; i += 1) {
+          for (let j = 1; j <= data2.seatPerRow; j += 1) {
+            Ticket.create({
+              showTimeId: data.id,
+              seatRow: i,
+              seatColumn: j
+            });
+          }
+        }
+        res.json({ status: true, message: "OK", data: data });
+      });
+    })
     .catch(err => res.json({ status: false, message: err }));
 });
 
@@ -568,6 +581,16 @@ router.delete("/show_times/:id", (req, res) => {
     truncate: true
   })
     .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/show_times/:id/tickets", (req, res) => {
+  Ticket.findAll({
+    where: {
+      showTimeId: req.params.id
+    }
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));
 });
 
