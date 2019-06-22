@@ -76,9 +76,15 @@ window.addEventListener("load", async () => {
       }
     });
     res = await res.json();
-    console.log(res);
+    if (!res.status) {
+      span_profile.style.display = "none";
+      ModalDN();
+      ModalDK();
+    } else {
+      btn_dangnhap.style.display = "none";
+      btn_dangky.style.display = "none";
+      let hello_profile = document.getElementById("hello-profile");
+      hello_profile.innerText = "Xin chào " + res.data.name;
+    }
   }
-
-  ModalDN();
-  ModalDK();
 });
