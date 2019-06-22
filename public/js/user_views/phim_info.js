@@ -1,4 +1,4 @@
-function ShowRap(res) {
+function ShowPhim(res) {
   let mPhotoUrl = document.getElementById("mPhotoUrl");
   mPhotoUrl.src = res.data.photoUrl;
 
@@ -24,6 +24,8 @@ function ShowRap(res) {
 async function ShowTicket(id, id2, id3, tbody) {
   let cDate = document.getElementById("cDate");
 
+  console.log(new Date(cDate.value).toISOString())
+
   let res = await fetch(
       "/api/movies/" +
       id +
@@ -32,7 +34,7 @@ async function ShowTicket(id, id2, id3, tbody) {
       "/ticket_types/" +
       id3 +
       "?date=" +
-      cDate.value
+      new Date(cDate.value).toISOString()
   );
   res = await res.json();
   if (res.data.length === 0) {
@@ -141,15 +143,13 @@ window.addEventListener("load", async function() {
 
   let res = await fetch("/api/movies" + "/" + id);
   res = await res.json();
-  if (res.data === null) {
-    return;
+  if (res.data) {
+    ShowPhim(res)
   }
-
-  await ShowRap(res);
 
   let cDate = document.getElementById("cDate");
   cDate.valueAsDate = new Date();
-  await ShowTheaters(id);
+  ShowTheaters(id);
 
   cDate.addEventListener("change", async () => {
     if (!cDate.value) {

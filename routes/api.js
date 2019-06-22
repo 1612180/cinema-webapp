@@ -90,6 +90,7 @@ router.get("/movies/:id/theaters/:id2/ticket_types/:id3", (req, res) => {
       .catch(err => res.json({ status: false, message: err }));
     return;
   }
+
   ShowTime.findAll({
     where: {
       movieId: req.params.id,
