@@ -84,6 +84,9 @@ export const isComing = (current, start, end) => {
 }
 
 export const isInside = (current, start, end) => {
+    if (!start && !end) {
+        return true
+    }
     if (!start) {
         return current <= end
     }

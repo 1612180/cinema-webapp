@@ -65,7 +65,9 @@ FoodOrder.belongsTo(Food);
 Movie.belongsTo(MovieGenre);
 
 sequelize
-  .sync({})
+  .sync({
+    // force: true
+  })
   .then(() =>
     Admin.create({
       adminName: "leHauBoi",

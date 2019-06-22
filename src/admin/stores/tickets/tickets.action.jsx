@@ -1,5 +1,7 @@
 import { actions } from './tickets.type'
 import AdminAPI from '../../network/admin-api'
+import { codes } from '../../network/message-codes'
+import Swal from 'sweetalert2'
 
 export const loadContent = () => {
     return (dispatch, getState) => {
@@ -38,6 +40,48 @@ export const loadTickets = (page, options) => {
             .catch(err => {
                 dispatch(setTickets(null, 'request timeout ' + err))
                 dispatch(loadingTickets(false))
+            })
+    }
+}
+export const uploadTicket = (ticket, addNew) => {
+    return (dispatch, getState) => {
+        AdminAPI.uploadTicket(ticket, addNew)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadTickets(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
+            })
+    }
+}
+export const removeTicket = (ticket) => {
+    return (dispatch, getState) => {
+        AdminAPI.removeTicket(ticket)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadTickets(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
             })
     }
 }

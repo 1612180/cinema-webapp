@@ -234,7 +234,10 @@ class TheaterScreen extends React.Component {
                                     <NigamonIcon name='cog' />
                                 </InlineClickableView>
                                 /
-                                <InlineClickableView onClick={() => this.openModal(ModalState.REMOVE)}>
+                                <InlineClickableView onClick={() => {
+                                    this.setState({ newItem: item })
+                                    this.openModal(ModalState.REMOVE)
+                                }}>
                                     <NigamonIcon name='times' />
                                 </InlineClickableView>
                             </td>
@@ -247,6 +250,9 @@ class TheaterScreen extends React.Component {
     }
 
     renderFloatingButton() {
+        if (this.isStatusLoadFailed() || this.props.statusChoices.data.length === 0) {
+            return null
+        }
         return (
             <FloatingButton
                 onClick={() => {

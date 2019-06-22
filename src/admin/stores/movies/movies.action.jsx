@@ -64,6 +64,27 @@ export const uploadMovie = (movie, addNew) => {
             })
     }
 }
+export const removeMovie = (movie) => {
+    return (dispatch, getState) => {
+        AdminAPI.removeMovie(movie)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadMovies(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
+            })
+    }
+}
 
 // genre choices 
 const loadingGenreChoices = (loading) => {

@@ -45,7 +45,7 @@ export default class AdminApi {
                     ...data,
                     userInfo: {
                         ...data.userInfo,
-                        lastLogin: moment.utc(data.userInfo.lastLogin).toDate()
+                        lastLogin: data.userInfo.lastLogin && moment.utc(data.userInfo.lastLogin).toDate()
                     }
                 }
             })
@@ -57,7 +57,7 @@ export default class AdminApi {
                     ...data,
                     userInfo: {
                         ...data.userInfo,
-                        lastLogin: moment.utc(data.userInfo.lastLogin).toDate()
+                        lastLogin: data.userInfo.lastLogin && moment.utc(data.userInfo.lastLogin).toDate()
                     }
                 }
             })
@@ -98,7 +98,7 @@ export default class AdminApi {
 
     //--------------------- Movies ------------------------//
     static getGenreChoices() {
-        return ok(getGenreChoices())
+        return secureApiClient.getJson('/movies/genres')
     }
     static getMovies(page, options) {
         return secureApiClient.getJson('/movies', {
@@ -107,22 +107,26 @@ export default class AdminApi {
                 ...options
             }
         }).then(data => {
-            console.log(data)
             return {
                 ...data,
                 movies: data.movies.map(m => {
                     return {
                         ...m,
-                        start: moment.utc(m.start).toDate(),
-                        end: moment.utc(m.start).toDate()
+                        start: m.start && moment.utc(m.start).toDate(),
+                        end: m.end && moment.utc(m.end).toDate()
                     }
                 })
             }
         })
     }
     static uploadMovie(movie, addNew) {
-        return secureApiClient.postJson(`/movies/${movie}`, movie, { params: { addNew: addNew } })
+        console.log(movie)
+        return secureApiClient.postJson(`/movies/${movie.id}`, movie, { params: { addNew: addNew } })
             .then(data => data)
+    }
+    static removeMovie(movie) {
+        console.log(movie)
+        return secureApiClient.deleteJson(`/movies/${movie.id}`)
     }
     //--------------------- Theaters ------------------------//
     static getTheaterStatusChoices() {
@@ -142,28 +146,48 @@ export default class AdminApi {
 
     //--------------------- Tickets ------------------------//
     static getTicketStatusChoices() {
-        return ok(getTicketStatusChoices())
+        return secureApiClient.getJson('/tickets/status')
     }
     static getTickets(page, options) {
-        return ok({
-            tickets: getTickets(ITEM_PER_PAGE.other, options),
-            currentPage: page,
-            lastPage: 2,
-            total: 18
+        return secureApiClient.getJson('/tickets', {
+            params: {
+                page: page,
+                ...options
+            }
+        }).then(data => {
+            return data
         })
+    }
+    static uploadTicket(ticket, addNew) {
+        return secureApiClient.postJson(`/tickets/${ticket.id}`, ticket, { params: { addNew: addNew } })
+            .then(data => data)
+    }
+    static removeTicket(ticket) {
+        console.log(ticket)
+        return secureApiClient.deleteJson(`/tickets/${ticket.id}`)
     }
 
     //--------------------- Foods ------------------------//
     static getFoodStatusChoices() {
-        return ok(getFoodStatusChoices())
+        return secureApiClient.getJson('/foods/status')
     }
     static getFoods(page, options) {
-        return ok({
-            foods: getFoods(ITEM_PER_PAGE.other, options),
-            currentPage: page,
-            lastPage: 2,
-            total: 18
+        return secureApiClient.getJson('/foods', {
+            params: {
+                page: page,
+                ...options
+            }
+        }).then(data => {
+            return data
         })
+    }
+    static uploadFood(food, addNew) {
+        return secureApiClient.postJson(`/foods/${food.id}`, food, { params: { addNew: addNew } })
+            .then(data => data)
+    }
+    static removeFood(food) {
+        console.log(food)
+        return secureApiClient.deleteJson(`/foods/${food.id}`)
     }
 
     //--------------------- Orders ------------------------//
