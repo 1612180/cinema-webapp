@@ -30,7 +30,7 @@ const {
     Banner
 } = require("../models");
 
-// jwt middleware 
+//---------------------------------- jwt middleware ------------------------------------//
 const adminJwtMiddleware = (req, res, next) => {
     if (req.headers.authorization) {
         jwt.verify(req.headers.authorization.slice(7), secretKey, (err, decoded) => {
@@ -59,7 +59,7 @@ const adminJwtMiddleware = (req, res, next) => {
     }
 }
 
-// login
+//---------------------------------------- login -----------------------------------------------//
 router.post('/login', (req, res) => {
     Admin.findByPk(req.body.email)
         .then(data => {
@@ -111,7 +111,58 @@ router.get('/login', adminJwtMiddleware, (req, res) => {
     })
 })
 
-// movies
+//------------------------------------ theaters ---------------------------------------------//
+router.get('/theaters/status', adminJwtMiddleware, (req, res) => {
+    TheaterStatus.findAndCountAll({
+    }).then(result => {
+        const status = (result.rows.map(r => r.dataValues).map(r => ({
+            id: r.id,
+            label: r.name
+        })))
+        res.json({
+            choices: status
+        })
+    }).catch(err => {
+        res.status(500).send('GET Theater Status Error')
+    })
+})
+router.get('/theaters', adminJwtMiddleware, (req, res) => {
+    console.log('theaters')
+    const query = req.query
+    const page = parseInt(query.page || 1)
+    const status = parseInt(query.status || 0)
+    const searchText = query.searchText
+
+    Theater.findAndCountAll({
+        where: {
+            ...(status ? { theaterStatusId: status } : {})
+        },
+        ...(page ? ({
+            limit: LIMIT,
+            offset: LIMIT * (page - 1),
+            order: [['updatedAt', 'DESC']],
+        }) : {})
+    }).then(result => {
+        const theaters = (result.rows.map(r => r.dataValues).map(r => ({
+            id: r.id,
+            name: r.name,
+            address: r.address,
+            row: r.rowNum,
+            column: r.seatPerRow,
+            status: r.theaterStatusId
+        })))
+        res.json({
+            theaters: theaters,
+            currentPage: page,
+            lastPage: Math.ceil(result.count / LIMIT),
+            total: result.count
+        })
+    }).catch(err => {
+        res.status(500).send('GET Theaters Error')
+    })
+})
+
+//---------------------------------------- movies --------------------------------------------//
 router.get('/movies/genres', adminJwtMiddleware, (req, res) => {
     MovieGenre.findAndCountAll({
     }).then(result => {
@@ -275,7 +326,7 @@ router.delete('/movies/:id', adminJwtMiddleware, (req, res) => {
     })
 })
 
-// tickets
+//------------------------------------------- tickets -------------------------------------//
 router.get('/tickets/status', adminJwtMiddleware, (req, res) => {
     TicketStatus.findAndCountAll({
     }).then(result => {
@@ -387,7 +438,7 @@ router.delete('/tickets/:id', adminJwtMiddleware, (req, res) => {
     })
 })
 
-// foods
+//----------------------------------------- foods ---------------------------------------------//
 router.get('/foods/status', adminJwtMiddleware, (req, res) => {
     console.log('food')
     FoodStatus.findAndCountAll({
