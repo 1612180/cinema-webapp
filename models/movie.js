@@ -6,7 +6,6 @@ module.exports = (sequelize, type) => {
     director: type.TEXT,
     photoUrl: type.TEXT,
     introduce: type.TEXT,
-    genre: type.TEXT,
     startDate: type.DATE,
     endDate: type.DATE
   });

@@ -5,7 +5,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 
 const Op = Sequelize.Op;
 
-const AdminModel = require('./admin')
+const AdminModel = require("./admin");
 const UserModel = require("./user");
 const MovieModel = require("./movie");
 const TheaterModel = require("./theater");
@@ -22,9 +22,10 @@ const FoodModel = require("./food");
 const FoodStatusModel = require("./food_status");
 const FoodOrderModel = require("./food_order");
 const FoodShoppingCartModel = require("./food_shopping_cart");
-const BannerModel = require("./banner")
+const BannerModel = require("./banner");
+const MovieGenreModel = require("./movie_genre");
 
-const Admin = AdminModel(sequelize, Sequelize)
+const Admin = AdminModel(sequelize, Sequelize);
 const User = UserModel(sequelize, Sequelize);
 const Movie = MovieModel(sequelize, Sequelize);
 const Theater = TheaterModel(sequelize, Sequelize);
@@ -41,7 +42,8 @@ const Food = FoodModel(sequelize, Sequelize);
 const FoodStatus = FoodStatusModel(sequelize, Sequelize);
 const FoodOrder = FoodOrderModel(sequelize, Sequelize);
 const FoodShoppingCart = FoodShoppingCartModel(sequelize, Sequelize);
-const Banner = BannerModel(sequelize, Sequelize)
+const Banner = BannerModel(sequelize, Sequelize);
+const MovieGenre = MovieGenreModel(sequelize, Sequelize);
 
 Theater.belongsTo(TheaterStatus);
 TicketType.belongsTo(TicketStatus);
@@ -55,20 +57,31 @@ Order.belongsTo(OrderStatus);
 Order.belongsTo(User);
 OrdererTicket.belongsTo(Order);
 OrdererTicket.belongsTo(Ticket);
-Food.belongsTo(FoodStatus)
-FoodShoppingCart.belongsTo(User)
-FoodShoppingCart.belongsTo(Food)
-FoodOrder.belongsTo(Order)
-FoodOrder.belongsTo(Food)
+Food.belongsTo(FoodStatus);
+FoodShoppingCart.belongsTo(User);
+FoodShoppingCart.belongsTo(Food);
+FoodOrder.belongsTo(Order);
+FoodOrder.belongsTo(Food);
+Movie.belongsTo(MovieGenre);
 
-// sequelize.sync({force: true})
-sequelize.sync()
-  .then(() => Admin.create({
-    adminName: 'leHauBoi',
-    hashedPassword: 'test',
-    email: 'test@dev.com',
-    lastLogin: new Date()
-  }))
+sequelize
+  .sync({})
+  .then(() =>
+    Admin.create({
+      adminName: "leHauBoi",
+      hashedPassword: "test",
+      email: "test@dev.com",
+      lastLogin: new Date()
+    })
+  )
+  .then(() =>
+    User.create({
+      username: "a",
+      email: "a@a.com",
+      hashedPassword: "a",
+      phoneNumber: "0"
+    })
+  );
 
 module.exports = {
   Op,
@@ -89,5 +102,6 @@ module.exports = {
   FoodStatus,
   FoodOrder,
   FoodShoppingCart,
-  Banner
+  Banner,
+  MovieGenre
 };

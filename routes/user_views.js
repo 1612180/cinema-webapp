@@ -3,6 +3,7 @@ const router = express.Router();
 
 // '../' is malicous
 const path = require("path");
+const middleware = require("./middleware");
 
 router.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname + "/../views/user_home.html"));
