@@ -120,8 +120,8 @@ export default class AdminApi {
             }
         })
     }
-    static uploadMovie(movie) {
-        return secureApiClient.postJson(`/movies/${movie}`, movie)
+    static uploadMovie(movie, addNew) {
+        return secureApiClient.postJson(`/movies/${movie}`, movie, { params: { addNew: addNew } })
             .then(data => data)
     }
     //--------------------- Theaters ------------------------//

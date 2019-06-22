@@ -147,27 +147,52 @@ router.get('/movies', adminJwtMiddleware, (req, res) => {
 })
 
 router.post('/movies/:id', adminJwtMiddleware, (req, res) => {
+    const add = req.query.addNew || false
     const movie = req.body
-    Movie.update({
-        name: movie.name,
-        actor: movie.actor,
-        director: movie.director,
-        startDate: new Date(movie.start),
-        endDate: new Date(movie.end),
-        introduce: movie.intro,
-        imageUrl: movie.imageUrl
-    }, {
-            where: {
-                id: movie.id
-            }
+    if (add) {
+        Movie.create({
+            id: movie.id,
+            name: movie.name,
+            actor: movie.actor,
+            director: movie.director,
+            startDate: new Date(movie.start),
+            endDate: new Date(movie.end),
+            introduce: movie.intro,
+            imageUrl: movie.imageUrl
         }).then(() => {
-            res.json({
-                code: 'OK'
-            })
+            res.json({ code: 'OK' })
         }).catch(err => {
             console.log(err)
-            res.send(err)
+            res.json({
+                code: 'FAILED',
+                msg: err
+            })
         })
+    } else {
+        Movie.update({
+            name: movie.name,
+            actor: movie.actor,
+            director: movie.director,
+            startDate: new Date(movie.start),
+            endDate: new Date(movie.end),
+            introduce: movie.intro,
+            imageUrl: movie.imageUrl
+        }, {
+                where: {
+                    id: movie.id
+                }
+            }).then(() => {
+                res.json({
+                    code: 'OK'
+                })
+            }).catch(err => {
+                console.log(err)
+                res.json({
+                    code: 'FAILED',
+                    msg: err
+                })
+            })
+    }
 })
 
 module.exports = router;

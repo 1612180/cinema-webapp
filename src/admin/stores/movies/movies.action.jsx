@@ -1,5 +1,7 @@
 import { actions } from './movies.type'
 import AdminAPI from '../../network/admin-api'
+import Swal from 'sweetalert2'
+import { codes } from '../../network/message-codes';
 
 export const loadContent = () => {
     return (dispatch, getState) => {
@@ -41,14 +43,24 @@ export const loadMovies = (page, options) => {
             })
     }
 }
-export const uploadMovie = (movie) => {
+export const uploadMovie = (movie, addNew) => {
     return (dispatch, getState) => {
-        AdminAPI.uploadMovie(movie)
+        AdminAPI.uploadMovie(movie, addNew)
             .then(data => {
-                dispatch(loadMovies(1))
-            })
-            .catch(err => {
-                dispatch(loadMovies(1))
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadMovies(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
             })
     }
 }

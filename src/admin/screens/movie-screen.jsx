@@ -421,6 +421,12 @@ class MovieScreen extends React.Component {
                         this.setState({ modalOpen: false })
                     }
                 }}
+                newCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadMovie(this.state.newItem, true)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
             />
         )
     }
@@ -448,7 +454,7 @@ const mapDispatchToProps = dispatch => {
     return {
         loadContent: () => dispatch(loadContent()),
         loadMovies: (page, options) => dispatch(loadMovies(page, options)),
-        uploadMovie: (movie) => dispatch(uploadMovie(movie))
+        uploadMovie: (movie, addNew) => dispatch(uploadMovie(movie, addNew))
     }
 }
 
