@@ -21,8 +21,14 @@ const {
   FoodStatus,
   FoodOrder,
   FoodShoppingCart,
-  Banner
+  Banner,
+  MovieGenre
 } = require("../models");
+
+const middleware = require("./middleware");
+
+const jwt = require("jsonwebtoken");
+const secretKey = process.env.SECRET_KEY || "wtf";
 
 router.get("/count/movies", (req, res) => {
   Movie.findAndCountAll()
@@ -207,7 +213,7 @@ router.post("/movies", (req, res) => {
     director: req.body.director,
     photoUrl: req.body.photoUrl,
     introduce: req.body.introduce,
-    genre: req.body.genre,
+    movieGenreId: req.body.movieGenreId,
     startDate: req.body.startDate,
     endDate: req.body.endDate
   })
@@ -224,7 +230,7 @@ router.put("/movies/:id", (req, res) => {
       director: req.body.director,
       photoUrl: req.body.photoUrl,
       introduce: req.body.introduce,
-      genre: req.body.genre,
+      movieGenreId: req.body.movieGenreId,
       startDate: req.body.startDate,
       endDate: req.body.endDate
     },
@@ -248,6 +254,45 @@ router.delete("/movies", (req, res) => {
 
 router.delete("/movies/:id", (req, res) => {
   Movie.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.get("/movie_genres", (req, res) => {
+  MovieGenre.findAll()
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/movie_genres", (req, res) => {
+  MovieGenre.create({
+    name: req.body.name
+  })
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.put("/movie_genres/:id", (req, res) => {
+  MovieGenre.update(
+    {
+      name: req.body.name
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
+router.delete("/movie_genres/:id", (req, res) => {
+  MovieGenre.destroy({
     where: {
       id: req.params.id
     }
@@ -1046,6 +1091,94 @@ router.delete("/banner/:id", (req, res) => {
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
+});
+
+router.post("/auth/login", (req, res) => {
+  User.findAll({
+    where: {
+      email: req.body.email,
+      hashedPassword: req.body.password
+    }
+  }).then(data => {
+    if (!data || !data.length) {
+      res.json({ status: false, message: "Email or password is not correct" });
+      return;
+    }
+    jwt.sign(
+      { email: data[0].email },
+      secretKey,
+      { expiresIn: "365d" },
+      (err, token) => {
+        if (err) {
+          res.json({ status: false, message: "Something wrong :(" });
+          return;
+        }
+
+        res.json({ status: true, message: "Login OK", data: token });
+      }
+    );
+  });
+});
+
+router.post("/auth/signup", (req, res) => {
+  if (
+    !req.body.username ||
+    !req.body.password ||
+    !req.body.password2 ||
+    !req.body.email ||
+    !req.body.phoneNumber
+  ) {
+    res.json({ status: false, message: "Missing something ?" });
+    return;
+  }
+
+  if (req.body.password !== req.body.password2) {
+    res.json({ status: false, message: "Password again is incorect" });
+    return;
+  }
+
+  User.findAll({
+    where: {
+      email: req.body.email
+    }
+  }).then(data => {
+    if (data.length) {
+      res.json({ status: false, message: "Email already registered" });
+      return;
+    }
+
+    User.create({
+      username: req.body.username,
+      hashedPassword: req.body.password,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber
+    }).then(() => {
+      res.json({ status: true, message: "Signup OK" });
+    });
+  });
+});
+
+router.post("/auth/test", middleware.auth, (req, res) => {
+  res.send(res.get("email"));
+});
+
+router.get("/me", middleware.auth, (req, res) => {
+  User.findAll({
+    where: {
+      email: res.get("email")
+    }
+  }).then(data => {
+    if (!data || !data.length) {
+      res.json({ status: false, message: "This email not exist" });
+      return;
+    }
+
+    return res.json({
+      status: true,
+      message: "Get info OK",
+      data: { name: data[0].username }
+    });
+  });
 });
 
 module.exports = router;
