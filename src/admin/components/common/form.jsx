@@ -175,7 +175,7 @@ export class FormDatePicker extends React.Component {
                             type="text"
                             className="form-control input-md rounded-0"
                             readOnly={true}
-                            value={formatDate(this.props.value)}
+                            value={this.props.value && formatDate(this.props.value)}
                         />
                         :
                         <DatePicker
@@ -229,7 +229,7 @@ export class FormDateTimePicker extends React.Component {
                             type="text"
                             className="form-control input-md rounded-0"
                             readOnly={true}
-                            value={formatDateTime(this.props.value)}
+                            value={this.props.value && formatDateTime(this.props.value)}
                         />
                         :
                         <DateTimePicker

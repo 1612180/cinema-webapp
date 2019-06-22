@@ -281,7 +281,10 @@ class OrderScreen extends React.Component {
                                     <NigamonIcon name='cog' />
                                 </InlineClickableView>
                                 /
-                                <InlineClickableView onClick={() => this.openModal(ModalState.REMOVE)}>
+                                <InlineClickableView onClick={() => {
+                                    this.setState({ newItem: item })
+                                    this.openModal(ModalState.REMOVE)
+                                }}>
                                     <NigamonIcon name='times' />
                                 </InlineClickableView>
                             </td>
@@ -294,6 +297,14 @@ class OrderScreen extends React.Component {
     }
 
     renderFloatingButton() {
+        if (this.isDependenciesLoadFailed()
+            || this.props.statusChoices.data.length !== 0
+            || this.props.theaterChoices.data.length !== 0
+            || this.props.theaters.data.length !== 0
+            || this.props.foods.data.length !== 0
+            || this.props.tickets.data.length !== 0) {
+            return null
+        }
         return (
             <FloatingButton
                 onClick={() => {

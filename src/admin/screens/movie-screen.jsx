@@ -5,7 +5,7 @@ import { FullHeader } from '../components/header/full-header'
 import { routes } from '../routes';
 import { RemoteDataListContainer } from '../components/common/remote-data-list-container'
 import { RemoteDropdown, Dropdown } from '../components/common/dropdown';
-import { loadContent, loadMovies, uploadMovie } from '../stores/movies/movies.action'
+import { loadContent, loadMovies, uploadMovie, removeMovie } from '../stores/movies/movies.action'
 import { InlineClickableView, ClickableTableCells } from '../components/common/clickable-view';
 import { NigamonIcon } from '../components/common/nigamon-icon';
 
@@ -228,7 +228,7 @@ class MovieScreen extends React.Component {
                     defaultLabel='The loai'
                     onDefaultClick={() => this.handleGenreChoice(0)}
                     data={this.props.genreChoices}
-                    onChoiceClick={this.handleGenreChoice}
+                    onChoiceClick={c => this.handleGenreChoice(c.id)}
                 />
                 <Dropdown
                     className='col-md-2'
@@ -291,7 +291,10 @@ class MovieScreen extends React.Component {
                                     <NigamonIcon name='cog' />
                                 </InlineClickableView>
                                 /
-                                <InlineClickableView onClick={() => this.openModal(ModalState.REMOVE)}>
+                                <InlineClickableView onClick={() => {
+                                    this.setState({ newItem: item })
+                                    this.openModal(ModalState.REMOVE)
+                                }}>
                                     <NigamonIcon name='times' />
                                 </InlineClickableView>
                             </td>
@@ -304,6 +307,9 @@ class MovieScreen extends React.Component {
     }
 
     renderFloatingButton() {
+        if (this.isGenreLoadFailed() || this.props.genreChoices.data.length === 0) {
+            return null
+        }
         return (
             <FloatingButton
                 onClick={() => {
@@ -333,6 +339,9 @@ class MovieScreen extends React.Component {
     renderEditForm(addNew) {
         let genres = this.props.genreChoices.data
         let { newItem } = this.state
+        if (!newItem.type) {
+            this.state.newItem.type = genres[0].id
+        }
         return (
             <form ref={ref => this.newForm = ref}>
                 <FormInput label='Ma phim' disabled={!addNew} value={newItem.id}
@@ -421,6 +430,18 @@ class MovieScreen extends React.Component {
                         this.setState({ modalOpen: false })
                     }
                 }}
+                newCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadMovie(this.state.newItem, true)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                removeCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.removeMovie(this.state.newItem, true)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
             />
         )
     }
@@ -448,7 +469,8 @@ const mapDispatchToProps = dispatch => {
     return {
         loadContent: () => dispatch(loadContent()),
         loadMovies: (page, options) => dispatch(loadMovies(page, options)),
-        uploadMovie: (movie) => dispatch(uploadMovie(movie))
+        uploadMovie: (movie, addNew) => dispatch(uploadMovie(movie, addNew)),
+        removeMovie: (movie) => dispatch(removeMovie(movie))
     }
 }
 

@@ -8,8 +8,11 @@ export class ApiClient {
 
         this.get = this.get.bind(this)
         this.post = this.post.bind(this)
+        this.delete = this.delete.bind(this)
+
         this.getJson = this.getJson.bind(this)
         this.postJson = this.postJson.bind(this)
+        this.deleteJson = this.deleteJson.bind(this)
     }
 
     buildUrl(path, params) {
@@ -21,17 +24,25 @@ export class ApiClient {
     }
 
     get(path, options) {
-        return fetch(this.buildUrl(path, options.params), {
+        return fetch(this.buildUrl(path, options && options.params), {
             ...options,
             method: 'get',
         })
     }
 
     post(path, body, options) {
-        return fetch(this.buildUrl(path, options.params), {
+        return fetch(this.buildUrl(path, options && options.params), {
             ...options,
             method: 'post',
             body: body,
+        })
+    }
+
+    delete(path, body, options) {
+        return fetch(this.buildUrl(path, options && options.params), {
+            ...options,
+            method: 'delete',
+            body: body
         })
     }
 
@@ -47,6 +58,16 @@ export class ApiClient {
 
     postJson(path, body, options) {
         return this.post(path, JSON.stringify(body), {
+            ...options,
+            headers: {
+                ...(options ? options.headers : {}),
+                'Content-Type': 'application/json'
+            }
+        }).then(data => data.json())
+    }
+
+    deleteJson(path, body, options) {
+        return this.delete(path, JSON.stringify(body), {
             ...options,
             headers: {
                 ...(options ? options.headers : {}),
@@ -98,6 +119,34 @@ export class SecureApiClient {
             let token = this.getToken()
             if (token) {
                 oldPost(path, body, {
+                    ...options,
+                    headers: {
+                        ...(options ? options.headers : {}),
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then(response => {
+                    if (response.status !== 401) {
+                        // authorized
+                        this.setToken(response.headers.get(this.tokenName))
+                        resolve(response)
+                    } else {
+                        // unauthorized
+                        this.callback()
+                        reject(errors.UNAUTHORIZED_ACCESS)
+                    }
+                })
+            } else {
+                // no token found
+                this.callback()
+                reject(errors.NO_JWT_TOKEN)
+            }
+        })
+
+        let oldDelete = this.client.delete
+        this.client.delete = (path, body, options) => new Promise((resolve, reject) => {
+            let token = this.getToken()
+            if (token) {
+                oldDelete(path, body, {
                     ...options,
                     headers: {
                         ...(options ? options.headers : {}),

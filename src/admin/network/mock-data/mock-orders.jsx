@@ -20,7 +20,7 @@ export const getOrders = (n, options) => {
         let foodNum = Math.floor(Math.random() * 5) + 1;
         for (let i = 0; i < foodNum; i++) {
             foods.push(new OrderFood(
-                foods.length + 1,
+                1,
                 Math.floor(Math.random() * 3) + 1,
             ))
         }
@@ -33,7 +33,7 @@ export const getOrders = (n, options) => {
                 new Date(t.getTime() + 30 * 60 * 1000 * i),
                 tickets.length + 1,
                 tickets.length + 1,
-                tickets.length + 1
+                1
             ))
         }
         orders.push(new Order(

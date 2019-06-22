@@ -62,7 +62,7 @@ export const ModalState = {
     NEW: 'NEW',
     INFO: 'INFO',
     REMOVE: 'REMOVE',
-    INFO_NO_EDIT: 'INFO_NO_EDIT'
+    INFO_NO_EDIT: 'INFO_NO_EDIT',
 }
 export class RemoteDataModal extends React.Component {
     constructor(props) {
@@ -95,7 +95,15 @@ export class RemoteDataModal extends React.Component {
 
     renderFooter() {
         switch (this.state.modalState) {
-            case ModalState.NEW:
+            case ModalState.NEW: {
+                return this.renderFooterButtons('Tao moi', () => {
+                    if (this.props.newCallback) {
+                        this.props.newCallback()
+                    } else {
+                        console.log('new')
+                    }
+                })
+            }
             case ModalState.EDIT: {
                 return this.renderFooterButtons('Luu', () => {
                     if (this.props.editCallback) {

@@ -1,5 +1,7 @@
 import { actions } from './foods.type'
 import AdminAPI from '../../network/admin-api'
+import { codes } from '../../network/message-codes'
+import Swal from 'sweetalert2'
 
 export const loadContent = () => {
     return (dispatch, getState) => {
@@ -38,6 +40,48 @@ export const loadFoods = (page, options) => {
             .catch(err => {
                 dispatch(setFoods(null, 'request timeout ' + err))
                 dispatch(loadingFoods(false))
+            })
+    }
+}
+export const uploadFood = (food, addNew) => {
+    return (dispatch, getState) => {
+        AdminAPI.uploadFood(food, addNew)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadFoods(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
+            })
+    }
+}
+export const removeFood = (food) => {
+    return (dispatch, getState) => {
+        AdminAPI.removeFood(food)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadFoods(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
             })
     }
 }

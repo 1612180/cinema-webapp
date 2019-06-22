@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { formatMoney } from '../libs/money'
-import { loadContent, loadTickets } from '../stores/tickets/tickets.action'
+import { loadContent, loadTickets, uploadTicket, removeTicket } from '../stores/tickets/tickets.action'
 import BaseAdminScreen from './base-admin-screen'
 import { FullHeader } from '../components/header/full-header'
 import { routes } from '../routes';
@@ -174,7 +174,7 @@ class TicketScreen extends React.Component {
                     defaultLabel='Tinh trang'
                     onDefaultClick={() => this.handleStatusChoice(0)}
                     data={this.props.statusChoices}
-                    onChoiceClick={this.handleStatusChoice}
+                    onChoiceClick={(c) => this.handleStatusChoice(c.id)}
                 />
             </div>
         )
@@ -219,7 +219,10 @@ class TicketScreen extends React.Component {
                                     <NigamonIcon name='cog' />
                                 </InlineClickableView>
                                 /
-                                <InlineClickableView onClick={() => this.openModal(ModalState.REMOVE)}>
+                                <InlineClickableView onClick={() => {
+                                    this.setState({ newItem: item })
+                                    this.openModal(ModalState.REMOVE)
+                                }}>
                                     <NigamonIcon name='times' />
                                 </InlineClickableView>
                             </td>
@@ -232,6 +235,9 @@ class TicketScreen extends React.Component {
     }
 
     renderFloatingButton() {
+        if (this.isStatusLoadFailed() || this.props.statusChoices.data.length === 0) {
+            return null
+        }
         return (
             <FloatingButton
                 onClick={() => {
@@ -261,6 +267,9 @@ class TicketScreen extends React.Component {
     renderEditForm(addNew) {
         let status = this.props.statusChoices.data
         let { newItem } = this.state
+        if (!newItem.status) {
+            this.state.newItem.status = status[0].id
+        }
         return (
             <form ref={ref => this.newForm = ref}>
                 <FormInput label='Ma loai ve' disabled={!addNew} value={newItem.id}
@@ -311,6 +320,24 @@ class TicketScreen extends React.Component {
                 }}
                 body={this.renderModalBody}
                 onStateChange={s => this.setState({ modalState: s })}
+                editCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadTicket(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                newCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadTicket(this.state.newItem, true)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                removeCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.removeTicket(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
             />
         )
     }
@@ -338,6 +365,8 @@ const mapDispatchToProps = dispatch => {
     return {
         loadContent: () => dispatch(loadContent()),
         loadTickets: (page, options) => dispatch(loadTickets(page, options)),
+        uploadTicket: (ticket, addNew) => dispatch(uploadTicket(ticket, addNew)),
+        removeTicket: (ticket) => dispatch(removeTicket(ticket))
     }
 }
 

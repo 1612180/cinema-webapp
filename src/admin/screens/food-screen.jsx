@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { loadContent, loadFoods } from '../stores/foods/foods.action'
+import { loadContent, loadFoods, uploadFood, removeFood } from '../stores/foods/foods.action'
 import BaseAdminScreen from './base-admin-screen'
 import { FullHeader } from '../components/header/full-header'
 import { routes } from '../routes';
@@ -173,7 +173,7 @@ class FoodScreen extends React.Component {
                     defaultLabel='Tinh trang'
                     onDefaultClick={() => this.handleStatusChoice(0)}
                     data={this.props.statusChoices}
-                    onChoiceClick={this.handleStatusChoice}
+                    onChoiceClick={(c) => this.handleStatusChoice(c.id)}
                 />
             </div>
         )
@@ -218,7 +218,10 @@ class FoodScreen extends React.Component {
                                     <NigamonIcon name='cog' />
                                 </InlineClickableView>
                                 /
-                                <InlineClickableView onClick={() => this.openModal(ModalState.REMOVE)}>
+                                <InlineClickableView onClick={() => {
+                                    this.setState({ newItem: item })
+                                    this.openModal(ModalState.REMOVE)
+                                }}>
                                     <NigamonIcon name='times' />
                                 </InlineClickableView>
                             </td>
@@ -231,6 +234,9 @@ class FoodScreen extends React.Component {
     }
 
     renderFloatingButton() {
+        if (this.isStatusLoadFailed() || this.props.statusChoices.data.length === 0) {
+            return null
+        }
         return (
             <FloatingButton
                 onClick={() => {
@@ -260,6 +266,9 @@ class FoodScreen extends React.Component {
     renderEditForm(addNew) {
         let status = this.props.statusChoices.data
         let { newItem } = this.state
+        if (!newItem.status) {
+            this.state.newItem.status = status[0].id
+        }
         return (
             <form ref={ref => this.newForm = ref}>
                 <FormInput label='Ma thuc an' disabled={!addNew} value={newItem.id}
@@ -310,6 +319,24 @@ class FoodScreen extends React.Component {
                 }}
                 body={this.renderModalBody}
                 onStateChange={s => this.setState({ modalState: s })}
+                editCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadFood(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                newCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadFood(this.state.newItem, true)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                removeCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.removeFood(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
             />
         )
     }
@@ -339,6 +366,8 @@ const mapDispatchToProps = dispatch => {
     return {
         loadContent: () => dispatch(loadContent()),
         loadFoods: (page, options) => dispatch(loadFoods(page, options)),
+        uploadFood: (food, addNew) => dispatch(uploadFood(food, addNew)),
+        removeFood: (food) => dispatch(removeFood(food))
     }
 }
 
