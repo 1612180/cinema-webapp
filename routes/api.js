@@ -268,6 +268,12 @@ router.get("/movie_genres", (req, res) => {
     .catch(err => res.json({ status: false, message: err }));
 });
 
+router.get("/movie_genres/:id", (req, res) => {
+  MovieGenre.findByPk(req.params.id)
+    .then(data => res.json({ status: true, message: "OK", data: data }))
+    .catch(err => res.json({ status: false, message: err }));
+});
+
 router.post("/movie_genres", (req, res) => {
   MovieGenre.create({
     name: req.body.name
