@@ -24,10 +24,10 @@ function ShowPhim(res) {
 async function ShowTicket(id, id2, id3, tbody) {
   let cDate = document.getElementById("cDate");
 
-  console.log(new Date(cDate.value).toISOString())
+  console.log(new Date(cDate.value).toISOString());
 
   let res = await fetch(
-      "/api/movies/" +
+    "/api/movies/" +
       id +
       "/theaters/" +
       id2 +
@@ -37,7 +37,7 @@ async function ShowTicket(id, id2, id3, tbody) {
       new Date(cDate.value).toISOString()
   );
   res = await res.json();
-  if (res.data.length === 0) {
+  if (!res.data.length) {
     return;
   }
 
@@ -59,13 +59,17 @@ async function ShowTicket(id, id2, id3, tbody) {
     btn.className = "btn btn-primary mr-2 mb-2 btn-normal";
     btn.innerText = res.data[i].time;
     td2.appendChild(btn);
+
+    btn.addEventListener("click", () => {
+      location.href = "/ve?showTimeId=" + res.data[i].id;
+    });
   }
 }
 
 async function ShowTheater(id, id2) {
   let res = await fetch("/api/count/ticket_types");
   res = await res.json();
-  if (res.data === null) {
+  if (!res.data) {
     return;
   }
   TICKET_TYPE_NUM = res.data;
@@ -101,7 +105,7 @@ async function ShowTheater(id, id2) {
 
   res = await fetch("/api/theaters" + "/" + id2);
   res = await res.json();
-  if (res.data === null) {
+  if (!res.data) {
     return;
   }
   spanName.innerText = res.data.name;
@@ -144,7 +148,7 @@ window.addEventListener("load", async function() {
   let res = await fetch("/api/movies" + "/" + id);
   res = await res.json();
   if (res.data) {
-    ShowPhim(res)
+    ShowPhim(res);
   }
 
   let cDate = document.getElementById("cDate");

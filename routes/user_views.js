@@ -41,4 +41,8 @@ router.get("/me/history", (req, res) => {
   res.sendFile(path.resolve(__dirname + "/../views/user_history.html"));
 });
 
+router.get("/ve", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/../views/user_ticket.html"))
+})
+
 module.exports = router;
