@@ -17,6 +17,7 @@ import { ApiClient, SecureApiClient } from './api-client'
 import { logOut } from '../stores/app-state/app-state.action'
 import { store } from '../stores/configureStore'
 import { codes } from './message-codes';
+import { parseTime, formatTime } from '../libs/datetime';
 
 const ITEM_PER_PAGE = {
     dashboard: 5,
@@ -81,12 +82,10 @@ export default class AdminApi {
         })
     }
     static getDashboardTheaters(page) {
-        return ok({
-            theaters: getDashboardTheaters(ITEM_PER_PAGE.dashboard),
-            currentPage: page,
-            lastPage: 3,
-            total: 15
-        })
+        return secureApiClient.getJson('/dashboard/theaters', { params: { page: page } })
+            .then(data => {
+                return data
+            })
     }
 
     static getTheaterChoices() {
@@ -120,12 +119,10 @@ export default class AdminApi {
         })
     }
     static uploadMovie(movie, addNew) {
-        console.log(movie)
         return secureApiClient.postJson(`/movies/${movie.id}`, movie, { params: { addNew: addNew } })
             .then(data => data)
     }
     static removeMovie(movie) {
-        console.log(movie)
         return secureApiClient.deleteJson(`/movies/${movie.id}`)
     }
     //--------------------- Theaters ------------------------//
@@ -133,6 +130,7 @@ export default class AdminApi {
         return secureApiClient.getJson('/theaters/status')
     }
     static getTheaters(page, options) {
+        secureApiClient.getJson(`/theaters/1/showtimes`, { params: { date: new Date() } })
         return secureApiClient.getJson('/theaters', {
             params: {
                 page: page,
@@ -143,7 +141,41 @@ export default class AdminApi {
         })
     }
     static getShowTimes(theater, date, options) {
-        return ok({ showTimes: getTheaterShowTimes(9, theater.row, theater.column, options) })
+        return secureApiClient.getJson(`/theaters/${theater.id}/showtimes`, { params: { date: date } })
+            .then(data => {
+                return {
+                    showTimes: data.showTimes.map(s => ({
+                        ...s,
+                        time: parseTime(s.time)
+                    }))
+                }
+            })
+    }
+
+    static uploadTheater(theater, addNew) {
+        return secureApiClient.postJson(`/theaters/${theater.id}`, theater, { params: { addNew: addNew } })
+    }
+    static removeTheater(theater) {
+        return secureApiClient.deleteJson(`/theaters/${theater.id}`)
+    }
+    static uploadShowTime(theater, date, showTime, addNew, options) {
+        const data = {
+            ...showTime,
+            time: formatTime(showTime.time)
+        }
+        return secureApiClient.postJson(`/theaters/${theater.id}/showtimes`, data, {
+            params: {
+                date: date,
+                addNew: addNew
+            }
+        })
+    }
+    static removeShowTime(theater, date, showTime, options) {
+        return secureApiClient.deleteJson(`/theaters/${theater.id}/showtimes/${showTime.id}`, {
+            params: {
+                date: date,
+            }
+        })
     }
 
     //--------------------- Tickets ------------------------//
@@ -165,7 +197,6 @@ export default class AdminApi {
             .then(data => data)
     }
     static removeTicket(ticket) {
-        console.log(ticket)
         return secureApiClient.deleteJson(`/tickets/${ticket.id}`)
     }
 
@@ -188,7 +219,6 @@ export default class AdminApi {
             .then(data => data)
     }
     static removeFood(food) {
-        console.log(food)
         return secureApiClient.deleteJson(`/foods/${food.id}`)
     }
 

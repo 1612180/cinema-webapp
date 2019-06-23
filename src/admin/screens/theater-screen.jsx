@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { loadContent, loadTheaters } from '../stores/theaters/theaters.action'
+import { loadContent, loadTheaters, uploadTheater, removeTheater } from '../stores/theaters/theaters.action'
 import BaseAdminScreen from './base-admin-screen'
 import { FullHeader } from '../components/header/full-header'
 import { routes } from '../routes';
@@ -186,7 +186,7 @@ class TheaterScreen extends React.Component {
                     defaultLabel='Tinh trang'
                     onDefaultClick={() => this.handleStatusChoice(0)}
                     data={this.props.statusChoices}
-                    onChoiceClick={this.handleStatusChoice}
+                    onChoiceClick={c => this.handleStatusChoice(c.id)}
                 />
             </div>
         )
@@ -282,6 +282,9 @@ class TheaterScreen extends React.Component {
     renderEditForm(addNew) {
         let status = this.props.statusChoices.data
         let { newItem } = this.state
+        if (!newItem.status) {
+            this.state.newItem.status = status[0].id
+        }
         return (
             <form ref={ref => this.newForm = ref}>
                 <FormInput label='Ma rap' disabled={!addNew} value={newItem.id}
@@ -347,6 +350,24 @@ class TheaterScreen extends React.Component {
                 }}
                 body={this.renderModalBody}
                 onStateChange={s => this.setState({ modalState: s })}
+                editCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadTheater(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                newCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadTheater(this.state.newItem, true)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                removeCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.removeTheater(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
             />
         )
     }
@@ -374,6 +395,8 @@ const mapDispatchToProps = dispatch => {
     return {
         loadContent: () => dispatch(loadContent()),
         loadTheaters: (page, options) => dispatch(loadTheaters(page, options)),
+        uploadTheater: (theater, addNew) => dispatch(uploadTheater(theater, addNew)),
+        removeTheater: (theater) => dispatch(removeTheater(theater))
     }
 }
 
