@@ -216,7 +216,8 @@ router.post("/movies", (req, res) => {
     introduce: req.body.introduce,
     movieGenreId: req.body.movieGenreId,
     startDate: req.body.startDate,
-    endDate: req.body.endDate
+    endDate: req.body.endDate,
+    length: req.body.length
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));
@@ -233,7 +234,8 @@ router.put("/movies/:id", (req, res) => {
       introduce: req.body.introduce,
       movieGenreId: req.body.movieGenreId,
       startDate: req.body.startDate,
-      endDate: req.body.endDate
+      endDate: req.body.endDate,
+      length: req.body.length
     },
     {
       where: {
