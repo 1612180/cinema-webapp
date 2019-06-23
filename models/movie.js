@@ -7,6 +7,7 @@ module.exports = (sequelize, type) => {
     photoUrl: type.TEXT,
     introduce: type.TEXT,
     startDate: type.DATE,
-    endDate: type.DATE
+    endDate: type.DATE,
+    length: type.INTEGER
   });
 };

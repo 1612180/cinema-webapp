@@ -11,6 +11,7 @@ const userViews = require("./routes/user_views");
 const admin = require("./routes/admin");
 const adminApi = require("./routes/admin-api");
 const api = require("./routes/api");
+const business = require("./routes/business")
 
 // for parsing application/json
 app.use(express.json());
@@ -31,6 +32,7 @@ app.use("/admin", admin);
 app.use("/admin/*", admin);
 
 app.use("/api", api);
+app.use("/api", business)
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
