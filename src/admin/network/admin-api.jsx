@@ -130,14 +130,16 @@ export default class AdminApi {
     }
     //--------------------- Theaters ------------------------//
     static getTheaterStatusChoices() {
-        return ok(getTheaterStatusChoices())
+        return secureApiClient.getJson('/theaters/status')
     }
     static getTheaters(page, options) {
-        return ok({
-            theaters: getTheaters(ITEM_PER_PAGE.other, options),
-            currentPage: page,
-            lastPage: 2,
-            total: 18
+        return secureApiClient.getJson('/theaters', {
+            params: {
+                page: page,
+                ...options
+            }
+        }).then(data => {
+            return data
         })
     }
     static getShowTimes(theater, date, options) {
