@@ -68,20 +68,6 @@ sequelize
   .sync({
     // force: true
   })
-  .then(() => {
-    OrderStatus.create({
-      id: 1,
-      name: 'da thanh toan'
-    })
-    OrderStatus.create({
-      id: 2,
-      name: 'cho thanh toan'
-    })
-    OrderStatus.create({
-      id: 3,
-      name: 'huy'
-    })
-  })
   .then(() =>
     Admin.create({
       adminName: "leHauBoi",

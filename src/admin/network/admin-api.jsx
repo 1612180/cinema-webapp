@@ -17,7 +17,7 @@ import { ApiClient, SecureApiClient } from './api-client'
 import { logOut } from '../stores/app-state/app-state.action'
 import { store } from '../stores/configureStore'
 import { codes } from './message-codes';
-import { parseTime, formatTime } from '../libs/datetime';
+import { parseTime, formatTime, formatDate } from '../libs/datetime';
 
 const ITEM_PER_PAGE = {
     dashboard: 5,
@@ -78,12 +78,17 @@ export default class AdminApi {
             })
     }
     static getDashboardOrders(page) {
-        return ok({
-            orders: getDashboardOrders(ITEM_PER_PAGE.dashboard),
-            currentPage: page,
-            lastPage: 5,
-            total: 23
-        })
+        return secureApiClient.getJson('/dashboard/orders', { params: { page: page } })
+            .then(data => {
+                return {
+                    ...data,
+                    orders: data.orders.map(o => ({
+                        ...o,
+                        date: formatDate(new Date(o.date)),
+                        time: formatTime(new Date(o.time)),
+                    }))
+                }
+            })
     }
     static getDashboardTheaters(page) {
         return secureApiClient.getJson('/dashboard/theaters', { params: { page: page } })
@@ -93,10 +98,43 @@ export default class AdminApi {
     }
 
     static getTheaterChoices() {
-        return ok(getTheaterChoices())
+        return secureApiClient.getJson('/theaters', {
+            params: {
+                page: 0,
+                status: 1
+            }
+        }).then(data => {
+            return {
+                choices: data.theaters.map(t => ({
+                    id: t.id,
+                    label: t.name
+                }))
+            }
+        })
     }
-    static getDashboardCharts(start, end, theater) {
-        return ok(getDashboardCharts(start, end, theater))
+    static getDashboardCharts(start, end) {
+        return secureApiClient.getJson('/dashboard/charts', {
+            params: {
+                start: start,
+                end: end
+            }
+        }).then(data => {
+            return {
+                ...data,
+                charts: {
+                    ...data.charts,
+                    income: {
+                        ...data.charts.income,
+                        labels: data.charts.income.labels.map(d => formatDate(new Date(d)))
+                    },
+                    newUser: {
+                        ...data.charts.newUser,
+                        labels: data.charts.newUser.labels.map(d => formatDate(new Date(d)))
+                    }
+                }
+            }
+        })
+        // return ok(getDashboardCharts(start, end, theater))
     }
 
     //--------------------- Movies ------------------------//
@@ -134,7 +172,6 @@ export default class AdminApi {
         return secureApiClient.getJson('/theaters/status')
     }
     static getTheaters(page, options) {
-        secureApiClient.getJson(`/theaters/1/showtimes`, { params: { date: new Date() } })
         return secureApiClient.getJson('/theaters', {
             params: {
                 page: page,
@@ -228,9 +265,37 @@ export default class AdminApi {
 
     //--------------------- Orders ------------------------//
     static getOrderStatusChoices() {
+        secureApiClient.getJson('/orders', {
+            params: {
+                page: 1
+            }
+        })
         return secureApiClient.getJson('/orders/status')
     }
     static getOrders(page, options) {
+        return secureApiClient.getJson('/orders', {
+            params: {
+                page: page,
+                ...options
+            }
+        }).then(data => {
+            return {
+                ...data,
+                orders: data.orders.map(o => {
+                    return {
+                        ...o,
+                        datetime: new Date(o.datetime),
+                        tickets: o.tickets.map(t => {
+                            return {
+                                ...t,
+                                date: new Date(t.date),
+                                time: parseTime(t.time)
+                            }
+                        })
+                    }
+                })
+            }
+        })
         return ok({
             orders: getOrders(ITEM_PER_PAGE.other, options),
             currentPage: page,

@@ -30,7 +30,6 @@ class DashboardScreen extends React.Component {
         }
 
         this.handleDateChange = this.handleDateChange.bind(this)
-        this.handleTheaterChange = this.handleTheaterChange.bind(this)
 
         this.renderHeader = this.renderHeader.bind(this)
         this.renderContent = this.renderContent.bind(this)
@@ -47,11 +46,6 @@ class DashboardScreen extends React.Component {
     handleDateChange(s, e) {
         this.setState({ start: s, end: e })
         this.props.loadCharts(s, e, this.state.theater)
-    }
-
-    handleTheaterChange(t) {
-        this.setState({ theater: t })
-        this.props.loadCharts(this.state.start, this.state.end, t)
     }
 
     renderHeader() {
@@ -207,13 +201,6 @@ class DashboardScreen extends React.Component {
                         className='col-lg-8'
                         onChange={this.handleDateChange}
                     />
-                    <RemoteDropdown
-                        className='col-lg-4'
-                        defaultLabel='Tat ca rap'
-                        onDefaultClick={() => this.handleTheaterChange(0)}
-                        data={this.props.theaterChoices}
-                        onChoiceClick={this.handleTheaterChange}
-                    />
                 </div>
                 <div className="row justify-content-between mx-0">
                     <RemoteLineChart
@@ -300,7 +287,7 @@ const mapDispatchToProps = dispatch => {
         loadOrders: (page) => dispatch(loadOrders(page)),
         loadMovies: (page) => dispatch(loadMovies(page)),
         loadTheaters: (page) => dispatch(loadTheaters(page)),
-        loadCharts: (start, end, theater) => dispatch(loadCharts(start, end, theater))
+        loadCharts: (start, end) => dispatch(loadCharts(start, end))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen)

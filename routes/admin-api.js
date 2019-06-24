@@ -113,6 +113,67 @@ router.get('/login', adminJwtMiddleware, (req, res) => {
 })
 
 //----------------------------------- dashboard-------------------------------------//
+router.get('/dashboard/orders', adminJwtMiddleware, (req, res) => {
+    console.log('orders dashboard')
+    const query = req.query
+    const page = parseInt(query.page || 0)
+    const status = parseInt(query.status || 0)
+
+    Order.findAndCountAll({
+        where: {
+            ...(status ? { orderStatusId: status } : {}),
+        },
+        limit: LIMIT,
+        offset: (page - 1) * LIMIT,
+        order: [['updatedAt', 'DESC']],
+    }).then(result => Promise.all(result.rows.map(r => r.dataValues).map(async r => {
+        const user = await User.findByPk(r.userId)
+        const tickets = await OrdererTicket.findAndCountAll({
+            where: { orderId: r.id }
+        }).then(result => {
+            return Promise.all(result.rows.map(r => r.dataValues)
+                .map(async r => {
+                    const ticket = await Ticket.findByPk(r.ticketId)
+                    const showTime = await ShowTime.findByPk(ticket.showTimeId)
+                    const ticketType = await TicketType.findByPk(showTime.ticketTypeId)
+                    return {
+                        price: ticketType.price
+                    }
+                })
+            )
+        })
+        const foods = await FoodOrder.findAndCountAll({
+            where: { orderId: r.id }
+        }).then(result => {
+            return Promise.all(result.rows.map(r => r.dataValues)
+                .map(async r => {
+                    const food = await Food.findByPk(r.foodId)
+                    return {
+                        price: food.price * r.quantity
+                    }
+                }))
+        })
+        const total = tickets.reduce((p, c) => p + c.price, 0)
+            + foods.reduce((p, c) => p + c.price, 0)
+        return {
+            username: user.username,
+            date: r.createdAt,
+            time: r.createdAt,
+            total: total
+        }
+    })).then(data => {
+        let orders = data
+        res.json({
+            orders: orders,
+            currentPage: page,
+            lastPage: Math.ceil(result.count / LIMIT),
+            total: result.count
+        })
+    })).catch(err => {
+        console.log(err)
+        res.status(500).send('GET Dashboard Orders Error')
+    })
+})
 router.get('/dashboard/movies', adminJwtMiddleware, (req, res) => {
     console.log('movies dashboard')
     const query = req.query
@@ -235,6 +296,137 @@ router.get('/dashboard/theaters', adminJwtMiddleware, (req, res) => {
     }).catch(err => {
         console.log(err)
         res.status(500).send('GET Dashboard Theaters Error')
+    })
+})
+router.get('/dashboard/charts', adminJwtMiddleware, (req, res) => {
+    console.log('charts dashboard')
+    const query = req.query
+    let start = query.start && new Date(query.start)
+    if (start) {
+        start.setHours(0, 0, 0)
+    }
+    let end = query.end && new Date(query.end)
+    if (end) {
+        end.setHours(23, 59, 59)
+    }
+
+    Order.findAndCountAll({
+        where: {
+            orderStatusId: 1,
+            ...((start || end) ? ({
+                createdAt: {
+                    ...(start ? ({
+                        [Op.gte]: start
+                    }) : {}),
+                    ...(end ? ({
+                        [Op.lte]: end
+                    }) : {})
+                }
+            }) : {})
+        },
+        order: [['createdAt', 'ASC']],
+    }).then(result => {
+        if (!start) {
+            start = new Date(result.rows[0].dataValues.createdAt)
+        }
+        if (!end) {
+            end = new Date(result.rows[result.rows.length - 1].dataValues.createdAt)
+        }
+        let labels = []
+        let date = new Date(start.getTime())
+        while (date.getDate() < end.getDate() || date.getMonth() < end.getMonth() || date.getFullYear() < end.getFullYear()) {
+            labels.push(new Date(date.getTime()))
+            let currentDate = date.getDate()
+            date.setDate(currentDate + 1)
+        }
+        labels.push(end)
+
+        Promise.all(labels.map(async d => {
+            let startOfDate = new Date(d.getTime())
+            startOfDate.setHours(0, 0, 0)
+            let endOfDate = new Date(d.getTime())
+            endOfDate.setHours(23, 59, 59)
+
+            const orders = await Order.findAndCountAll({
+                where: {
+                    createdAt: {
+                        [Op.gte]: startOfDate,
+                        [Op.lte]: endOfDate
+                    }
+                }
+            }).then(result => Promise.all(result.rows.map(r => r.dataValues).map(async r => {
+                const tickets = await OrdererTicket.findAndCountAll({
+                    where: { orderId: r.id }
+                }).then(result => {
+                    return Promise.all(result.rows.map(r => r.dataValues)
+                        .map(async r => {
+                            const ticket = await Ticket.findByPk(r.ticketId)
+                            const showTime = await ShowTime.findByPk(ticket.showTimeId)
+                            const ticketType = await TicketType.findByPk(showTime.ticketTypeId)
+                            return {
+                                price: ticketType.price
+                            }
+                        })
+                    )
+                })
+                const foods = await FoodOrder.findAndCountAll({
+                    where: { orderId: r.id }
+                }).then(result => {
+                    return Promise.all(result.rows.map(r => r.dataValues)
+                        .map(async r => {
+                            const food = await Food.findByPk(r.foodId)
+                            return {
+                                price: food.price * r.quantity
+                            }
+                        }))
+                })
+                const ticketTotal = tickets.reduce((p, c) => p + c.price, 0)
+                const foodTotal = foods.reduce((p, c) => p + c.price, 0)
+                return {
+                    food: foodTotal,
+                    ticket: ticketTotal,
+                    total: ticketTotal + foodTotal
+                }
+            })))
+            const users = await User.findAndCountAll({
+                where: {
+                    createdAt: {
+                        [Op.gte]: startOfDate,
+                        [Op.lte]: endOfDate
+                    }
+                }
+            }).then(result => result.rows.length)
+            return {
+                date: d,
+                orders: orders,
+                users: users
+            }
+        })).then(data => {
+            const totalFood = data.map(d => d.orders.reduce((p, c) => p + c.food, 0)).reduce((p, c) => p + c, 0)
+            const totalTicket = data.map(d => d.orders.reduce((p, c) => p + c.ticket, 0)).reduce((p, c) => p + c, 0)
+            const total = totalFood + totalTicket
+            res.json({
+                charts: {
+                    income: {
+                        labels: labels,
+                        data: data.map(d => d.orders.reduce((p, c) => p + c.total, 0))
+                    },
+                    newUser: {
+                        labels: labels,
+                        data: data.map(d => {
+                            return d.users
+                        })
+                    },
+                    incomeShare: {
+                        labels: ['Thuc an', 'Ve phim'],
+                        data: [totalFood * 100 / total, totalTicket * 100 / total]
+                    }
+                }
+            })
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).send('GET Dashboard Charts Error')
     })
 })
 
@@ -878,6 +1070,107 @@ router.get('/orders/status', adminJwtMiddleware, (req, res) => {
     }).catch(err => {
         res.status(500).send('GET Order Status Error')
     })
+})
+router.get('/orders', adminJwtMiddleware, (req, res) => {
+    console.log('orders')
+    const query = req.query
+    const page = parseInt(query.page || 0)
+    const status = parseInt(query.status || 0)
+    let dateStart = query.dateStart && new Date(query.dateStart)
+    if (dateStart) {
+        dateStart.setHours(0, 0, 0)
+    }
+    let dateEnd = query.dateEnd && new Date(query.dateEnd)
+    if (dateEnd) {
+        dateEnd.setHours(23, 59, 59)
+    }
+    const moneyStart = query.moneyStart && parseInt(query.moneyStart)
+    const moneyEnd = query.moneyEnd && parseInt(query.moneyEnd)
+    const searchText = query.searchText
+
+    Order.findAndCountAll({
+        where: {
+            ...(status ? { orderStatusId: status } : {}),
+            ...(dateStart ? ({
+                createdAt: {
+                    [Op.gte]: dateStart
+                }
+            }) : {}),
+            ...(dateEnd ? ({
+                createdAt: {
+                    [Op.lte]: dateEnd
+                }
+            }) : {}),
+        },
+        order: [['updatedAt', 'DESC']],
+    }).then(result => result.rows.map(r => r.dataValues))
+        .then(rows => {
+            return Promise.all(rows.map(async r => {
+                const user = await User.findByPk(r.userId)
+                const tickets = await OrdererTicket.findAndCountAll({
+                    where: { orderId: r.id }
+                }).then(result => {
+                    return Promise.all(result.rows.map(r => r.dataValues)
+                        .map(async r => {
+                            const ticket = await Ticket.findByPk(r.ticketId)
+                            const showTime = await ShowTime.findByPk(ticket.showTimeId)
+                            const ticketType = await TicketType.findByPk(showTime.ticketTypeId)
+                            return {
+                                theater: showTime.theaterId,
+                                date: showTime.date,
+                                time: showTime.time,
+                                row: ticket.seatRow,
+                                column: ticket.seatColumn,
+                                ticket: showTime.ticketTypeId,
+                                price: ticketType.price
+                            }
+                        })
+                    )
+                })
+                const foods = await FoodOrder.findAndCountAll({
+                    where: { orderId: r.id }
+                }).then(result => {
+                    return Promise.all(result.rows.map(r => r.dataValues)
+                        .map(async r => {
+                            const food = await Food.findByPk(r.foodId)
+                            return {
+                                id: r.foodId,
+                                quantity: r.quantity,
+                                price: food.price * r.quantity
+                            }
+                        }))
+                })
+                const total = tickets.reduce((p, c) => p + c.price, 0)
+                    + foods.reduce((p, c) => p + c.price, 0)
+                return {
+                    id: r.id,
+                    username: user.username,
+                    datetime: r.createdAt,
+                    tickets: tickets,
+                    foods: foods,
+                    status: r.orderStatusId,
+                    total: total
+                }
+            })).then(data => {
+                let orders = data
+                console.log(moneyStart)
+                if (moneyStart) {
+                    orders = orders.filter(o => o.total >= moneyStart)
+                }
+                if (moneyEnd) {
+                    orders = orders.filter(o => o.total <= moneyEnd)
+                }
+                res.json({
+                    orders: orders.slice((page - 1) * LIMIT, page * LIMIT),
+                    currentPage: page,
+                    lastPage: Math.ceil(orders.length / LIMIT),
+                    total: orders.length
+                })
+            })
+        }).catch(err => {
+            console.log(err)
+            res.status(500).send('GET Orders Error')
+        })
 })
 
 module.exports = router;

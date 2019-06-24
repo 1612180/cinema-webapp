@@ -76,7 +76,7 @@ export class OrderSeatPicker extends React.Component {
                                                         newGrid[i][j] = 2
                                                         newCurrent = [i + 1, j + 1]
                                                     } else if (current[0] !== i + 1 || current[1] !== j + 1) {
-                                                        newGrid[current[0]][current[1]] = 0
+                                                        newGrid[current[0] - 1][current[1] - 1] = 0
                                                         newGrid[i][j] = 2
                                                         newCurrent = [i + 1, j + 1]
                                                     } else {

@@ -127,10 +127,10 @@ const setCharts = (charts, err) => {
         error: err
     }
 }
-export const loadCharts = (start, end, theater) => {
+export const loadCharts = (start, end) => {
     return (dispatch, getState) => {
         dispatch(loadingCharts(true))
-        AdminAPI.getDashboardCharts(start, end, theater)
+        AdminAPI.getDashboardCharts(start, end)
             .then(data => {
                 if (data.charts) {
                     dispatch(setCharts(data, null))
