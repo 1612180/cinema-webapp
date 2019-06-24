@@ -14,6 +14,7 @@ import { loadTickets } from '../../stores/tickets/tickets.action';
 import { loadTheaters, loadShowTimes } from '../../stores/theaters/theaters.action';
 import { loadMovies } from '../../stores/movies/movies.action'
 import { OrderSeatPicker } from './order-seat-picker';
+import { uploadOrderTicket, removeOrderTicket } from '../../stores/orders/orders.action';
 
 const validationRules = {
     errorElement: 'span',
@@ -320,7 +321,9 @@ const mapDispatchToProps = dispatch => {
         loadAvailableMovies: () => dispatch(loadMovies(0)),
         loadAvailableTickets: () => dispatch(loadTickets(0)),
         loadAvailableTheaters: () => dispatch(loadTheaters(0)),
-        loadShowTimes: (theater, date) => dispatch(loadShowTimes(theater, date))
+        loadShowTimes: (theater, date) => dispatch(loadShowTimes(theater, date)),
+        uploadOrderTicket: (ticket, addNew) => dispatch(uploadOrderTicket(order, ticket, addNew)),
+        removeOrderTicket: (ticket) => dispatch(removeOrderTicket(order, ticket))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(OrderTicketList)

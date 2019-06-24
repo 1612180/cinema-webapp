@@ -1,35 +1,15 @@
-import { getDashboardMovies, getMovies } from './mock-data/mock-movies'
-import { getDashboardOrders, getOrders } from './mock-data/mock-orders'
-import { getDashboardTheaters, getTheaters, getTheaterShowTimes } from './mock-data/mock-theaters'
-import { getDashboardCharts } from './mock-data/mock-charts'
-import { getTickets } from './mock-data/mock-tickets'
-import { getFoods } from './mock-data/mock-foods'
-import {
-    getTheaterChoices,
-    getGenreChoices,
-    getTheaterStatusChoices,
-    getTicketStatusChoices,
-    getFoodStatusChoices,
-    getOrderStatusChoices
-} from './mock-data/mock-choices'
 import moment from 'moment'
 import { ApiClient, SecureApiClient } from './api-client'
 import { logOut } from '../stores/app-state/app-state.action'
 import { store } from '../stores/configureStore'
-import { codes } from './message-codes';
 import { parseTime, formatTime, formatDate } from '../libs/datetime';
 
-const ITEM_PER_PAGE = {
-    dashboard: 5,
-    other: 10
-}
 const BASE_URL = 'http://localhost:8080/admin/api'
 const JWT_TOKEN = 'NIGAMON_JWT_TOKEN'
 const apiClient = new ApiClient(BASE_URL)
 const secureApiClient = new SecureApiClient(BASE_URL, JWT_TOKEN, () => {
     store.dispatch(logOut())
 }).client
-
 
 export default class AdminApi {
     static logout() {
@@ -134,7 +114,6 @@ export default class AdminApi {
                 }
             }
         })
-        // return ok(getDashboardCharts(start, end, theater))
     }
 
     //--------------------- Movies ------------------------//
@@ -265,14 +244,13 @@ export default class AdminApi {
 
     //--------------------- Orders ------------------------//
     static getOrderStatusChoices() {
-        secureApiClient.getJson('/orders', {
-            params: {
-                page: 1
-            }
-        })
         return secureApiClient.getJson('/orders/status')
     }
     static getOrders(page, options) {
+        secureApiClient.postJson('/orders/1', {
+            id: 1,
+            username: 'a'
+        }, { params: { addNew: true } })
         return secureApiClient.getJson('/orders', {
             params: {
                 page: page,
@@ -296,24 +274,20 @@ export default class AdminApi {
                 })
             }
         })
-        return ok({
-            orders: getOrders(ITEM_PER_PAGE.other, options),
-            currentPage: page,
-            lastPage: 2,
-            total: 18
-        })
     }
-}
+    static uploadOrder(order, addNew) {
+        return secureApiClient.postJson(`/orders/${order.id}`, order, { params: { addNew: addNew } })
+            .then(data => data)
+    }
+    static removeOrder(order) {
+        return secureApiClient.deleteJson(`/orders/${order.id}`)
+    }
 
-const TIMEOUT = 200
-const RANDOM_MAX = 0
-const ok = (data) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(data), TIMEOUT + Math.random() * RANDOM_MAX)
-    })
-}
-const fail = (err) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => reject(err), TIMEOUT + Math.random() * RANDOM_MAX)
-    })
+    static uploadOrderTicket(order, ticket, addNew) {
+        return secureApiClient.postJson(`/orders/${order.id}/tickets`, ticket, { params: { addNew: addNew } })
+            .then(data => data)
+    }
+    static removeOrderTicket(order, ticket) {
+        return secureApiClient.deleteJson(`/orders/${order.id}/tickets`)
+    }
 }

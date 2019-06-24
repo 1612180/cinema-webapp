@@ -9,7 +9,7 @@ import { Button } from '../components/common/button';
 import { CurrentDateTime } from '../components/common/datetime';
 import { BasicInfo } from '../components/dashboard/basic-info';
 import { DashboardDatePicker } from '../components/dashboard/dashboard-datepicker';
-import { RemoteDropdown } from '../components/common/dropdown';
+import { formatMoney } from '../libs//money'
 import { RemoteDataListContainer } from '../components/common/remote-data-list-container'
 
 import { loadContent, loadMovies, loadOrders, loadTheaters, loadCharts } from '../stores/dashboard/dashboard.action'
@@ -121,7 +121,7 @@ class DashboardScreen extends React.Component {
                             <td>{item.username}</td>
                             <td className="text-center">{item.date}</td>
                             <td className="text-center">{item.time}</td>
-                            <td className="text-right">{item.total}</td>
+                            <td className="text-right">{formatMoney(item.total) + ' VND'}</td>
                         </tr>
                     )
                 }}
@@ -205,7 +205,7 @@ class DashboardScreen extends React.Component {
                 <div className="row justify-content-between mx-0">
                     <RemoteLineChart
                         title='Doanh thu (trieu VND)'
-                        className='col-md-5'
+                        className='col-md-5 my-5'
                         label='Doanh thu'
                         data={charts.income}
                         isLoading={charts.isLoading}
@@ -214,7 +214,7 @@ class DashboardScreen extends React.Component {
                     />
                     <RemoteBarChart
                         title='So nguoi dung moi'
-                        className='col-md-5'
+                        className='col-md-5 my-5'
                         label='So nguoi dung moi'
                         data={charts.newUser}
                         isLoading={charts.isLoading}
@@ -223,7 +223,7 @@ class DashboardScreen extends React.Component {
                     />
                     <RemotePieChart
                         title='Ty le phan chia doanh thu'
-                        className='col-md-5'
+                        className='col-md-5 my-5'
                         label='Ty le phan chia doanh thu'
                         data={charts.incomeShare}
                         isLoading={charts.isLoading}
