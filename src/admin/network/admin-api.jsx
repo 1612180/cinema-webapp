@@ -66,12 +66,16 @@ export default class AdminApi {
 
     //--------------------- Dashboard ------------------------//
     static getDashboardMovies(page) {
-        return ok({
-            movies: getDashboardMovies(ITEM_PER_PAGE.dashboard),
-            currentPage: page,
-            lastPage: 2,
-            total: 8
-        })
+        return secureApiClient.getJson('/dashboard/movies', { params: { page: page } })
+            .then(data => {
+                return {
+                    ...data,
+                    movies: data.movies.map(m => ({
+                        ...m,
+                        showTime: m.showTime.slice(0, 5)
+                    }))
+                }
+            })
     }
     static getDashboardOrders(page) {
         return ok({
@@ -224,7 +228,7 @@ export default class AdminApi {
 
     //--------------------- Orders ------------------------//
     static getOrderStatusChoices() {
-        return ok(getOrderStatusChoices())
+        return secureApiClient.getJson('/orders/status')
     }
     static getOrders(page, options) {
         return ok({

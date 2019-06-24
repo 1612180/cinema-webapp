@@ -75,8 +75,8 @@ class TheaterMovieList extends React.Component {
     }
 
     isDependenciesLoading() {
-        return this.props.tickets.isLoading
-            || this.props.movies.isLoading
+        return this.props.tickets.isLoading || this.props.tickets.currentPage !== 0
+            || this.props.movies.isLoading || this.props.movies.currentPage !== 0
             || this.props.showTimes.isLoading
     }
 

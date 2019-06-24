@@ -112,130 +112,65 @@ router.get('/login', adminJwtMiddleware, (req, res) => {
     })
 })
 
-//----------------------------------- dashboard -------------------------------------//
-// router.get('/dashboard/movies', adminJwtMiddleware, (req, res) => {
-//     console.log('movies dashboard')
-//     const query = req.query
-//     const page = parseInt(query.page || 1)
-//     const today = new Date()
-//     let endOfDate = new Date()
-//     endOfDate.setHours(23, 59, 59)
-//     let startOfDate = new Date()
-//     startOfDate.setHours(0, 0, 0)
+//----------------------------------- dashboard-------------------------------------//
+router.get('/dashboard/movies', adminJwtMiddleware, (req, res) => {
+    console.log('movies dashboard')
+    const query = req.query
+    const page = parseInt(query.page || 1)
+    const today = new Date()
+    let endOfDate = new Date()
+    endOfDate.setHours(23, 59, 59)
+    let startOfDate = new Date()
+    startOfDate.setHours(0, 0, 0)
 
-//     ShowTime.findAndCountAll({
-//         include: [{
-//             model: Movie,
-//             as: 'movie'
-//         }],
-//         where: {
-//             date: {
-//                 [Op.lte]: endOfDate,
-//                 [Op.gte]: startOfDate
-//             },
-//             time: {
-//                 [Op.gte]: `${today.getHours()}:${today.getSeconds()}`
-//             },
-//         },
-//         order: [['time', 'DESC']]
-//     }).then(results => {
-//         Promise.all(results.rows.map(r => r.dataValues).map(async r => {
-//             let movie = await Movie.findByPk(r.movieId)
-//             let theater = await Theater.findByPk(r.theaterId)
-//             let genre = await MovieGenre.findByPk(movie.movieGenreId)
+    ShowTime.findAndCountAll({
+        where: {
+            date: {
+                [Op.lte]: endOfDate,
+                [Op.gte]: startOfDate
+            },
+            time: {
+                [Op.lte]: `${today.getHours()}:${today.getSeconds()}`
+            },
+        },
+        order: [['time', 'DESC']]
+    }).then(results => {
+        Promise.all(results.rows.map(r => r.dataValues).map(async r => {
+            let movie = await Movie.findByPk(r.movieId)
+            let theater = await Theater.findByPk(r.theaterId)
+            let genre = await MovieGenre.findByPk(movie.movieGenreId)
 
-//             let movieStart = r.time.split(':').map(parseInt)
-//             movieStart = movieStart[0] * 60 + movieStart[1]
-//             let currentTime = today.getHours() * 60 + today.getMinutes()
-//             if (movieStart + 120 > currentTime) {
-//                 return {
-//                     name: movie.name,
-//                     type: genre.type,
-//                     director: movie.director,
-//                     theater: theater.name,
-//                     showTime: r.time
-//                 }
-//             }
-//             return null
-//         })).then(data => {
-//             return {
-//                 movies: data.filter(m => m !== null),
-//                 currentPage: page,
-//                 lastPage: 2,
-//                 total: 8
-//             }
-//         })
-//     })
-
-//     Movie.findAndCountAll({
-//         where: {
-//             startDate: {
-//                 [Op.lte]: today
-//             },
-//             endDate: {
-//                 [Op.gte]: today
-//             }
-//         },
-//         ...(page ? ({
-//             limit: LIMIT,
-//             offset: LIMIT * (page - 1),
-//             order: [['updatedAt', 'DESC']],
-//         }) : {})
-//     }).then(results => {
-//         Promise.all(results.rows.map(r => r.dataValues).map(async r => {
-//             return await ShowTime.findAndCountAll({
-//                 where: {
-//                     movieId: r.id,
-//                     date: {
-//                         [Op.lte]: endOfDate,
-//                         [Op.gte]: startOfDate
-//                     },
-//                     time: {
-//                         [Op.gte]: `${today.getHours()}:${today.getSeconds()}`
-//                     }
-//                 },
-//                 limit: 1,
-//                 order: [['time', 'ASC']]
-//             }).then(results => {
-//                 if (results.count === 0) {
-//                     return null
-//                 }
-//                 const showtime = results.rows[0].dataValues
-//                 return OrdererTicket.findAndCountAll({
-//                     include: [{
-//                         model: Ticket,
-//                         as: 'ticket'
-//                     }],
-//                     where: {
-//                         "$ticket.showTimeId$": showtime.id
-//                     }
-//                 }).then(results => results.count)
-//                     .then(count => {
-//                         return {
-//                             name: r.name,
-//                             address: r.address,
-//                             capacity: r.rowNum * r.seatPerRow,
-//                             ordered: count
-//                         }
-//                     })
-//             })
-//         })).then(theaters => {
-//             res.json({
-//                 theaters: theaters.filter(t => t !== null),
-//                 currentPage: page,
-//                 lastPage: Math.ceil(results.count / LIMIT),
-//                 total: results.count
-//             })
-//         })
-//     }).catch(err => {
-//         console.log(err)
-//         res.status(500).send('GET Dashboard Movies Error')
-//     })
-// })
+            let movieStart = r.time.split(':').map(c => parseInt(c))
+            movieStart = movieStart[0] * 60 + movieStart[1]
+            let currentTime = today.getHours() * 60 + today.getMinutes()
+            if (movieStart + 120 > currentTime) {
+                return {
+                    name: movie.name,
+                    type: genre.name,
+                    director: movie.director,
+                    theater: theater.name,
+                    showTime: r.time
+                }
+            }
+            return null
+        })).then(data => {
+            const movies = data.filter(m => m !== null)
+            res.json({
+                movies: movies.slice((page - 1) * LIMIT, page * LIMIT),
+                currentPage: page,
+                lastPage: Math.ceil(movies.length / LIMIT),
+                total: movies.length
+            })
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).send('GET Dashboard Movies Error')
+    })
+})
 router.get('/dashboard/theaters', adminJwtMiddleware, (req, res) => {
     console.log('theaters dashboard')
     const query = req.query
-    const page = parseInt(query.page || 1)
+    const page = parseInt(query.page || 0)
     const today = new Date()
     let endOfDate = new Date()
     endOfDate.setHours(23, 59, 59)
@@ -436,7 +371,7 @@ router.delete('/theaters/:theaterid/showtimes/:showtimeid', adminJwtMiddleware, 
 router.get('/theaters', adminJwtMiddleware, (req, res) => {
     console.log('theaters')
     const query = req.query
-    const page = parseInt(query.page || 1)
+    const page = parseInt(query.page || 0)
     const status = parseInt(query.status || 0)
     const searchText = query.searchText
 
@@ -554,7 +489,8 @@ router.get('/movies/genres', adminJwtMiddleware, (req, res) => {
 router.get('/movies', adminJwtMiddleware, (req, res) => {
     console.log('movies')
     const query = req.query
-    const page = parseInt(query.page || 1)
+    const page = parseInt(query.page || 0)
+    console.log(page)
     const genre = parseInt(query.genre || '0')
     const status = query.status
     const searchText = query.searchText
@@ -718,7 +654,7 @@ router.get('/tickets/status', adminJwtMiddleware, (req, res) => {
 router.get('/tickets', adminJwtMiddleware, (req, res) => {
     console.log('tickets')
     const query = req.query
-    const page = parseInt(query.page || 1)
+    const page = parseInt(query.page || 0)
     const status = parseInt(query.status || 0)
     const searchText = query.searchText
 
@@ -814,7 +750,7 @@ router.delete('/tickets/:id', adminJwtMiddleware, (req, res) => {
 
 //----------------------------------------- foods ---------------------------------------------//
 router.get('/foods/status', adminJwtMiddleware, (req, res) => {
-    console.log('food')
+    console.log('food status')
     FoodStatus.findAndCountAll({
     }).then(result => {
         const types = (result.rows.map(r => r.dataValues).map(r => ({
@@ -829,8 +765,9 @@ router.get('/foods/status', adminJwtMiddleware, (req, res) => {
     })
 })
 router.get('/foods', adminJwtMiddleware, (req, res) => {
+    console.log('foods')
     const query = req.query
-    const page = parseInt(query.page || 1)
+    const page = parseInt(query.page || 0)
     const status = parseInt(query.status || 0)
     const searchText = query.searchText
 
@@ -923,6 +860,23 @@ router.delete('/foods/:id', adminJwtMiddleware, (req, res) => {
             code: 'FAILED',
             msg: err
         })
+    })
+})
+
+//---------------------------------------- orders --------------------------------//
+router.get('/orders/status', adminJwtMiddleware, (req, res) => {
+    console.log('order status')
+    OrderStatus.findAndCountAll({
+    }).then(result => {
+        const types = (result.rows.map(r => r.dataValues).map(r => ({
+            id: r.id,
+            label: r.name,
+        })))
+        res.json({
+            choices: types
+        })
+    }).catch(err => {
+        res.status(500).send('GET Order Status Error')
     })
 })
 

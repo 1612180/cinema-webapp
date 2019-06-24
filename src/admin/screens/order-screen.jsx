@@ -62,6 +62,10 @@ class OrderScreen extends React.Component {
         this.state = {
             page: 1,
             status: 0,
+            dateStart: null,
+            dateEnd: null,
+            moneyStart: null,
+            moneyEnd: null,
             searchText: '',
             lastUpdate: new Date(),
             modalOpen: false,
@@ -121,6 +125,10 @@ class OrderScreen extends React.Component {
     handleStatusChoice(status) {
         this.customSetState({ status: status })
         this.props.loadOrders(this.state.page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
             status: status,
             searchText: this.state.searchText
         })
@@ -133,6 +141,10 @@ class OrderScreen extends React.Component {
         }
         this.updateTimeout = setTimeout(() => {
             this.props.loadOrders(this.state.page, {
+                dateStart: this.state.dateStart,
+                dateEnd: this.state.dateEnd,
+                moneyStart: this.state.moneyStart,
+                moneyEnd: this.state.moneyEnd,
                 status: this.state.status,
                 searchText: txt
             })
@@ -141,6 +153,10 @@ class OrderScreen extends React.Component {
     handleSearchSubmit(txt) {
         this.customSetState({ searchText: txt })
         this.props.loadOrders(this.state.page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
             status: this.state.status,
             searchText: txt
         })
@@ -149,6 +165,32 @@ class OrderScreen extends React.Component {
     handlePageRequest(page) {
         this.customSetState({ page: page })
         this.props.loadOrders(page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
+            status: this.state.status,
+            searchText: this.state.searchText
+        })
+    }
+    handleDateChange(s, e) {
+        this.customSetState({ dateStart: s, dateEnd: e })
+        this.props.loadOrders(this.state.page, {
+            dateStart: s,
+            dateEnd: e,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
+            status: this.state.status,
+            searchText: this.state.searchText
+        })
+    }
+    handleMoneyChange(s, e) {
+        this.customSetState({ moneyStart: s, moneyEnd: e })
+        this.props.loadOrders(this.state.page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: s,
+            moneyEnd: e,
             status: this.state.status,
             searchText: this.state.searchText
         })
@@ -170,9 +212,9 @@ class OrderScreen extends React.Component {
     isDependenciesLoading() {
         return this.props.statusChoices.isLoading
             || this.props.theaterChoices.isLoading
-            || this.props.theaters.isLoading
-            || this.props.foods.isLoading
-            || this.props.tickets.isLoading
+            || this.props.theaters.isLoading || this.props.theaters.currentPage !== 0
+            || this.props.foods.isLoading || this.props.foods.currentPage !== 0
+            || this.props.tickets.isLoading || this.props.tickets.currentPage !== 0
     }
 
     renderHeader() {
@@ -202,7 +244,7 @@ class OrderScreen extends React.Component {
                     className='col-lg-4'
                     start={null}
                     end={null}
-                    onChange={(s, e) => console.log(s, e)}
+                    onChange={(s, e) => this.handleDateChange(s, e)}
                 />
                 <div className="col-lg-7 ml-auto px-0 align-items-center">
                     <div className="row mx-0">
@@ -221,7 +263,7 @@ class OrderScreen extends React.Component {
                             min={0}
                             max={1000000}
                             step={100000}
-                            onChange={(s, e) => console.log(s, e)}
+                            onChange={(s, e) => this.handleMoneyChange(s, e)}
                         />
                     </div>
                 </div>
