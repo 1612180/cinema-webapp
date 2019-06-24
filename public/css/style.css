@@ -107,6 +107,15 @@ body {
   color: white;
 }
 
+.td-normal-inactive {
+  background-color: grey;
+  color: white;
+}
+
+.span-normal {
+  color: #2d7ff9;
+}
+
 .vertical-line {
   width: 0px;
   height: 48px;

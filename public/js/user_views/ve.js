@@ -1,16 +1,36 @@
+function CheckOrdered(res, row, col) {
+  for (let i = 0; i < res.data.length; i += 1) {
+    if (res.data[i].seatRow === row && res.data[i].seatColumn === col) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 window.addEventListener("load", async () => {
   let params = new URL(document.location).searchParams;
-  let res = await fetch(
-    "/api/show_times/" + params.get("showTimeId") + "/tickets"
-  );
-  res = await res.json();
 
-  if (!res.data || !res.data.length) {
+  let [res_size, res_ordered] = await Promise.all([
+    fetch("/api/show_times/" + params.get("showTimeId") + "/size").then(res =>
+      res.json()
+    ),
+    fetch("/api/show_times/" + params.get("showTimeId") + "/ordered").then(
+      res => res.json()
+    )
+  ]);
+
+  if (!res_size.data) {
     return;
   }
 
-  row = res.data[res.data.length - 1].seatRow;
-  col = res.data[res.data.length - 1].seatColumn;
+  row = res_size.data.row;
+  col = res_size.data.col;
+
+  let spanMoney = document.getElementById("spanMoney");
+  spanMoney.innerText = "0";
+
+  console.log(res_ordered);
 
   let tbody = document.createElement("tbody");
   tableTicket.appendChild(tbody);
@@ -19,15 +39,30 @@ window.addEventListener("load", async () => {
     for (let j = 1; j <= col; j += 1) {
       let td = document.createElement("td");
       tr.appendChild(td);
-      td.className = "td-normal font-weight-bold";
+      if (CheckOrdered(res_ordered, i, j)) {
+        td.className = "td-normal-inactive font-weight-bold";
+      } else {
+        td.className = "td-normal font-weight-bold";
+      }
       td.innerText = i.toString() + "-" + j.toString();
-      td.addEventListener("click", event => {
+      td.addEventListener("click", async event => {
+        let params = new URL(document.location).searchParams;
+        let res = await fetch(
+          "/api/show_times/" + params.get("showTimeId") + "/money"
+        );
+        res = await res.json();
+
+        let spanMoney = document.getElementById("spanMoney");
+        curMoney = parseInt(spanMoney.innerText);
+
         if (event.target.className === "td-normal font-weight-bold") {
           event.target.className = "td-normal-active font-weight-bold";
+          spanMoney.innerText = curMoney + res.data;
         } else if (
           event.target.className === "td-normal-active font-weight-bold"
         ) {
           event.target.className = "td-normal font-weight-bold";
+          spanMoney.innerText = curMoney - res.data;
         }
         console.log(td.innerText);
       });
@@ -66,7 +101,7 @@ window.addEventListener("load", async () => {
             }
           );
           res = await res.json();
-          console.log(res)
+          console.log(res);
         }
       }
     }

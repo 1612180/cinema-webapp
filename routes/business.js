@@ -66,4 +66,36 @@ router.post(
   }
 );
 
+router.get("/show_times/:id/money", (req, res) => {
+  ShowTime.findByPk(req.params.id).then(data => {
+    TicketType.findByPk(data.ticketTypeId).then(data2 =>
+      res.json({ status: true, message: "OK", data: data2.price })
+    );
+  });
+});
+
+router.get("/show_times/:id/ordered", (req, res) => {
+  OrdererTicket.findAll().then(data => {
+    Ticket.findAll({
+      where: {
+        id: {
+          [Op.in]: data.map(i => i.id)
+        }
+      }
+    }).then(data2 => res.json({ status: true, message: "OK", data: data2 }));
+  });
+});
+
+router.get("/show_times/:id/size", (req, res) => {
+  ShowTime.findByPk(req.params.id).then(data => {
+    Theater.findByPk(data.theaterId).then(data2 => {
+      res.json({
+        status: true,
+        message: "OK",
+        data: { row: data2.rowNum, col: data2.seatPerRow }
+      });
+    });
+  });
+});
+
 module.exports = router;
