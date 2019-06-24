@@ -12,7 +12,7 @@ import { buildErrorTooltip } from '../common/error-tooltip';
 import { RemoteDataModal, ModalState } from '../common/modal';
 import { loadMovies } from '../../stores/movies/movies.action'
 import { loadTickets } from '../../stores/tickets/tickets.action'
-import { loadShowTimes } from '../../stores/theaters/theaters.action'
+import { loadShowTimes, uploadShowTime, removeShowTime } from '../../stores/theaters/theaters.action'
 import { GridPicker } from '../common/grid-picker';
 
 const validationRules = {
@@ -29,6 +29,7 @@ const validationRules = {
     }
 }
 const nullItem = {
+    id: null,
     time: null,
     movie: null,
     ticket: null,
@@ -74,8 +75,8 @@ class TheaterMovieList extends React.Component {
     }
 
     isDependenciesLoading() {
-        return this.props.tickets.isLoading
-            || this.props.movies.isLoading
+        return this.props.tickets.isLoading || this.props.tickets.currentPage !== 0
+            || this.props.movies.isLoading || this.props.movies.currentPage !== 0
             || this.props.showTimes.isLoading
     }
 
@@ -168,6 +169,24 @@ class TheaterMovieList extends React.Component {
                     }}
                     body={this.renderModalBody}
                     onStateChange={s => this.setState({ modalState: s })}
+                    editCallback={() => {
+                        if ($(this.newForm).valid()) {
+                            this.props.uploadShowTime(this.props.theater, this.state.date, this.state.newItem)
+                            this.setState({ modalOpen: false })
+                        }
+                    }}
+                    newCallback={() => {
+                        if ($(this.newForm).valid()) {
+                            this.props.uploadShowTime(this.props.theater, this.state.date, this.state.newItem, true)
+                            this.setState({ modalOpen: false })
+                        }
+                    }}
+                    removeCallback={() => {
+                        if ($(this.newForm).valid()) {
+                            this.props.removeShowTime(this.props.theater, this.state.date, this.state.newItem)
+                            this.setState({ modalOpen: false })
+                        }
+                    }}
                 />
             </React.Fragment>
         )
@@ -177,6 +196,12 @@ class TheaterMovieList extends React.Component {
         let movies = this.props.movies.data.map(f => ({ id: f.id, label: f.name }))
         let tickets = this.props.tickets.data.map(f => ({ id: f.id, label: f.name }))
         let { newItem } = this.state
+        if (!newItem.movie) {
+            this.state.newItem.movie = movies[0].id
+        }
+        if (!newItem.ticket) {
+            this.state.newItem.ticket = tickets[0].id
+        }
         let { row, column } = this.props.theater
         return (
             <form ref={ref => this.newForm = ref}>
@@ -196,7 +221,7 @@ class TheaterMovieList extends React.Component {
                     }}
                 />
                 <GridPicker
-                    disabled={false}
+                    disabled={true}
                     width='100%' height={400}
                     row={row} column={column}
                     chosen={newItem.ordered}
@@ -279,7 +304,9 @@ const mapDispatchToProps = dispatch => {
     return {
         loadAvailableMovies: (date) => dispatch(loadMovies(0, { date: date })),
         loadAvailableTickets: () => dispatch(loadTickets(0)),
-        loadShowTimes: (theater, date) => dispatch(loadShowTimes(theater, date))
+        loadShowTimes: (theater, date) => dispatch(loadShowTimes(theater, date)),
+        uploadShowTime: (theater, date, showTime, addNew) => dispatch(uploadShowTime(theater, date, showTime, addNew)),
+        removeShowTime: (theater, date, showTime) => dispatch(removeShowTime(theater, date, showTime))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TheaterMovieList)

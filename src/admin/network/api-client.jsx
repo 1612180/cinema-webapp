@@ -38,11 +38,10 @@ export class ApiClient {
         })
     }
 
-    delete(path, body, options) {
+    delete(path, options) {
         return fetch(this.buildUrl(path, options && options.params), {
             ...options,
             method: 'delete',
-            body: body
         })
     }
 
@@ -66,8 +65,8 @@ export class ApiClient {
         }).then(data => data.json())
     }
 
-    deleteJson(path, body, options) {
-        return this.delete(path, JSON.stringify(body), {
+    deleteJson(path, options) {
+        return this.delete(path, {
             ...options,
             headers: {
                 ...(options ? options.headers : {}),
@@ -143,10 +142,10 @@ export class SecureApiClient {
         })
 
         let oldDelete = this.client.delete
-        this.client.delete = (path, body, options) => new Promise((resolve, reject) => {
+        this.client.delete = (path, options) => new Promise((resolve, reject) => {
             let token = this.getToken()
             if (token) {
-                oldDelete(path, body, {
+                oldDelete(path, {
                     ...options,
                     headers: {
                         ...(options ? options.headers : {}),

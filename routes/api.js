@@ -901,7 +901,8 @@ router.get("/foods/:id", (req, res) => {
 router.post("/foods", (req, res) => {
   Food.create({
     name: req.body.name,
-    price: req.body.price
+    price: req.body.price,
+    foodStatusId: req.body.foodStatusId
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));

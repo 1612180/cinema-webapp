@@ -1,5 +1,7 @@
 import { actions } from './orders.type'
 import AdminAPI from '../../network/admin-api'
+import { codes } from '../../network/message-codes'
+import Swal from 'sweetalert2'
 
 export const loadContent = () => {
     return (dispatch, getState) => {
@@ -38,6 +40,92 @@ export const loadOrders = (page, options) => {
             .catch(err => {
                 dispatch(setOrders(null, 'request timeout ' + err))
                 dispatch(loadingOrders(false))
+            })
+    }
+}
+export const uploadOrder = (order, addNew) => {
+    return (dispatch, getState) => {
+        AdminAPI.uploadOrder(order, addNew)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadOrders(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
+            })
+    }
+}
+export const removeOrder = (order) => {
+    return (dispatch, getState) => {
+        AdminAPI.removeOrder(order)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadOrders(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
+            })
+    }
+}
+
+// order ticket
+export const uploadOrderTicket = (ticket, addNew) => {
+    return (dispatch, getState) => {
+        AdminAPI.uploadOrderTicket(ticket, addNew)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadOrders(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
+            })
+    }
+}
+export const removeOrderTicket = (ticket) => {
+    return (dispatch, getState) => {
+        AdminAPI.removeOrderTicket(ticket)
+            .then(data => {
+                switch (data.code) {
+                    case codes.OK:
+                        return Swal.fire({
+                            title: 'Thanh cong',
+                            type: 'success',
+                        }).then(() => {
+                            dispatch(loadOrders(1))
+                        })
+                    case codes.FAILED:
+                        return Swal.fire({
+                            title: 'Loi',
+                            type: 'error',
+                        }).then(() => { })
+                }
             })
     }
 }

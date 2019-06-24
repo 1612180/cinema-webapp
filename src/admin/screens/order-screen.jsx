@@ -6,7 +6,7 @@ import { routes } from '../routes';
 import { RemoteDataListContainer } from '../components/common/remote-data-list-container'
 import { RemoteDropdown, Dropdown } from '../components/common/dropdown';
 import { loadTheaterChoices } from '../stores/dashboard/dashboard.action'
-import { loadContent, loadOrders } from '../stores/orders/orders.action'
+import { loadContent, loadOrders, uploadOrder, removeOrder } from '../stores/orders/orders.action'
 import { loadFoods } from '../stores/foods/foods.action'
 import { loadTickets } from '../stores/tickets/tickets.action'
 import { loadTheaters } from '../stores/theaters/theaters.action'
@@ -62,6 +62,10 @@ class OrderScreen extends React.Component {
         this.state = {
             page: 1,
             status: 0,
+            dateStart: null,
+            dateEnd: null,
+            moneyStart: null,
+            moneyEnd: null,
             searchText: '',
             lastUpdate: new Date(),
             modalOpen: false,
@@ -121,6 +125,10 @@ class OrderScreen extends React.Component {
     handleStatusChoice(status) {
         this.customSetState({ status: status })
         this.props.loadOrders(this.state.page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
             status: status,
             searchText: this.state.searchText
         })
@@ -133,6 +141,10 @@ class OrderScreen extends React.Component {
         }
         this.updateTimeout = setTimeout(() => {
             this.props.loadOrders(this.state.page, {
+                dateStart: this.state.dateStart,
+                dateEnd: this.state.dateEnd,
+                moneyStart: this.state.moneyStart,
+                moneyEnd: this.state.moneyEnd,
                 status: this.state.status,
                 searchText: txt
             })
@@ -141,6 +153,10 @@ class OrderScreen extends React.Component {
     handleSearchSubmit(txt) {
         this.customSetState({ searchText: txt })
         this.props.loadOrders(this.state.page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
             status: this.state.status,
             searchText: txt
         })
@@ -149,6 +165,32 @@ class OrderScreen extends React.Component {
     handlePageRequest(page) {
         this.customSetState({ page: page })
         this.props.loadOrders(page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
+            status: this.state.status,
+            searchText: this.state.searchText
+        })
+    }
+    handleDateChange(s, e) {
+        this.customSetState({ dateStart: s, dateEnd: e })
+        this.props.loadOrders(this.state.page, {
+            dateStart: s,
+            dateEnd: e,
+            moneyStart: this.state.moneyStart,
+            moneyEnd: this.state.moneyEnd,
+            status: this.state.status,
+            searchText: this.state.searchText
+        })
+    }
+    handleMoneyChange(s, e) {
+        this.customSetState({ moneyStart: s, moneyEnd: e })
+        this.props.loadOrders(this.state.page, {
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
+            moneyStart: s,
+            moneyEnd: e,
             status: this.state.status,
             searchText: this.state.searchText
         })
@@ -170,9 +212,9 @@ class OrderScreen extends React.Component {
     isDependenciesLoading() {
         return this.props.statusChoices.isLoading
             || this.props.theaterChoices.isLoading
-            || this.props.theaters.isLoading
-            || this.props.foods.isLoading
-            || this.props.tickets.isLoading
+            || this.props.theaters.isLoading || this.props.theaters.currentPage !== 0
+            || this.props.foods.isLoading || this.props.foods.currentPage !== 0
+            || this.props.tickets.isLoading || this.props.tickets.currentPage !== 0
     }
 
     renderHeader() {
@@ -202,7 +244,7 @@ class OrderScreen extends React.Component {
                     className='col-lg-4'
                     start={null}
                     end={null}
-                    onChange={(s, e) => console.log(s, e)}
+                    onChange={(s, e) => this.handleDateChange(s, e)}
                 />
                 <div className="col-lg-7 ml-auto px-0 align-items-center">
                     <div className="row mx-0">
@@ -221,7 +263,7 @@ class OrderScreen extends React.Component {
                             min={0}
                             max={1000000}
                             step={100000}
-                            onChange={(s, e) => console.log(s, e)}
+                            onChange={(s, e) => this.handleMoneyChange(s, e)}
                         />
                     </div>
                 </div>
@@ -257,7 +299,7 @@ class OrderScreen extends React.Component {
                         textColor = 'text-danger'
                     }
                     let totalFoods = item.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
-                        .reduce((prev, cur) => prev + cur)
+                        .reduce((prev, cur) => prev + cur, 0)
                     let totalTickets = item.tickets.map(c => this.props.tickets.data.find(v => v.id === c.ticket).price)
                         .reduce((prev, cur) => prev + cur, 0)
                     return (
@@ -298,11 +340,11 @@ class OrderScreen extends React.Component {
 
     renderFloatingButton() {
         if (this.isDependenciesLoadFailed()
-            || this.props.statusChoices.data.length !== 0
-            || this.props.theaterChoices.data.length !== 0
-            || this.props.theaters.data.length !== 0
-            || this.props.foods.data.length !== 0
-            || this.props.tickets.data.length !== 0) {
+            || this.props.statusChoices.data.length === 0
+            || this.props.theaterChoices.data.length === 0
+            || this.props.theaters.data.length === 0
+            || this.props.foods.data.length === 0
+            || this.props.tickets.data.length === 0) {
             return null
         }
         return (
@@ -334,6 +376,9 @@ class OrderScreen extends React.Component {
     renderEditForm(addNew) {
         let status = this.props.statusChoices.data
         let { newItem } = this.state
+        if (!newItem.status) {
+            this.state.newItem.status = status[0].id
+        }
         let totalFoods = addNew ? 0 : newItem.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
             .reduce((prev, cur) => prev + cur, 0)
         let totalTickets = addNew ? 0 : newItem.tickets.map(c => this.props.tickets.data.find(v => v.id === c.ticket).price)
@@ -356,10 +401,10 @@ class OrderScreen extends React.Component {
                     max={() => new Date()}
                     onChange={(date) => this.setState({ newItem: { ...newItem, datetime: date } })} />
 
-                <OrderTicketList items={newItem.tickets} disabled={false} />
-                <OrderFoodList items={newItem.foods} disabled={false} />
+                {addNew ? null : <OrderTicketList items={newItem.tickets} disabled={false} />}
+                {addNew ? null : <OrderFoodList items={newItem.foods} disabled={false} />}
 
-                <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods + totalTickets) + ' VND'} />
+                {addNew ? null : <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods + totalTickets) + ' VND'} />}
                 <FormSelect label='Tinh trang' disabled={false} value={!newItem.status ? status[0].id : newItem.status} options={status}
                     onChange={status => this.setState({ newItem: { ...newItem, status: status } })}
                 />
@@ -371,7 +416,7 @@ class OrderScreen extends React.Component {
         let status = this.props.statusChoices.data
         let { newItem } = this.state
         let totalFoods = newItem.foods.map(c => this.props.foods.data.find(v => v.id === c.id).price * c.quantity)
-            .reduce((prev, cur) => prev + cur)
+            .reduce((prev, cur) => prev + cur, 0)
         let totalTickets = newItem.tickets.map(c => this.props.tickets.data.find(v => v.id === c.ticket).price)
             .reduce((prev, cur) => prev + cur, 0)
         return (
@@ -403,6 +448,24 @@ class OrderScreen extends React.Component {
                 }}
                 body={this.renderModalBody}
                 onStateChange={s => this.setState({ modalState: s })}
+                editCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadOrder(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                newCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.uploadOrder(this.state.newItem, true)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
+                removeCallback={() => {
+                    if ($(this.newForm).valid()) {
+                        this.props.removeOrder(this.state.newItem)
+                        this.setState({ modalOpen: false })
+                    }
+                }}
             />
         )
     }
@@ -443,7 +506,9 @@ const mapDispatchToProps = dispatch => {
         loadTheaterChoices: () => dispatch(loadTheaterChoices()),
         loadAvailableFoods: () => dispatch(loadFoods(0)),
         loadAvailableTickets: () => dispatch(loadTickets(0)),
-        loadAvailableTheaters: () => dispatch(loadTheaters(0))
+        loadAvailableTheaters: () => dispatch(loadTheaters(0)),
+        uploadOrder: (order, addNew) => dispatch(uploadOrder(order, addNew)),
+        removeOrder: (order) => dispatch(removeOrder(order))
     }
 }
 

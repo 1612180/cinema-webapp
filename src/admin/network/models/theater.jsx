@@ -19,7 +19,8 @@ export class Theater {
 }
 
 export class TheaterShowTime {
-    constructor(time, movie, ticket, ordered) {
+    constructor(id, time, movie, ticket, ordered) {
+        this.id = id
         this.time = time
         this.movie = movie
         this.ticket = ticket

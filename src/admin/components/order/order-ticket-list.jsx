@@ -14,6 +14,7 @@ import { loadTickets } from '../../stores/tickets/tickets.action';
 import { loadTheaters, loadShowTimes } from '../../stores/theaters/theaters.action';
 import { loadMovies } from '../../stores/movies/movies.action'
 import { OrderSeatPicker } from './order-seat-picker';
+import { uploadOrderTicket, removeOrderTicket } from '../../stores/orders/orders.action';
 
 const validationRules = {
     errorElement: 'span',
@@ -184,6 +185,9 @@ class OrderTicketList extends React.Component {
     renderEditForm(addNew) {
         let theaters = this.props.theaters.data.map(f => ({ id: f.id, label: f.name }))
         let { newItem } = this.state
+        if (!newItem.theater) {
+            this.state.newItem.theater = theaters[0].id
+        }
         let showTimes = this.props.showTimes
         return (
             <form ref={ref => this.newForm = ref}>
@@ -213,20 +217,21 @@ class OrderTicketList extends React.Component {
                             <React.Fragment>
                                 <FormSelect
                                     label='Suat chieu' disabled={false}
-                                    value={!newItem.time ? choices[0].id : formatTime(newItem.time)} options={choices}
+                                    value={!newItem.time ? (choices[0] && choices[0].id) : formatTime(newItem.time)} options={choices}
                                     onChange={time => {
                                         this.setState({ newItem: { ...newItem, time: parseTime(time), row: null, column: null } })
                                     }}
                                 />
-                                <OrderSeatPicker
-                                    width='100%' height={400}
-                                    row={theater.row} column={theater.column}
-                                    current={itemSeat}
-                                    chosen={itemShowTime.ordered}
-                                    onChange={current => {
-                                        this.setState({ newItem: { ...newItem, row: current[0], column: current[1] } })
-                                    }}
-                                />
+                                {itemShowTime ?
+                                    <OrderSeatPicker
+                                        width='100%' height={400}
+                                        row={theater.row} column={theater.column}
+                                        current={itemSeat}
+                                        chosen={itemShowTime.ordered}
+                                        onChange={current => {
+                                            this.setState({ newItem: { ...newItem, row: current[0], column: current[1] } })
+                                        }}
+                                    /> : null}
                             </React.Fragment>
                         )
                     }}
@@ -258,13 +263,14 @@ class OrderTicketList extends React.Component {
                                     label='Suat chieu' disabled={true}
                                     value={!formatTime(newItem.time)} options={choices}
                                 />
-                                <OrderSeatPicker
-                                    disabled={true}
-                                    width='100%' height={400}
-                                    row={theater.row} column={theater.column}
-                                    current={itemSeat}
-                                    chosen={itemShowTime.ordered}
-                                />
+                                {itemShowTime ?
+                                    <OrderSeatPicker
+                                        disabled={true}
+                                        width='100%' height={400}
+                                        row={theater.row} column={theater.column}
+                                        current={itemSeat}
+                                        chosen={itemShowTime.ordered}
+                                    /> : null}
                             </React.Fragment>
                         )
                     }}
@@ -315,7 +321,9 @@ const mapDispatchToProps = dispatch => {
         loadAvailableMovies: () => dispatch(loadMovies(0)),
         loadAvailableTickets: () => dispatch(loadTickets(0)),
         loadAvailableTheaters: () => dispatch(loadTheaters(0)),
-        loadShowTimes: (theater, date) => dispatch(loadShowTimes(theater, date))
+        loadShowTimes: (theater, date) => dispatch(loadShowTimes(theater, date)),
+        uploadOrderTicket: (ticket, addNew) => dispatch(uploadOrderTicket(order, ticket, addNew)),
+        removeOrderTicket: (ticket) => dispatch(removeOrderTicket(order, ticket))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(OrderTicketList)

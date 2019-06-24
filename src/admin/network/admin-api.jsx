@@ -1,34 +1,15 @@
-import { getDashboardMovies, getMovies } from './mock-data/mock-movies'
-import { getDashboardOrders, getOrders } from './mock-data/mock-orders'
-import { getDashboardTheaters, getTheaters, getTheaterShowTimes } from './mock-data/mock-theaters'
-import { getDashboardCharts } from './mock-data/mock-charts'
-import { getTickets } from './mock-data/mock-tickets'
-import { getFoods } from './mock-data/mock-foods'
-import {
-    getTheaterChoices,
-    getGenreChoices,
-    getTheaterStatusChoices,
-    getTicketStatusChoices,
-    getFoodStatusChoices,
-    getOrderStatusChoices
-} from './mock-data/mock-choices'
 import moment from 'moment'
 import { ApiClient, SecureApiClient } from './api-client'
 import { logOut } from '../stores/app-state/app-state.action'
 import { store } from '../stores/configureStore'
-import { codes } from './message-codes';
+import { parseTime, formatTime, formatDate } from '../libs/datetime';
 
-const ITEM_PER_PAGE = {
-    dashboard: 5,
-    other: 10
-}
 const BASE_URL = 'http://localhost:8080/admin/api'
 const JWT_TOKEN = 'NIGAMON_JWT_TOKEN'
 const apiClient = new ApiClient(BASE_URL)
 const secureApiClient = new SecureApiClient(BASE_URL, JWT_TOKEN, () => {
     store.dispatch(logOut())
 }).client
-
 
 export default class AdminApi {
     static logout() {
@@ -65,35 +46,74 @@ export default class AdminApi {
 
     //--------------------- Dashboard ------------------------//
     static getDashboardMovies(page) {
-        return ok({
-            movies: getDashboardMovies(ITEM_PER_PAGE.dashboard),
-            currentPage: page,
-            lastPage: 2,
-            total: 8
-        })
+        return secureApiClient.getJson('/dashboard/movies', { params: { page: page } })
+            .then(data => {
+                return {
+                    ...data,
+                    movies: data.movies.map(m => ({
+                        ...m,
+                        showTime: m.showTime.slice(0, 5)
+                    }))
+                }
+            })
     }
     static getDashboardOrders(page) {
-        return ok({
-            orders: getDashboardOrders(ITEM_PER_PAGE.dashboard),
-            currentPage: page,
-            lastPage: 5,
-            total: 23
-        })
+        return secureApiClient.getJson('/dashboard/orders', { params: { page: page } })
+            .then(data => {
+                return {
+                    ...data,
+                    orders: data.orders.map(o => ({
+                        ...o,
+                        date: formatDate(new Date(o.date)),
+                        time: formatTime(new Date(o.time)),
+                    }))
+                }
+            })
     }
     static getDashboardTheaters(page) {
-        return ok({
-            theaters: getDashboardTheaters(ITEM_PER_PAGE.dashboard),
-            currentPage: page,
-            lastPage: 3,
-            total: 15
-        })
+        return secureApiClient.getJson('/dashboard/theaters', { params: { page: page } })
+            .then(data => {
+                return data
+            })
     }
 
     static getTheaterChoices() {
-        return ok(getTheaterChoices())
+        return secureApiClient.getJson('/theaters', {
+            params: {
+                page: 0,
+                status: 1
+            }
+        }).then(data => {
+            return {
+                choices: data.theaters.map(t => ({
+                    id: t.id,
+                    label: t.name
+                }))
+            }
+        })
     }
-    static getDashboardCharts(start, end, theater) {
-        return ok(getDashboardCharts(start, end, theater))
+    static getDashboardCharts(start, end) {
+        return secureApiClient.getJson('/dashboard/charts', {
+            params: {
+                start: start,
+                end: end
+            }
+        }).then(data => {
+            return {
+                ...data,
+                charts: {
+                    ...data.charts,
+                    income: {
+                        ...data.charts.income,
+                        labels: data.charts.income.labels.map(d => formatDate(new Date(d)))
+                    },
+                    newUser: {
+                        ...data.charts.newUser,
+                        labels: data.charts.newUser.labels.map(d => formatDate(new Date(d)))
+                    }
+                }
+            }
+        })
     }
 
     //--------------------- Movies ------------------------//
@@ -120,12 +140,10 @@ export default class AdminApi {
         })
     }
     static uploadMovie(movie, addNew) {
-        console.log(movie)
         return secureApiClient.postJson(`/movies/${movie.id}`, movie, { params: { addNew: addNew } })
             .then(data => data)
     }
     static removeMovie(movie) {
-        console.log(movie)
         return secureApiClient.deleteJson(`/movies/${movie.id}`)
     }
     //--------------------- Theaters ------------------------//
@@ -143,7 +161,41 @@ export default class AdminApi {
         })
     }
     static getShowTimes(theater, date, options) {
-        return ok({ showTimes: getTheaterShowTimes(9, theater.row, theater.column, options) })
+        return secureApiClient.getJson(`/theaters/${theater.id}/showtimes`, { params: { date: date } })
+            .then(data => {
+                return {
+                    showTimes: data.showTimes.map(s => ({
+                        ...s,
+                        time: parseTime(s.time)
+                    }))
+                }
+            })
+    }
+
+    static uploadTheater(theater, addNew) {
+        return secureApiClient.postJson(`/theaters/${theater.id}`, theater, { params: { addNew: addNew } })
+    }
+    static removeTheater(theater) {
+        return secureApiClient.deleteJson(`/theaters/${theater.id}`)
+    }
+    static uploadShowTime(theater, date, showTime, addNew, options) {
+        const data = {
+            ...showTime,
+            time: formatTime(showTime.time)
+        }
+        return secureApiClient.postJson(`/theaters/${theater.id}/showtimes`, data, {
+            params: {
+                date: date,
+                addNew: addNew
+            }
+        })
+    }
+    static removeShowTime(theater, date, showTime, options) {
+        return secureApiClient.deleteJson(`/theaters/${theater.id}/showtimes/${showTime.id}`, {
+            params: {
+                date: date,
+            }
+        })
     }
 
     //--------------------- Tickets ------------------------//
@@ -165,7 +217,6 @@ export default class AdminApi {
             .then(data => data)
     }
     static removeTicket(ticket) {
-        console.log(ticket)
         return secureApiClient.deleteJson(`/tickets/${ticket.id}`)
     }
 
@@ -188,33 +239,55 @@ export default class AdminApi {
             .then(data => data)
     }
     static removeFood(food) {
-        console.log(food)
         return secureApiClient.deleteJson(`/foods/${food.id}`)
     }
 
     //--------------------- Orders ------------------------//
     static getOrderStatusChoices() {
-        return ok(getOrderStatusChoices())
+        return secureApiClient.getJson('/orders/status')
     }
     static getOrders(page, options) {
-        return ok({
-            orders: getOrders(ITEM_PER_PAGE.other, options),
-            currentPage: page,
-            lastPage: 2,
-            total: 18
+        secureApiClient.postJson('/orders/1', {
+            id: 1,
+            username: 'a'
+        }, { params: { addNew: true } })
+        return secureApiClient.getJson('/orders', {
+            params: {
+                page: page,
+                ...options
+            }
+        }).then(data => {
+            return {
+                ...data,
+                orders: data.orders.map(o => {
+                    return {
+                        ...o,
+                        datetime: new Date(o.datetime),
+                        tickets: o.tickets.map(t => {
+                            return {
+                                ...t,
+                                date: new Date(t.date),
+                                time: parseTime(t.time)
+                            }
+                        })
+                    }
+                })
+            }
         })
     }
-}
+    static uploadOrder(order, addNew) {
+        return secureApiClient.postJson(`/orders/${order.id}`, order, { params: { addNew: addNew } })
+            .then(data => data)
+    }
+    static removeOrder(order) {
+        return secureApiClient.deleteJson(`/orders/${order.id}`)
+    }
 
-const TIMEOUT = 200
-const RANDOM_MAX = 0
-const ok = (data) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(data), TIMEOUT + Math.random() * RANDOM_MAX)
-    })
-}
-const fail = (err) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => reject(err), TIMEOUT + Math.random() * RANDOM_MAX)
-    })
+    static uploadOrderTicket(order, ticket, addNew) {
+        return secureApiClient.postJson(`/orders/${order.id}/tickets`, ticket, { params: { addNew: addNew } })
+            .then(data => data)
+    }
+    static removeOrderTicket(order, ticket) {
+        return secureApiClient.deleteJson(`/orders/${order.id}/tickets`)
+    }
 }
