@@ -16,7 +16,12 @@
     />
 
     <!-- FontAwesome -->
-    <script src="https://kit.fontawesome.com/a982da321b.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
 
     <!-- Roboto -->
     <link
@@ -84,6 +89,21 @@
           >
             <span>Đăng ký</span>
           </button>
+          <span class="dropdown" id="span-profile">
+            <button
+              type="button"
+              class="btn btn-link text-decoration-none font-weight-bold"
+              data-toggle="dropdown"
+              id="btn-profile"
+            >
+              <span id="hello-profile"></span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Thông tin cá nhân</a>
+              <a class="dropdown-item" href="#">Lịch sử đơn hàng</a>
+              <a class="dropdown-item" href="#">Đăng xuất</a>
+            </div>
+          </span>
         </div>
       </div>
     </div>
@@ -108,7 +128,10 @@
           </a>
         </div>
         <div class="col-sm-4 text-center">
-          <a class="btn btn-link font-weight-bold btn-bar" href="/support">
+          <a
+            class="btn btn-link text-decoration-none font-weight-bold btn-bar"
+            href="/support"
+          >
             HỖ TRỢ
           </a>
         </div>
@@ -243,7 +266,7 @@
             <h4 class="py-3 text-center font-weight-bold">
               Đăng nhập vào hệ thống
             </h4>
-            <form>
+            <form id="formDN">
               <div class="form-group row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
@@ -251,7 +274,7 @@
                     type="email"
                     class="form-control input-normal"
                     placeholder="Email"
-                    name="emailDN"
+                    id="emailDN"
                   />
                 </div>
               </div>
@@ -262,7 +285,7 @@
                     type="password"
                     class="form-control input-normal"
                     placeholder="Password"
-                    name="passwordDN"
+                    id="passwordDN"
                   />
                 </div>
               </div>
@@ -273,6 +296,9 @@
                     Quên mật khẩu
                   </a>
                 </div>
+              </div>
+              <div>
+                <p class="text-danger text-center" id="loginErr"></p>
               </div>
               <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary btn-normal">
@@ -309,7 +335,7 @@
                     type="text"
                     class="form-control input-normal"
                     placeholder="Tên"
-                    name="nameDK"
+                    id="nameDK"
                   />
                 </div>
               </div>
@@ -321,7 +347,7 @@
                     type="email"
                     class="form-control input-normal"
                     placeholder="Email"
-                    name="emailDK"
+                    id="emailDK"
                   />
                 </div>
               </div>
@@ -332,7 +358,18 @@
                     type="password"
                     class="form-control input-normal"
                     placeholder="Password"
-                    name="passwordDK"
+                    id="passwordDK"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="text"
+                    class="form-control input-normal"
+                    placeholder="Password again"
+                    id="password2DK"
                   />
                 </div>
               </div>
@@ -342,10 +379,13 @@
                   <input
                     type="password"
                     class="form-control input-normal"
-                    placeholder="Password again"
-                    name="password2DK"
+                    placeholder="Phone"
+                    id="phoneDK"
                   />
                 </div>
+              </div>
+              <div>
+                <p class="text-danger text-center" id="signupErr"></p>
               </div>
               <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary btn-normal">
@@ -375,6 +415,7 @@
       crossorigin="anonymous"
     ></script>
 
+    <script src="/js/user_views/auth.js"></script>
     <script src="/js/user_views/phim.js"></script>
   </body>
 </html>
