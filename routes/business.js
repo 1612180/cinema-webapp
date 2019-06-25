@@ -79,7 +79,7 @@ router.get("/show_times/:id/ordered", (req, res) => {
     Ticket.findAll({
       where: {
         id: {
-          [Op.in]: data.map(i => i.id)
+          [Op.in]: data.map(i => i.ticketId)
         }
       }
     }).then(data2 => res.json({ status: true, message: "OK", data: data2 }));
