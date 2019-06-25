@@ -18,11 +18,11 @@ app.use(express.json());
 
 // static
 app.use(express.static(path.join(__dirname, "public")));
-// app.get("/dist/*", (req, res, next) => {
-//     req.url = req.url + '.gz';
-//     res.set('Content-Encoding', 'gzip');
-//     next();
-// })
+app.get("/dist/*", (req, res, next) => {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    next();
+})
 app.use("/dist", express.static("dist"));
 
 app.use("/", userViews);

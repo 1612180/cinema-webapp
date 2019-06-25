@@ -322,13 +322,6 @@ class OrderScreen extends React.Component {
                                 }}>
                                     <NigamonIcon name='cog' />
                                 </InlineClickableView>
-                                /
-                                <InlineClickableView onClick={() => {
-                                    this.setState({ newItem: item })
-                                    this.openModal(ModalState.REMOVE)
-                                }}>
-                                    <NigamonIcon name='times' />
-                                </InlineClickableView>
                             </td>
                         </tr>
                     )
@@ -339,6 +332,7 @@ class OrderScreen extends React.Component {
     }
 
     renderFloatingButton() {
+        return null
         if (this.isDependenciesLoadFailed()
             || this.props.statusChoices.data.length === 0
             || this.props.theaterChoices.data.length === 0
@@ -390,7 +384,7 @@ class OrderScreen extends React.Component {
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, id: text } })
                     })} />
-                <FormInput label='Nguoi dung' disabled={false} value={newItem.username}
+                <FormInput label='Nguoi dung' disabled={!addNew} value={newItem.username}
                     name='orderUsername'
                     onChange={this.validate((text) => {
                         this.setState({ newItem: { ...newItem, username: text } })
@@ -401,8 +395,8 @@ class OrderScreen extends React.Component {
                     max={() => new Date()}
                     onChange={(date) => this.setState({ newItem: { ...newItem, datetime: date } })} />
 
-                {addNew ? null : <OrderTicketList items={newItem.tickets} disabled={false} />}
-                {addNew ? null : <OrderFoodList items={newItem.foods} disabled={false} />}
+                {addNew ? null : <OrderTicketList items={newItem.tickets} disabled={true} />}
+                {addNew ? null : <OrderFoodList items={newItem.foods} disabled={true} />}
 
                 {addNew ? null : <FormInput label='Tong cong' disabled={true} value={formatMoney(totalFoods + totalTickets) + ' VND'} />}
                 <FormSelect label='Tinh trang' disabled={false} value={!newItem.status ? status[0].id : newItem.status} options={status}
@@ -460,12 +454,6 @@ class OrderScreen extends React.Component {
                         this.setState({ modalOpen: false })
                     }
                 }}
-                removeCallback={() => {
-                    if ($(this.newForm).valid()) {
-                        this.props.removeOrder(this.state.newItem)
-                        this.setState({ modalOpen: false })
-                    }
-                }}
             />
         )
     }
@@ -508,7 +496,6 @@ const mapDispatchToProps = dispatch => {
         loadAvailableTickets: () => dispatch(loadTickets(0)),
         loadAvailableTheaters: () => dispatch(loadTheaters(0)),
         uploadOrder: (order, addNew) => dispatch(uploadOrder(order, addNew)),
-        removeOrder: (order) => dispatch(removeOrder(order))
     }
 }
 

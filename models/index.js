@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: true
@@ -68,14 +69,16 @@ sequelize
   .sync({
     // force: true
   })
-  .then(() =>
-    Admin.create({
-      adminName: "leHauBoi",
-      hashedPassword: "test",
-      email: "test@dev.com",
-      lastLogin: new Date()
+  .then(() => {
+    bcrypt.hash('test', 10, data).then(hashed => {
+      Admin.create({
+        adminName: "leHauBoi",
+        hashedPassword: hashed,
+        email: "test@dev.com",
+        lastLogin: new Date()
+      })
     })
-  )
+  })
   .then(() =>
     User.create({
       username: "a",

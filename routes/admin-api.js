@@ -1,5 +1,5 @@
 const express = require("express");
-const moment = require('moment')
+const bcrypt = require('bcrypt')
 const router = express.Router();
 
 const jwt = require('jsonwebtoken')
@@ -64,7 +64,10 @@ const adminJwtMiddleware = (req, res, next) => {
 router.post('/login', (req, res) => {
     Admin.findByPk(req.body.email)
         .then(data => {
-            if (data.hashedPassword === req.body.password) {
+            bcrypt.compare(req.body.password, data.hashedPassword, (err, bcryptRes) => {
+                if (err) {
+                    return res.json({ isLogin: false })
+                }
                 Admin.update({
                     lastLogin: new Date()
                 }, {
@@ -93,9 +96,7 @@ router.post('/login', (req, res) => {
                             })
                         }
                     })
-            } else {
-                res.json({ isLogin: false })
-            }
+            })
         })
         .catch(() => res.json({ isLogin: false }))
 })
@@ -1228,93 +1229,6 @@ router.post('/orders/:id', adminJwtMiddleware, (req, res) => {
                 msg: err
             })
         })
-})
-router.delete('/orders/:id', adminJwtMiddleware, (req, res) => {
-    Order.destroy({
-        where: {
-            id: parseInt(req.params.id)
-        }
-    }).then(() => {
-        res.json({ code: 'OK' })
-    }).catch(err => {
-        console.log(err)
-        res.json({
-            code: 'FAILED',
-            msg: err
-        })
-    })
-})
-
-router.post('/orders/:orderid/tickets', adminJwtMiddleware, (req, res) => {
-    const add = req.query.addNew || false
-    const orderid = parseInt(req.params.orderid)
-    const ticket = req.body
-    let startOfDate = new Date(ticket.date)
-    startOfDate.setHours(0, 0, 0)
-    let endOfDate = new Date(ticket.date)
-    endOfDate.setHours(23, 59, 59)
-
-    if (parseInt(req.params.id) !== parseInt(ticket.id)) {
-        return res.json({
-            code: 'FAILED',
-            msg: 'Mismatch ID'
-        })
-    }
-
-    ShowTime.findOne({
-        where: {
-            date: {
-                [Op.gte]: startOfDate,
-                [Op.lte]: endOfDate
-            },
-            time: ticket.time
-        }
-    }).then(showtime => {
-        if (add) {
-            Ticket.create({
-                seatRow: ticket.row,
-                seatColumn: ticket.column,
-                showTimeId: showtime.id
-            }).then(t => {
-                return OrdererTicket.create({
-                    orderId: orderid,
-                    ticketId: t.id
-                })
-            }).then(() => {
-                res.json({ code: 'OK' })
-            }).catch(err => {
-                console.log(err)
-                res.json({
-                    code: 'FAILED',
-                    msg: err
-                })
-            })
-        } else {
-            Ticket.update({
-                seatRow: ticket.row,
-                seatColumn: ticket.column,
-                showTimeId: showtime.id
-            }, {
-                    where: {
-                        id: ticket.id
-                    }
-                }).then(() => {
-                    res.json({ code: 'OK' })
-                }).catch(err => {
-                    console.log(err)
-                    res.json({
-                        code: 'FAILED',
-                        msg: err
-                    })
-                })
-        }
-    }).catch(err => {
-        console.log(err)
-        res.json({
-            code: 'FAILED',
-            msg: err
-        })
-    })
 })
 
 module.exports = router;
