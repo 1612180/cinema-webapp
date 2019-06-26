@@ -125,6 +125,28 @@ router.get("/users/:id/ticket_shopping_carts", (req, res) => {
   }).then(data => res.json({ status: true, message: "OK", data: data }));
 });
 
+router.get("/users/:id/ticket_shopping_carts/money", async (req, res) => {
+  try {
+    let data = await TicketShoppingCart.findAll({
+      where: {
+        userId: req.params.id
+      }
+    });
+
+    let sum = 0;
+    for (let i = 0; i < data.length; i += 1) {
+      let ticket = await Ticket.findByPk(data[i].ticketId);
+      let show = await ShowTime.findByPk(ticket.showTimeId);
+      let ticket_type = await TicketType.findByPk(show.ticketTypeId);
+      sum += ticket_type.price;
+    }
+
+    res.json({ status: true, message: "OK", data: sum });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
+});
+
 router.get("/show_times/:id/more", (req, res) => {
   ShowTime.findByPk(req.params.id).then(data_s => {
     Movie.findByPk(data_s.movieId).then(data_m => {
@@ -153,6 +175,26 @@ router.get("/users/:id/food_shopping_carts", (req, res) => {
       userId: req.params.id
     }
   }).then(data => res.json({ status: true, message: "OK", data: data }));
+});
+
+router.get("/users/:id/food_shopping_carts/money", async (req, res) => {
+  try {
+    let data = await FoodShoppingCart.findAll({
+      where: {
+        userId: req.params.id
+      }
+    });
+
+    let sum = 0;
+    for (let i = 0; i < data.length; i += 1) {
+      let food = await Food.findByPk(data[i].foodId);
+      sum += data[i].quantity * food.price;
+    }
+
+    res.json({ status: true, message: "OK", data: sum });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
 });
 
 router.post("/users/:id/pay_ticket", (req, res) => {

@@ -124,6 +124,24 @@ async function TicketFood() {
   }
 }
 
+async function ShowMoney() {
+  let res_money_ticket = await fetch(
+    "/api/users/" +
+      sessionStorage.getItem("userid") +
+      "/ticket_shopping_carts/money"
+  ).then(res => res.json());
+
+  let res_money_food = await fetch(
+    "/api/users/" +
+      sessionStorage.getItem("userid") +
+      "/food_shopping_carts/money"
+  ).then(res => res.json());
+
+  let spanMoney = document.getElementById("spanMoney");
+  spanMoney.innerText =
+    parseInt(res_money_ticket.data) + parseInt(res_money_food.data);
+}
+
 window.addEventListener("load", () => {
   if (!sessionStorage.getItem("userid")) {
     return;
@@ -131,6 +149,7 @@ window.addEventListener("load", () => {
 
   TicketCart();
   TicketFood();
+  ShowMoney();
 
   let btnBack = document.getElementById("btnBack");
   btnBack.addEventListener("click", () => {
