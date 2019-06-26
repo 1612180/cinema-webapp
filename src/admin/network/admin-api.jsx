@@ -282,12 +282,4 @@ export default class AdminApi {
     static removeOrder(order) {
         return secureApiClient.deleteJson(`/orders/${order.id}`)
     }
-
-    static uploadOrderTicket(order, ticket, addNew) {
-        return secureApiClient.postJson(`/orders/${order.id}/tickets`, ticket, { params: { addNew: addNew } })
-            .then(data => data)
-    }
-    static removeOrderTicket(order, ticket) {
-        return secureApiClient.deleteJson(`/orders/${order.id}/tickets`)
-    }
 }
