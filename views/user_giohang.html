@@ -1,515 +1,428 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <!-- Roboto -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&display=swap&subset=vietnamese"
+      rel="stylesheet"
+    />
 
-    <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&amp;subset=vietnamese"
-        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css" />
 
-    <!-- Custom css -->
-    <link rel="stylesheet" href="/css/style.css">
-
-    <!-- Logo icon -->
-    <link rel="icon" href="/img/favicon.ico">
+    <link rel="icon" href="/img/favicon.ico" />
 
     <title>Nigamon Cinema</title>
+  </head>
 
-</head>
-
-<body>
-    <!-- navbar -->
-    <div class="container-fluid bg-light">
-        <div class="row">
-            <div class="col-lg-4 my-2">
-                <img class="img-fluid" src="/img/logo_dual.png" alt="Nigamon">
-            </div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-2 my-4">
-                <form class="form mr-3 border border-primary rounded-0" style="border-color: #2D7FF9">
-                    <div class="input-group border-0 rounded-0">
-                        <input type="text" class="form-control border-0 rounded-0" placeholder="Tên phim, rạp"></input>
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-link border-0 rounded-0"
-                                style="background-color: #ffffff">
-                                <i class="fas fa-search" style="color: #2D7FF9"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-1 mx-0 text-center" style="margin-top: 25px;">
-                <button type="button" class="btn btn-link">
-                    <i class="fas fa-shopping-cart" style="color: #2D7FF9"></i>
-                </button>
-            </div>
-            <div class="col-lg-1 px-0 text-center" style="margin-top: 25px;">
-                <button type="button" class="btn btn-link font-weight-bold" data-toggle="modal"
-                    data-target="#modalDN" style="text-decoration: none">
-                    <span style="color: #90A4AE">Đăng nhập</span>
-                </button>
-            </div>
-            <div class="col-lg-1 px-0 text-center" style="margin-top: 25px;">
-                <button type="button" class="btn btn-link text-primary font-weight-bold" data-toggle="modal"
-                    data-target="#modalDK" style="text-decoration: none">
-                    <span style="color: #2D7FF9">Đăng ký</span>
-                </button>
-            </div>
+  <body>
+    <!-- header -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 col-sm-12 py-1">
+          <a href="/">
+            <img class="img-fluid" src="/img/logo_dual.png" />
+          </a>
         </div>
+        <div class="col-lg-1 col-sm-12"></div>
+        <div class="col-lg-3 col-sm-6 py-3">
+          <form class="form form-normal">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="input-search"
+                placeholder="Tên phim, rạp"
+              />
+              <div class="input-group-append">
+                <button type="button" class="btn btn-link" id="btn-search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-4 col-sm-6 py-3 text-center">
+          <a
+            class="btn btn-link text-decoration-none"
+            id="btn-card"
+            href="/giohang"
+          >
+            <i class="fas fa-shopping-cart"></i>
+          </a>
+          <button
+            type="button"
+            class="btn btn-link text-decoration-none font-weight-bold"
+            data-toggle="modal"
+            data-target="#modalDN"
+            id="btn-dangnhap"
+          >
+            <span>Đăng nhập</span>
+          </button>
+          <button
+            type="button"
+            class="btn btn-link text-decoration-none font-weight-bold"
+            data-toggle="modal"
+            data-target="#modalDK"
+            id="btn-dangky"
+          >
+            <span>Đăng ký</span>
+          </button>
+          <span class="dropdown" id="span-profile">
+            <button
+              type="button"
+              class="btn btn-link text-decoration-none font-weight-bold"
+              data-toggle="dropdown"
+              id="btn-profile"
+            >
+              <span id="hello-profile"></span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Thông tin cá nhân</a>
+              <a class="dropdown-item" href="#">Lịch sử đơn hàng</a>
+              <a class="dropdown-item" href="#">Đăng xuất</a>
+            </div>
+          </span>
+        </div>
+      </div>
     </div>
 
-    <!-- Phim, mua vé, ...-->
-    <div class="container-fluid barPhimMuave">
-        <div class="row">
-            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
-                    style="text-decoration: none">
-                    Phim
-                </button>
-            </div>
-            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
-                    style="text-decoration: none">
-                    Mua vé
-                </button>
-            </div>
-            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
-                    style="text-decoration: none">
-                    Rạp / giá vé
-                </button>
-            </div>
-            <div class="col-lg-3 text-center text-uppercase font-weight-bold">
-                <button type="button" class="btn btn-link text-center text-uppercase text-light font-weight-bold"
-                    style="text-decoration: none">
-                    Hỗ trợ
-                </button>
-            </div>
+    <!-- bar -->
+    <div class="container-fluid py-2 black-background">
+      <div class="row">
+        <div class="col-sm-4 text-center">
+          <a
+            class="btn btn-link text-decoration-none font-weight-bold btn-bar"
+            href="/phim"
+          >
+            PHIM
+          </a>
         </div>
+        <div class="col-sm-4 text-center">
+          <a
+            class="btn btn-link text-decoration-none font-weight-bold btn-bar"
+            href="/rap"
+          >
+            RẠP CHIẾU PHIM
+          </a>
+        </div>
+        <div class="col-sm-4 text-center">
+          <a
+            class="btn btn-link text-decoration-none font-weight-bold btn-bar"
+            href="/support"
+          >
+            HỖ TRỢ
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- Gio hang -->
-    <div class="container my-5">
-        <h1 class="font-weight-bold text-center">Giỏ hàng</h1>
+    <div class="container pt-5 pb-3">
+      <h1 class="font-weight-bold text-center">Giỏ hàng</h1>
     </div>
 
-    <!-- Ve phim -->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10">
-                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
-                    <div>
-                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
-                            <span class="vertical-line mr-2"></span>
-                            <span class="h5 font-weight-bold mr-2">Vé phim</span>
-                        </span>
-                        <span class="float-right" style="margin-top: -25px; background-color: #ffffff">
-                            <span class="h5 font-weight-bold ml-2" style="color: #90A4AE">
-                                <a href="" style="color: #90A4AE">
-                                    Xóa hết
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                    <table class="table table-borderless m-3">
-                        <thead>
-                            <tr>
-                                <th scope="col">Tên phim</th>
-                                <th scope="col">Rạp</th>
-                                <th scope="col">Ngày</th>
-                                <th scope="col">Suất</th>
-                                <th scope="col">Số lượng</th>
-                                <th scope="col">Giá</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-top: 1px solid #cccccc">
-                                <td>Endgame (2D phụ đề)</td>
-                                <td>Nigamon Nguyễn Văn Cừ</td>
-                                <td>31-03-19</td>
-                                <td>10:15</td>
-                                <td>B5</td>
-                                <td>50.000 VND</td>
-                                <td>
-                                    <a href="">
-                                        <i class="fas fa-cog text-dark"></i>
-                                    </a>
-                                    <span class="font-weight-bold">/</span>
-                                    <a href="">
-                                        <i class="fas fa-times text-dark"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr style="border-top: 1px solid #cccccc">
-                                <td>Endgame (3D)</td>
-                                <td>Nigamon Nguyễn Văn Cừ</td>
-                                <td>01-04-19</td>
-                                <td>10:15</td>
-                                <td>B5</td>
-                                <td>100.000 VND</td>
-                                <td>
-                                    <a href="">
-                                        <i class="fas fa-cog text-dark"></i>
-                                    </a>
-                                    <span class="font-weight-bold">/</span>
-                                    <a href="">
-                                        <i class="fas fa-times text-dark"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr style="border-top: 1px solid #cccccc">
-                                <td>Endgame (3D)</td>
-                                <td>Nigamon Nguyễn Văn Cừ</td>
-                                <td>01-04-19</td>
-                                <td>10:15</td>
-                                <td>B5</td>
-                                <td>100.000 VND</td>
-                                <td>
-                                    <a href="">
-                                        <i class="fas fa-cog text-dark"></i>
-                                    </a>
-                                    <span class="font-weight-bold">/</span>
-                                    <a href="">
-                                        <i class="fas fa-times text-dark"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="btn-group float-right" style="background-color: #ffffff">
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            <i class="fas fa-angle-double-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
-                            1
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            2
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            3
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            <i class="fas fa-angle-double-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <!-- ticket -->
+    <div class="container mb-5">
+      <div class="wrap-normal">
+        <span class="float-left wrap-inside-normal">
+          <span class="vertical-line mx-2"></span>
+          <span class="h5 font-weight-bold mr-2">Vé phim</span>
+        </span>
+        <div class="table-responsive">
+          <table class="table table-borderless mt-2 p-2">
+            <thead>
+              <tr>
+                <th scope="col">Tên phim</th>
+                <th scope="col">Rạp</th>
+                <th scope="col">Ngày</th>
+                <th scope="col">Giờ</th>
+                <th scope="col">Số ghế</th>
+                <th scope="col">Giá</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="tbodyTicket"></tbody>
+          </table>
         </div>
+      </div>
     </div>
 
-    <!-- Thuc an -->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10">
-                <div class="rounded-0 pr-3 py-3" style="border: 1px solid #cccccc; margin-top: 25px;">
-                    <div>
-                        <span class="float-left" style="margin-top: -25px; background-color: #ffffff">
-                            <span class="vertical-line mr-2"></span>
-                            <span class="h5 font-weight-bold mr-2">Thức ăn</span>
-                        </span>
-                        <span class="float-right" style="margin-top: -25px; background-color: #ffffff">
-                            <span class="h5 font-weight-bold ml-2" style="color: #90A4AE">
-                                <a href="" style="color: #90A4AE">
-                                    Xóa hết
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                    <table class="table table-borderless m-3">
-                        <thead>
-                            <tr>
-                                <th scope="col">Tên món</th>
-                                <th scope="col">Rạp</th>
-                                <th scope="col">Rạp</th>
-                                <th scope="col">Ngày</th>
-                                <th scope="col">Số lượng</th>
-                                <th scope="col">Đơn giá</th>
-                                <th scope="col">Tổng tiền</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-top: 1px solid #cccccc">
-                                <td>Bắp rang bơ</td>
-                                <td>Nigamon Nguyễn Văn Cừ</td>
-                                <td>01-04-19</td>
-                                <td>10:15</td>
-                                <td>2</td>
-                                <td>50.000 VND</td>
-                                <td>100.000 VND</td>
-                                <td>
-                                    <a href="">
-                                        <i class="fas fa-cog text-dark"></i>
-                                    </a>
-                                    <span class="font-weight-bold">/</span>
-                                    <a href="">
-                                        <i class="fas fa-times text-dark"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr style="border-top: 1px solid #cccccc">
-                                <td>Pepsi</td>
-                                <td>Nigamon Nguyễn Văn Cừ</td>
-                                <td>01-04-19</td>
-                                <td>10:15</td>
-                                <td>4</td>
-                                <td>19.000 VND</td>
-                                <td>116.000 VND</td>
-                                <td>
-                                    <a href="">
-                                        <i class="fas fa-cog text-dark"></i>
-                                    </a>
-                                    <span class="font-weight-bold">/</span>
-                                    <a href="">
-                                        <i class="fas fa-times text-dark"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="btn-group float-right" style="background-color: #ffffff">
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            <i class="fas fa-angle-double-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold" style="color: #2D7FF9">
-                            1
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            2
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            3
-                        </button>
-                        <button type="button" class="btn btn-link font-weight-bold text-dark">
-                            <i class="fas fa-angle-double-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <!-- food -->
+    <div class="container mt-5">
+      <div class="wrap-normal">
+        <span class="float-left wrap-inside-normal">
+          <span class="vertical-line mx-2"></span>
+          <span class="h5 font-weight-bold mr-2">Món ăn</span>
+        </span>
+        <div class="table-responsive">
+          <table class="table table-borderless mt-2 p-2">
+            <thead>
+              <tr>
+                <th scope="col">Tên món</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="tbodyFood"></tbody>
+          </table>
         </div>
+      </div>
     </div>
 
-    <!-- Tong tien -->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-5"></div>
-            <div class="col-lg-4">
-                <div class="h5 font-weight-bold">
-                    Tổng tiền
-                </div>
-                <div class="horizontal-line" style="width: 75px;"></div>
-            </div>
-            <div class="col-lg-3">
-                <div class="h5">
-                    386.000 VND
-                </div>
-            </div>
-        </div>
+    <!-- pay-->
+    <div class="container py-3">
+      <div class="d-flex justify-content-end my-1">
+        <span class="font-weight-bold h5 mr-3 span-normal">Tổng tiền</span>
+        <span class="h5 mr-3" id="spanMoney"></span>
+        <span class="h5">VND</span>
+      </div>
+      <div class="d-flex justify-content-end my-1">
+        <button
+          type="button"
+          class="btn btn-secondary mr-3 btn-normal-inactive"
+          id="btnBack"
+        >
+          Quay lại trang chủ
+        </button>
+        <button type="button" class="btn btn-primary btn-normal" id="btnAccept">
+          Chấp nhận đặt vé
+        </button>
+      </div>
     </div>
 
-    <!-- Thanh toan -->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-5"></div>
-            <div class="col-lg-4">
-                <button type="button" class="btn btn-primary rounded-0"
-                    style="background-color: #2D7FF9; border-color: #2D7FF9">
-                    <span class="h5">Tiếp tục mua sắm</span>
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-            </div>
-            <div class="col-lg-3">
-                <button type="button" class="btn btn-primary rounded-0"
-                    style="background-color: #2D7FF9; border-color: #2D7FF9">
-                    <span class="h5">Thanh toán</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
+    <!-- footer -->
+    <div class="container-fluid py-3 black-background" id="footer">
+      <div class="row">
+        <div class="col-md-2 d-flex flex-row-reverse">
+          <div class="vertical-line"></div>
         </div>
+        <div class="col-md-4 white-text">
+          <h3 class="font-weight-bold">Nigamon Cinema</h3>
+          <br />
+          <p>
+            <span class="font-weight-bold">Trụ sở: </span>154 / 12 Nguyễn Kim,
+            Phường 6, Quận 10, TP.HCM
+          </p>
+          <p>
+            <span class="font-weight-bold">Số điện thoại: </span>0123 456 789
+          </p>
+          <p>
+            <span class="font-weight-bold">Email: </span
+            >contact@cinema.nigamon.com.vn
+          </p>
+        </div>
+        <div class="col-md-1 d-flex flex-row-reverse">
+          <div class="vertical-line"></div>
+        </div>
+        <div class="col-md-5 text-center white-text">
+          <h3><strong>Kết nối với chúng tôi</strong></h3>
+          <br />
+          <button type="button" class="mr-2 btn btn-dark btn-social">
+            <i class="fab fa-facebook fa-2x"></i>
+          </button>
+          <button type="button" class="mr-2 btn btn-dark btn-social">
+            <i class="fab fa-instagram fa-2x"></i>
+          </button>
+          <button type="button" class="mr-2 btn btn-dark btn-social">
+            <i class="fab fa-twitter fa-2x"></i>
+          </button>
+          <button type="button" class="mr-2 btn btn-dark btn-social">
+            <i class="fab fa-youtube fa-2x"></i>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <footer>
-        <div class="container-fluid py-5">
-            <div class="row">
-                <div class="col-lg-2 d-flex flex-row-reverse">
-                    <div class="vertical-line"></div>
-                </div>
-                <div class="col-lg-4">
-                    <h3><strong>Nigamon Cinema</strong></h3>
-                    <br>
-                    <p><strong>Trụ sở:</strong> 154 / 12 Nguyễn Kim, Phường 6, Quận 10, TP.HCM</p>
-                    <p><strong>Số điện thoại:</strong> 0123 456 789</p>
-                    <p><strong>Email:</strong>
-                        <a class="text-light" href="mailto:contact@cinema.nigamon.com.vn">
-                            contact@cinema.nigamon.com.vn</a>
-                    </p>
-                </div>
-                <div class="col-lg-1 d-flex flex-row-reverse">
-                    <div class="vertical-line"></div>
-                </div>
-                <div class="col-lg-3 text-center">
-                    <h3><strong>Kết nối với chúng tôi</strong></h3>
-                    <br>
-                    <button type="button" class="mr-2 btn btn-dark border-0">
-                        <i class="fab fa-facebook fa-2x"></i>
-                    </button>
-                    <button type="button" class="mr-2 btn btn-dark border-0">
-                        <i class="fab fa-instagram fa-2x"></i>
-                    </button>
-                    <button type="button" class="mr-2 btn btn-dark border-0">
-                        <i class="fab fa-twitter fa-2x"></i>
-                    </button>
-                    <button type="button" class="mr-2 btn btn-dark border-0">
-                        <i class="fab fa-youtube fa-2x"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Modal dang nhap -->
+    <!-- modal dang nhap -->
     <div class="modal fade" id="modalDN">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <img src="img/logo.jpeg">
-                            <br>
-                            <p class="font-weight-bold">
-                                Đăng nhập vào hệ thống
-                            </p>
-                            <form>
-                                <div class="form-group row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8">
-                                        <input type="email" class="form-control rounded-0" placeholder="Email"
-                                            name="inputEmailDN" style="border-color: #2D7FF9">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8">
-                                        <input type="password" class="form-control rounded-0" placeholder="Password"
-                                            name="inputPasswordDN" style="border-color: #2D7FF9">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8 text-left">
-                                        <a href="#" style="color: #90A4AE; text-decoration: none">
-                                            <small>Quên mật khẩu</small>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary rounded-0"
-                                        style="background-color: #2D7FF9; border-color: #2D7FF9">
-                                        Đăng nhập
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <img class="img-fluid" src="/img/logo.jpeg" />
             </div>
+
+            <h4 class="py-3 text-center font-weight-bold">
+              Đăng nhập vào hệ thống
+            </h4>
+            <form id="formDN">
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="email"
+                    class="form-control input-normal"
+                    placeholder="Email"
+                    id="emailDN"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="password"
+                    class="form-control input-normal"
+                    placeholder="Password"
+                    id="passwordDN"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <a>
+                    Quên mật khẩu
+                  </a>
+                </div>
+              </div>
+              <div>
+                <p class="text-danger text-center" id="loginErr"></p>
+              </div>
+              <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary btn-normal">
+                  Đăng nhập
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- Modal dang ky -->
+    <!-- modal dang ky -->
     <div class="modal fade" id="modalDK">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <img src="img/logo.jpeg">
-                            <br>
-                            <p class="font-weight-bold">
-                                Tạo tài khoản mới
-                            </p>
-                            <form>
-                                <div class="form-group row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control rounded-0" placeholder="Họ tên"
-                                            name="inputTenDN" style="border-color: #2D7FF9">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8">
-                                        <input type="email" class="form-control rounded-0" placeholder="Email"
-                                            name="inputEmailDN" style="border-color: #2D7FF9">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8">
-                                        <input type="password" class="form-control rounded-0" placeholder="Password"
-                                            name="inputPasswordDN" style="border-color:#2D7FF9">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-8">
-                                        <input type="password" class="form-control rounded-0"
-                                            placeholder="Password again" name="inputPasswordAgainDN"
-                                            style="border-color: #2D7FF9">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary rounded-0"
-                                        style="background-color: #2D7FF9; border-color: #2D7FF9">
-                                        Đăng ký
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <img class="img-fluid" src="/img/logo.jpeg" />
             </div>
+            <h4 class="py-3 text-center font-weight-bold">
+              Tạo tài khoản mới
+            </h4>
+            <form>
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="text"
+                    class="form-control input-normal"
+                    placeholder="Tên"
+                    id="nameDK"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="email"
+                    class="form-control input-normal"
+                    placeholder="Email"
+                    id="emailDK"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="password"
+                    class="form-control input-normal"
+                    placeholder="Password"
+                    id="passwordDK"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="text"
+                    class="form-control input-normal"
+                    placeholder="Password again"
+                    id="password2DK"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <input
+                    type="password"
+                    class="form-control input-normal"
+                    placeholder="Phone"
+                    id="phoneDK"
+                  />
+                </div>
+              </div>
+              <div>
+                <p class="text-danger text-center" id="signupErr"></p>
+              </div>
+              <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary btn-normal">
+                  Đăng ký
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-</body>
+    <!-- Bootstrap -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
 
+    <script src="/js/user_views/auth.js"></script>
+    <script src="/js/user_views/giohang.js"></script>
+  </body>
 </html>

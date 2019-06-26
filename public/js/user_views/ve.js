@@ -99,11 +99,15 @@ window.addEventListener("load", async () => {
                 Authorization: "Bearer " + sessionStorage.getItem("token")
               }
             }
-          );
-          res = await res.json();
-          console.log(res);
+          ).then(res => res.json());
+          if (!res.status) {
+            console.log(res);
+            return;
+          }
         }
       }
     }
+
+    location.href = "/food";
   });
 });

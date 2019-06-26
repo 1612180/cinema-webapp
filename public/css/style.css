@@ -22,6 +22,10 @@ body {
   color: white;
 }
 
+.text-inactive {
+  color: grey;
+}
+
 .form-normal,
 .input-normal {
   border: 1px solid #2d7ff9;
@@ -113,6 +117,10 @@ body {
 }
 
 .span-normal {
+  color: #2d7ff9;
+}
+
+.fa-normal {
   color: #2d7ff9;
 }
 

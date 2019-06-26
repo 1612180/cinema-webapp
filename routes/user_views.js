@@ -45,4 +45,8 @@ router.get("/ve", (req, res) => {
   res.sendFile(path.resolve(__dirname + "/../views/user_ticket.html"))
 })
 
+router.get("/food", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/../views/user_food.html"))
+})
+
 module.exports = router;

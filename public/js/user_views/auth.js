@@ -84,6 +84,7 @@ window.addEventListener("load", async () => {
       btn_dangky.style.display = "none";
       let hello_profile = document.getElementById("hello-profile");
       hello_profile.innerText = "Xin chào " + res.data.name;
+      sessionStorage.setItem("userid", res.data.id)
     }
   }
 

@@ -450,8 +450,7 @@ router.delete("/ticket_types/:id", (req, res) => {
   TicketType.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -504,8 +503,7 @@ router.delete("/ticket_statuses/:id", (req, res) => {
   TicketStatus.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -579,8 +577,7 @@ router.delete("/show_times/:id", (req, res) => {
   ShowTime.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -645,8 +642,7 @@ router.delete("/tickets/:id", (req, res) => {
   Ticket.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -705,8 +701,7 @@ router.delete("/users/:id", (req, res) => {
   User.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -745,8 +740,7 @@ router.delete("/ticket_shopping_carts/:id", (req, res) => {
   TicketShoppingCart.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -799,8 +793,7 @@ router.delete("/order_statuses/:id", (req, res) => {
   OrderStatus.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -839,8 +832,7 @@ router.delete("/orders/:id", (req, res) => {
   Order.destroy({
     where: {
       id: req.param.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -869,7 +861,7 @@ router.post("/ordered_tickets", (req, res) => {
 
 router.delete("/ordered_tickets", (req, res) => {
   OrdererTicket.destroy({
-    truncate: yes
+    truncate: true
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -879,8 +871,7 @@ router.delete("/ordered_tickets/:id", (req, res) => {
   OrdererTicket.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -902,7 +893,8 @@ router.post("/foods", (req, res) => {
   Food.create({
     name: req.body.name,
     price: req.body.price,
-    foodStatusId: req.body.foodStatusId
+    foodStatusId: req.body.foodStatusId,
+    photoUrl: req.body.photoUrl
   })
     .then(data => res.json({ status: true, message: "OK", data: data }))
     .catch(err => res.json({ status: false, message: err }));
@@ -912,7 +904,8 @@ router.put("/foods/:id", (req, res) => {
   Food.update({
     name: req.body.name,
     price: req.body.price,
-    foodStatusId: req.body.foodStatusId
+    foodStatusId: req.body.foodStatusId,
+    photoUrl: req.body.photoUrl
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -930,8 +923,7 @@ router.delete("/foods/:id", (req, res) => {
   Food.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -984,8 +976,7 @@ router.delete("/food_statuses/:id", (req, res) => {
   FoodStatus.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -1025,8 +1016,7 @@ router.delete("/food_shopping_carts/:id", (req, res) => {
   FoodShoppingCart.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -1066,8 +1056,7 @@ router.delete("/food_orders/:id", (req, res) => {
   FoodOrder.destroy({
     where: {
       id: req.params.id
-    },
-    truncate: true
+    }
   })
     .then(() => res.json({ status: true, message: "OK" }))
     .catch(err => res.json({ status: false, message: err }));
@@ -1193,25 +1182,6 @@ router.post("/auth/signup", (req, res) => {
 
 router.post("/auth/test", middleware.auth, (req, res) => {
   res.send(res.get("email"));
-});
-
-router.get("/me", middleware.auth, (req, res) => {
-  User.findAll({
-    where: {
-      email: res.get("email")
-    }
-  }).then(data => {
-    if (!data || !data.length) {
-      res.json({ status: false, message: "This email not exist" });
-      return;
-    }
-
-    return res.json({
-      status: true,
-      message: "Get info OK",
-      data: { name: data[0].username }
-    });
-  });
 });
 
 module.exports = router;
