@@ -30,6 +30,8 @@ const middleware = require("./middleware");
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_KEY || "wtf";
 
+const bcrypt = require("bcrypt");
+
 router.get("/me", middleware.auth, (req, res) => {
   User.findAll({
     where: {
@@ -260,6 +262,92 @@ router.post("/users/:id/pay_food", (req, res) => {
       res.json({ status: true, message: "OK" });
     });
   });
+});
+
+router.post("/auth/login", (req, res) => {
+  User.findAll({
+    where: {
+      email: req.body.email
+    }
+  }).then(data => {
+    if (!data || !data.length) {
+      res.json({ status: false, message: "Email or password is not correct" });
+      return;
+    }
+
+    bcrypt.compare(req.body.password, data[0].hashedPassword, (err, _) => {
+      if (err) {
+        res.json({
+          status: false,
+          message: "Email or password is not correct"
+        });
+        return;
+      }
+
+      jwt.sign(
+        { email: data[0].email },
+        secretKey,
+        { expiresIn: "365d" },
+        (err, token) => {
+          if (err) {
+            res.json({ status: false, message: "Something wrong :(" });
+            return;
+          }
+
+          res.json({ status: true, message: "Login OK", data: token });
+        }
+      );
+    });
+  });
+});
+
+router.post("/auth/signup", (req, res) => {
+  if (
+    !req.body.username ||
+    !req.body.password ||
+    !req.body.password2 ||
+    !req.body.email ||
+    !req.body.phoneNumber
+  ) {
+    res.json({ status: false, message: "Missing something ?" });
+    return;
+  }
+
+  if (req.body.password !== req.body.password2) {
+    res.json({ status: false, message: "Password again is incorect" });
+    return;
+  }
+
+  User.findAll({
+    where: {
+      email: req.body.email
+    }
+  }).then(data => {
+    if (data.length) {
+      res.json({ status: false, message: "Email already registered" });
+      return;
+    }
+
+    bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+      if (err) {
+        res.json({ status: false, message: "Not OK", data: err });
+        return;
+      }
+
+      User.create({
+        username: req.body.username,
+        hashedPassword: req.body.password,
+        email: req.body.email,
+        phoneNumber: req.body.phoneNumber
+      }).then(() => {
+        res.json({ status: true, message: "Signup OK" });
+      });
+    });
+  });
+});
+
+router.post("/auth/test", middleware.auth, (req, res) => {
+  res.send(res.get("email"));
 });
 
 module.exports = router;

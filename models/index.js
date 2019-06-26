@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: true
@@ -70,23 +70,41 @@ sequelize
     // force: true
   })
   .then(() => {
-    bcrypt.hash('test', 10, data).then(hashed => {
-      Admin.create({
-        adminName: "leHauBoi",
-        hashedPassword: hashed,
-        email: "test@dev.com",
-        lastLogin: new Date()
-      })
-    })
+    Admin.findAll({
+      where: {
+        email: "test@dev.com"
+      }
+    }).then(data => {
+      if (!data || !data.length) {
+        bcrypt.hash("test", 10, (_, hashedPassword) => {
+          Admin.create({
+            adminName: "leHauBoi",
+            hashedPassword: hashedPassword,
+            email: "test@dev.com",
+            lastLogin: new Date()
+          });
+        });
+      }
+    });
   })
-  .then(() =>
-    User.create({
-      username: "a",
-      email: "a@a.com",
-      hashedPassword: "a",
-      phoneNumber: "0"
-    })
-  );
+  .then(() => {
+    User.findAll({
+      where: {
+        email: "a@a.com"
+      }
+    }).then(data => {
+      if (!data || !data.length) {
+        bcrypt.hash("a", 10, (_, hashedPassword) => {
+          User.create({
+            username: "a",
+            email: "a@a.com",
+            hashedPassword: hashedPassword,
+            phoneNumber: "0"
+          });
+        });
+      }
+    });
+  });
 
 module.exports = {
   Op,
