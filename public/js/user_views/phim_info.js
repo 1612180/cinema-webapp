@@ -1,4 +1,4 @@
-function ShowPhim(res) {
+async function ShowPhim(res) {
   let mPhotoUrl = document.getElementById("mPhotoUrl");
   mPhotoUrl.src = res.data.photoUrl;
 
@@ -14,8 +14,12 @@ function ShowPhim(res) {
   let mActor = document.getElementById("mActor");
   mActor.innerText = res.data.actor;
 
+  let res_genre = await fetch(
+    "/api/movie_genres/" + res.data.movieGenreId
+  ).then(res => res.json());
   let mGenre = document.getElementById("mGenre");
-  mGenre.innerText = res.data.genre;
+  mGenre.style.textTransform = "capitalize"
+  mGenre.innerText = res_genre.data.name;
 
   let mIntroduce = document.getElementById("mIntroduce");
   mIntroduce.innerText = res.data.introduce;
@@ -67,8 +71,7 @@ async function ShowTicket(id, id2, id3, tbody) {
 }
 
 async function ShowTheater(id, id2) {
-  let res = await fetch("/api/count/ticket_types");
-  res = await res.json();
+  let res = await fetch("/api/count/ticket_types").then(res => res.json());
   if (!res.data) {
     return;
   }

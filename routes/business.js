@@ -34,6 +34,9 @@ const bcrypt = require("bcrypt");
 
 const nodemailer = require("nodemailer");
 
+const ctrMoney = require("../controllers/money");
+const ctrOrder = require("../controllers/order");
+
 router.get("/me", middleware.auth, (req, res) => {
   User.findAll({
     where: {
@@ -283,7 +286,7 @@ router.post("/users/:id/pay", async (req, res) => {
       }
     });
 
-    console.log(data_tc)
+    console.log(data_tc);
 
     for (let i = 0; i < data_tc.length; i += 1) {
       OrdererTicket.create({
@@ -577,6 +580,51 @@ router.post("/auth/recovery", async (req, res) => {
     });
 
     res.json({ status: true, message: "Change password OK" });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
+});
+
+router.get("/users/:id/order", async (req, res) => {
+  if (!req.query.fromDate || !req.query.toDate) {
+    res.json({ status: false, message: "Not enough" });
+    return;
+  }
+  try {
+    let order = await Order.findAll({
+      where: {
+        userId: req.params.id,
+        createdAt: {
+          [Op.gte]: req.query.fromDate,
+          [Op.lte]: req.query.toDate
+        }
+      }
+    });
+
+    let money = [];
+    for (let i = 0; i < order.length; i += 1) {
+      money.push(await ctrMoney.order(order[i].id));
+    }
+
+    res.json({ status: true, message: "OK", data: order, money: money });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
+});
+
+router.get("/orders/:id/ticket", async (req, res) => {
+  try {
+    let data = await ctrOrder.ticket(req.params.id);
+    res.json({ status: true, message: "OK", data: data });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
+});
+
+router.get("/orders/:id/food", async (req, res) => {
+  try {
+    let data = await ctrOrder.food(req.params.id);
+    res.json({ status: true, message: "OK", data: data });
   } catch (err) {
     res.json({ status: false, message: "Not OK", data: err });
   }

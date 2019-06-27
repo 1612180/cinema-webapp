@@ -158,7 +158,7 @@ window.addEventListener("load", () => {
   });
 
   let btnAccept = document.getElementById("btnAccept");
-  btnAccept.addEventListener("click", () => {
+  btnAccept.addEventListener("click", async () => {
     // deprecated
     // fetch("/api/users/" + sessionStorage.getItem("userid") + "/pay_ticket", {
     //   method: "POST"
@@ -168,10 +168,20 @@ window.addEventListener("load", () => {
     //   method: "POST"
     // });
 
-    fetch("/api/users/" + sessionStorage.getItem("userid") + "/pay", {
-      method: "POST"
-    });
+    let res = await fetch(
+      "/api/users/" + sessionStorage.getItem("userid") + "/pay",
+      {
+        method: "POST"
+      }
+    );
 
-    location.reload();
+    if (!res.status) {
+      alert("Something wrong");
+      return;
+    }
+
+    if (!alert("Thanh toán thành công")) {
+      location.reload();
+    }
   });
 });

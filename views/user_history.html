@@ -140,12 +140,111 @@
 
     <!-- don hang -->
     <div class="container pt-5 pb-3">
-      <h1 class="font-weight-bold text-center">Danh sách đơn hàng</h1>
+      <h1 class="font-weight-bold text-center">Lịch sử đơn hàng của tôi</h1>
+    </div>
+
+    <div class="container">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-sm-4 px-2">
+            <label class="h5 font-weight-bold">Từ</label>
+            <input
+              type="date"
+              class="form-control input-normal"
+              id="fromDate"
+            />
+          </div>
+          <div class="form-group col-sm-4 px-2">
+            <label class="h5 font-weight-bold">Đến</label>
+            <input type="date" class="form-control input-normal" id="toDate" />
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container my-3 py-3">
+      <div class="wrap-normal">
+        <span class="float-left wrap-inside-normal">
+          <span class="vertical-line mx-2"></span>
+          <span class="h5 font-weight-bold mr-2">Lịch sử đơn hàng</span>
+        </span>
+        <div class="table-responsive">
+          <table class="table table-borderless mt-2 p-2">
+            <thead>
+              <tr>
+                <th scope="col">Mã đơn hàng</th>
+                <th scope="col">Ngày</th>
+                <th scope="col">Giờ</th>
+                <th scope="col">Tổng tiền</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyHistory"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- chi tiet -->
     <div class="container pt-5 pb-3">
       <h1 class="font-weight-bold text-center">Chi tiết đơn hàng</h1>
+    </div>
+
+    <div class="container py-3 my-3">
+      <div class="wrap-normal">
+        <span class="float-left wrap-inside-normal">
+          <span class="vertical-line mx-2"></span>
+          <span class="h5 font-weight-bold mr-2">Vé phim</span>
+        </span>
+        <div class="table-responsive">
+          <table class="table table-borderless mt-2 p-2">
+            <thead>
+              <tr>
+                <th scope="col">Tên phim</th>
+                <th scope="col">Rạp</th>
+                <th scope="col">Ngày</th>
+                <th scope="col">Giờ</th>
+                <th scope="col">Số ghế</th>
+                <th scope="col">Giá</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyTicket"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-3 my-3">
+      <div class="wrap-normal">
+        <span class="float-left wrap-inside-normal">
+          <span class="vertical-line mx-2"></span>
+          <span class="h5 font-weight-bold mr-2">Món ăn</span>
+        </span>
+        <div class="table-responsive">
+          <table class="table table-borderless mt-2 p-2">
+            <thead>
+              <tr>
+                <th scope="col">Tên món</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Tổng tiền</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyFood"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-3">
+      <div class="d-flex justify-content-end my-1">
+        <button
+          type="button"
+          class="btn btn-secondary mr-3 btn-normal-inactive"
+          id="btnBack"
+        >
+          Quay lại trang chủ
+        </button>
+      </div>
     </div>
 
     <!-- footer -->
