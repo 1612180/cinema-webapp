@@ -124,6 +124,9 @@ async function LoadDonHang() {
     tbodyHistory.appendChild(tr);
     tr.setAttribute("orderid", res.data[i].id);
     tr.addEventListener("click", event => {
+      $(event.currentTarget).addClass("tr-normal")
+      $(event.currentTarget).siblings().removeClass("tr-normal")
+
       LoadPhim(event.currentTarget.getAttribute("orderid"));
       LoadFood(event.currentTarget.getAttribute("orderid"));
       window.scrollTo(0, document.body.scrollHeight);

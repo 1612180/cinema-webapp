@@ -116,6 +116,11 @@ body {
   color: white;
 }
 
+.tr-normal {
+  background-color: #2d7ff9;
+  color: white;
+}
+
 .span-normal {
   color: #2d7ff9;
 }
