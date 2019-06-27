@@ -277,8 +277,8 @@ router.post("/auth/login", (req, res) => {
       return;
     }
 
-    bcrypt.compare(req.body.password, data[0].hashedPassword, (err, _) => {
-      if (err) {
+    bcrypt.compare(req.body.password, data[0].hashedPassword, (err, res2) => {
+      if (!res2) {
         res.json({
           status: false,
           message: "Email or password is not correct"
@@ -392,8 +392,6 @@ router.post("/auth/recovery/renew", async (req, res) => {
           pass: process.env.PASSWORD
         }
       });
-
-      console.log(user[0].email);
 
       transporter.sendMail({
         from: "Nigamon Cinema <nigamoncinema@gmail.com>",
