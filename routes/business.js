@@ -32,6 +32,8 @@ const secretKey = process.env.SECRET_KEY || "wtf";
 
 const bcrypt = require("bcrypt");
 
+const nodemailer = require("nodemailer");
+
 router.get("/me", middleware.auth, (req, res) => {
   User.findAll({
     where: {
@@ -336,7 +338,7 @@ router.post("/auth/signup", (req, res) => {
 
       User.create({
         username: req.body.username,
-        hashedPassword: req.body.password,
+        hashedPassword: hashedPassword,
         email: req.body.email,
         phoneNumber: req.body.phoneNumber
       }).then(() => {
@@ -382,6 +384,29 @@ router.post("/auth/recovery/renew", async (req, res) => {
       );
 
       // send email
+      let transporter = nodemailer.createTransport({
+        service: "Gmail",
+        secure: true,
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.PASSWORD
+        }
+      });
+
+      console.log(user[0].email);
+
+      transporter.sendMail({
+        from: "Nigamon Cinema <nigamoncinema@gmail.com>",
+        to: user[0].email,
+        subject: "Nigamon Cinema - Đặt lại mật khẩu",
+        text:
+          "Truy cập vào đường link này để khôi phục mật khẩu cho tài khoản của bạn:\n" +
+          process.env.URL +
+          "/recovery?tokenRecover=" +
+          tokenRecover +
+          "&email=" +
+          user[0].email
+      });
 
       res.json({ status: true, message: "OK" });
     });

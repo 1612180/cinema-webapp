@@ -29,8 +29,8 @@ function ModalDN() {
 }
 
 function ModalDK() {
-  let formDN = document.getElementById("formDN");
-  formDN.addEventListener("submit", async event => {
+  let formDK = document.getElementById("formDK");
+  formDK.addEventListener("submit", async event => {
     event.preventDefault();
 
     let nameDK = document.getElementById("nameDK").value;
