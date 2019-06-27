@@ -48,9 +48,78 @@ router.get("/me", middleware.auth, (req, res) => {
     return res.json({
       status: true,
       message: "Get info OK",
-      data: { id: data[0].id, name: data[0].username }
+      data: {
+        id: data[0].id,
+        name: data[0].username,
+        email: data[0].email,
+        phone: data[0].phoneNumber
+      }
     });
   });
+});
+
+router.post("/me/info", middleware.auth, (req, res) => {
+  User.update(
+    {
+      username: req.body.name,
+      phoneNumber: req.body.phone
+    },
+    {
+      where: {
+        email: res.get("email")
+      }
+    }
+  )
+    .then(() => res.json({ status: true, message: "OK" }))
+    .catch(err => res.json({ status: false, message: "OK", data: err }));
+});
+
+router.post("/me/password", middleware.auth, async (req, res) => {
+  try {
+    if (req.body.passwordPN !== req.body.passwordPN2) {
+      res.json({ status: false, message: "Not OK" });
+      return;
+    }
+
+    let user = await User.findAll({
+      where: {
+        email: res.get("email")
+      }
+    });
+    if (!user || !user.length) {
+      res.json({ status: false, message: "Not OK" });
+      return;
+    }
+
+    bcrypt.compare(req.body.passwordPO, user[0].hashedPassword, (err, res2) => {
+      if (!res2) {
+        res.json({ status: false, message: "Not OK" });
+        return;
+      }
+
+      bcrypt.hash(req.body.passwordPN, 10, async (err2, hashedPassword) => {
+        if (err2) {
+          res.json({ status: false, message: "Not OK" });
+          return;
+        }
+
+        await User.update(
+          {
+            hashedPassword: hashedPassword
+          },
+          {
+            where: {
+              email: user[0].email
+            }
+          }
+        );
+
+        res.json({ status: true, message: "OK" });
+      });
+    });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK 5", data: err });
+  }
 });
 
 router.post(
@@ -196,6 +265,62 @@ router.get("/users/:id/food_shopping_carts/money", async (req, res) => {
     }
 
     res.json({ status: true, message: "OK", data: sum });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
+});
+
+router.post("/users/:id/pay", async (req, res) => {
+  try {
+    let data_o = await Order.create({
+      userId: req.params.id,
+      orderStatusId: 1
+    });
+
+    let data_tc = await TicketShoppingCart.findAll({
+      where: {
+        userId: req.params.id
+      }
+    });
+
+    console.log(data_tc)
+
+    for (let i = 0; i < data_tc.length; i += 1) {
+      OrdererTicket.create({
+        orderId: data_o.id,
+        ticketId: data_tc[i].ticketId
+      });
+    }
+    TicketShoppingCart.destroy({
+      where: {
+        id: {
+          [Op.in]: data_tc.map(i => i.id)
+        }
+      }
+    });
+
+    let data_fc = await FoodShoppingCart.findAll({
+      where: {
+        userId: req.params.id
+      }
+    });
+    for (let i = 0; i < data_fc.length; i += 1) {
+      FoodOrder.create({
+        orderId: data_o.id,
+        foodId: data_fc[i].foodId,
+        quantity: data_fc[i].quantity
+      });
+    }
+
+    FoodShoppingCart.destroy({
+      where: {
+        id: {
+          [Op.in]: data_fc.map(i => i.id)
+        }
+      }
+    });
+
+    res.json({ status: true, message: "OK" });
   } catch (err) {
     res.json({ status: false, message: "Not OK", data: err });
   }

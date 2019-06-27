@@ -158,11 +158,16 @@ window.addEventListener("load", () => {
 
   let btnAccept = document.getElementById("btnAccept");
   btnAccept.addEventListener("click", () => {
-    fetch("/api/users/" + sessionStorage.getItem("userid") + "/pay_ticket", {
-      method: "POST"
-    });
+    // deprecated
+    // fetch("/api/users/" + sessionStorage.getItem("userid") + "/pay_ticket", {
+    //   method: "POST"
+    // });
 
-    fetch("/api/users/" + sessionStorage.getItem("userid") + "/pay_food", {
+    // fetch("/api/users/" + sessionStorage.getItem("userid") + "/pay_food", {
+    //   method: "POST"
+    // });
+
+    fetch("/api/users/" + sessionStorage.getItem("userid") + "/pay", {
       method: "POST"
     });
 

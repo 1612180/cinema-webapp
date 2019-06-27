@@ -17,7 +17,6 @@ function ModalDN() {
       })
     });
     res = await res.json();
-    console.log(res);
     if (!res.status) {
       let loginErr = document.getElementById("loginErr");
       loginErr.innerText = res.message;
@@ -82,9 +81,7 @@ window.addEventListener("load", async () => {
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("token")
       }
-    });
-    res = await res.json();
-    console.log(res);
+    }).then(res => res.json());
     if (!res.status) {
       span_profile.style.display = "none";
     } else {
