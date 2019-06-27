@@ -175,7 +175,8 @@ router.get("/show_times/:id/ordered", (req, res) => {
       where: {
         id: {
           [Op.in]: data.map(i => i.ticketId)
-        }
+        },
+        showTimeId: req.params.id
       }
     }).then(data2 => res.json({ status: true, message: "OK", data: data2 }));
   });
