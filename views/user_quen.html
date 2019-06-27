@@ -138,63 +138,47 @@
       </div>
     </div>
 
-    <!-- banner -->
-    <div id="carouselBanner" class="carousel slide mb-3" data-ride="carousel">
-      <div class="carousel-inner" id="banner"></div>
-      <a
-        class="carousel-control-prev"
-        href="#carouselBanner"
-        role="button"
-        data-slide="prev"
-      >
-        <span class="carousel-control-prev-icon"></span>
-      </a>
-      <a
-        class="carousel-control-next"
-        href="#carouselBanner"
-        role="button"
-        data-slide="next"
-      >
-        <span class="carousel-control-next-icon"></span>
-      </a>
-    </div>
-
-    <!-- switch -->
-    <div class="container py-3">
+    <div class="container my-3 py-3">
       <div class="row">
-        <div class="col-lg-3 col-sm-6">
-          <button
-            type="button"
-            class="btn btn-link text-decoration-none"
-            id="btnDangChieu"
-          >
-            <h3 class="font-weight-bold">
-              Phim đang chiếu
-            </h3>
-          </button>
-        </div>
-        <div class="col-lg-3 col-sm-6">
-          <button
-            type="button"
-            class="btn btn-link text-decoration-none"
-            id="btnSapChieu"
-          >
-            <h3 class="font-weight-bold">
-              Phim sắp chiếu
-            </h3>
-          </button>
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+          <h5 class="font-weight-bold">
+            Nhập email của tài khoản cần khôi phục mật khẩu
+          </h5>
         </div>
       </div>
-    </div>
-
-    <!-- show -->
-    <div class="container py-3">
-      <div class="row" id="showPhim"></div>
-      <div class="py-3 text-right">
-        <button type="button" class="btn btn-primary btn-normal" id="btnMore">
-          Xem thêm
-        </button>
-      </div>
+      <form>
+        <div class="form-row">
+          <div class="col-md-2"></div>
+          <div class="form-group col-md-4">
+            <input
+              type="email"
+              class="form-control input-normal"
+              placeholder="Email"
+              id="emailR"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-10">
+            <button
+              type="button"
+              class="btn btn-primary mr-3 btn-normal-inactive"
+              id="btnBack"
+            >
+              Quay về trang chủ
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary btn-normal"
+              id="btnAccept"
+            >
+              Khôi phục mật khẩu
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
 
     <!-- footer -->
@@ -407,6 +391,6 @@
     ></script>
 
     <script src="/js/user_views/auth.js"></script>
-    <script src="/js/user_views/home.js"></script>
+    <script src="/js/user_views/quen.js"></script>
   </body>
 </html>

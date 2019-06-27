@@ -77,6 +77,11 @@ window.addEventListener("load", async () => {
 
   let btnAccept = document.getElementById("btnAccept");
   btnAccept.addEventListener("click", async () => {
+    if (!sessionStorage.getItem("userid")) {
+      alert("Xin hãy đăng nhập");
+      return;
+    }
+
     let tableTicket = document.getElementById("tableTicket");
     let params = new URL(document.location).searchParams;
 

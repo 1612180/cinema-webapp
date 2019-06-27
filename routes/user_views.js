@@ -49,4 +49,16 @@ router.get("/food", (req, res) => {
   res.sendFile(path.resolve(__dirname + "/../views/user_food.html"))
 })
 
+router.get("/quen", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/../views/user_quen.html"))
+})
+
+router.get("/recovery", (req, res) => {
+  if(!req.query.tokenRecover || !req.query.email){
+    res.send("Haizz, U don't know how to stop do you ?")
+    return
+  }
+  res.sendFile(path.resolve(__dirname + "/../views/user_recovery.html"))
+})
+
 module.exports = router;

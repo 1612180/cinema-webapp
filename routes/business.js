@@ -350,4 +350,88 @@ router.post("/auth/test", middleware.auth, (req, res) => {
   res.send(res.get("email"));
 });
 
+router.post("/auth/recovery/renew", async (req, res) => {
+  try {
+    let user = await User.findAll({
+      where: {
+        email: req.body.email
+      }
+    });
+    if (!user || !user.length) {
+      res.json({ status: false, message: "Not OK", data: err });
+      return;
+    }
+
+    require("crypto").randomBytes(128, async (err, buffer) => {
+      if (err) {
+        res.json({ status: false, message: "Not OK", data: err });
+        return;
+      }
+
+      let tokenRecover = buffer.toString("hex");
+
+      await User.update(
+        {
+          tokenRecover: tokenRecover
+        },
+        {
+          where: {
+            email: req.body.email
+          }
+        }
+      );
+
+      // send email
+
+      res.json({ status: true, message: "OK" });
+    });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
+});
+
+router.post("/auth/recovery", async (req, res) => {
+  try {
+    if (req.body.password !== req.body.password2) {
+      res.json({ status: false, message: "Not OK" });
+      return;
+    }
+
+    let user = await User.findAll({
+      where: {
+        email: req.body.email,
+        tokenRecover: req.body.tokenRecover
+      }
+    });
+    if (!user || !user.length) {
+      res.json({ status: false, message: "Not OK", data: err });
+      return;
+    }
+
+    await bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+      if (err) {
+        res.json({ status: false, message: "Not OK", data: err });
+        return;
+      }
+
+      User.update(
+        {
+          hashedPassword: hashedPassword,
+          tokenRecover: null
+        },
+        {
+          where: {
+            email: req.body.email,
+            tokenRecover: req.body.tokenRecover
+          }
+        }
+      );
+    });
+
+    res.json({ status: true, message: "Change password OK" });
+  } catch (err) {
+    res.json({ status: false, message: "Not OK", data: err });
+  }
+});
+
 module.exports = router;

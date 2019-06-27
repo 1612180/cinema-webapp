@@ -3,6 +3,7 @@ module.exports = (sequelize, type) => {
     username: type.STRING,
     hashedPassword: type.TEXT,
     email: type.TEXT,
-    phoneNumber: type.TEXT
+    phoneNumber: type.TEXT,
+    tokenRecover: type.TEXT
   });
 };

@@ -13,7 +13,7 @@ async function LoadFood() {
 
     let div_img = document.createElement("div");
     row.appendChild(div_img);
-    div_img.className = "col-md-5";
+    div_img.className = "col-md-4";
 
     let img = document.createElement("img");
     div_img.appendChild(img);
@@ -22,7 +22,7 @@ async function LoadFood() {
 
     let div_info = document.createElement("div");
     row.appendChild(div_info);
-    div_info.className = "col-md-5";
+    div_info.className = "col-md-6";
 
     let name = document.createElement("h4");
     div_info.appendChild(name);

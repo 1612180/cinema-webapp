@@ -63,6 +63,14 @@ function ModalDK() {
   });
 }
 
+function Logout() {
+  let aLogout = document.getElementById("aLogout");
+  aLogout.addEventListener("click", () => {
+    sessionStorage.clear();
+    location.reload();
+  });
+}
+
 window.addEventListener("load", async () => {
   // handle dang nhap, dang ky profile
   if (sessionStorage.getItem("token")) {
@@ -76,7 +84,7 @@ window.addEventListener("load", async () => {
       }
     });
     res = await res.json();
-    console.log(res)
+    console.log(res);
     if (!res.status) {
       span_profile.style.display = "none";
     } else {
@@ -84,10 +92,11 @@ window.addEventListener("load", async () => {
       btn_dangky.style.display = "none";
       let hello_profile = document.getElementById("hello-profile");
       hello_profile.innerText = "Xin chào " + res.data.name;
-      sessionStorage.setItem("userid", res.data.id)
+      sessionStorage.setItem("userid", res.data.id);
     }
   }
 
-  ModalDN()
-  ModalDK()
+  ModalDN();
+  ModalDK();
+  Logout();
 });
