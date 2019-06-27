@@ -4,7 +4,7 @@ import { logOut } from '../stores/app-state/app-state.action'
 import { store } from '../stores/configureStore'
 import { parseTime, formatTime, formatDate } from '../libs/datetime';
 
-const BASE_URL = 'http://localhost:8080/admin/api'
+const BASE_URL =  'https://ptudw-cntn2016-nhom07.herokuapp.com' + '/admin/api'
 const JWT_TOKEN = 'NIGAMON_JWT_TOKEN'
 const apiClient = new ApiClient(BASE_URL)
 const secureApiClient = new SecureApiClient(BASE_URL, JWT_TOKEN, () => {

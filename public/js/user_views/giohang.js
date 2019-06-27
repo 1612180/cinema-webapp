@@ -144,6 +144,7 @@ async function ShowMoney() {
 
 window.addEventListener("load", () => {
   if (!sessionStorage.getItem("userid")) {
+    location.href = "/";
     return;
   }
 
