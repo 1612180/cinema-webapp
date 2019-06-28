@@ -23,25 +23,37 @@ public
     img
 ```
 
-Thư mục ```routes``` chứa endpoint định tuyến
+Thư mục `routes` chứa endpoint định tuyến
 
-Thư mục ```models``` chứa models ORM
+Thư mục `models` chứa models ORM
 
-Thư mục ```views``` chứa html
+Thư mục `views` chứa html
 
-Thư mục ```publc``` chứa static file (img, css, ...)
+Thư mục `publc` chứa static file (img, css, ...)
 
-File ```app.js``` là file chạy chính
+File `app.js` là file chạy chính
 
 ## Hướng dẫn
 
 Chạy local
+
 ```
 npm install
 npm start
 ```
 
 Reset heroku database
+
 ```
 heroku pg:reset DATABASE_URL
+```
+
+Nội dung file `.env`
+
+```
+DATABASE_URL=postgres://postgres@localhost:54320/postgres
+PORT=8080
+EMAIL=***
+PASSWORD=***
+URL=http://localhost:8080
 ```
