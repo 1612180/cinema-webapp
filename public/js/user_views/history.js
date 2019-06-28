@@ -119,6 +119,7 @@ async function LoadDonHang() {
   console.log(res);
 
   let tbodyHistory = document.getElementById("tbodyHistory");
+  tbodyHistory.innerHTML = ""
   for (let i = 0; i < res.data.length; i += 1) {
     let tr = document.createElement("tr");
     tbodyHistory.appendChild(tr);
